@@ -2,9 +2,9 @@
 
 <h2>Member Roles:</h2>
 <ul>
-	<li>Daniel — BackEnd/FrontEnd</li>
-	<li>Yevgeniy — UI/UX/FrontEnd</li>
-	<li>Arsen — Researcher</li>
+	<li>Daniel — BackEnd/FrontEnd | GitHub</li>
+	<li>Yevgeniy — UI/UX/FrontEnd | GitHub</li>
+	<li>Arsen — Researcher | <a href="https://github.com/YaArsen">GitHub</a></li>
 </ul>
 
 <h2>Project Idea (First Draft):</h2>
