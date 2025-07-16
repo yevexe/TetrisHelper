@@ -2,8 +2,8 @@
 
 <h2>Member Roles:</h2>
 <ul>
-	<li>Daniel — BackEnd/FrontEnd | GitHub</li>
-	<li>Yevgeniy — UI/UX/FrontEnd | GitHub</li>
+	<li>Daniel — BackEnd/FrontEnd | <a href="https://github.com/yevexe/">GitHub</a></li>
+	<li>Yevgeniy — UI/UX/FrontEnd | <a href="https://github.com/AtomicRecall/">GitHub</a></li>
 	<li>Arsen — Researcher | <a href="https://github.com/YaArsen">GitHub</a></li>
 </ul>
 
