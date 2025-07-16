@@ -15,5 +15,5 @@ website tell them important information about each of their matches and what the
 to get better at Tetris.</p>
 
 <h2>Repository Structure</h2>
-<p>Member Introductions contain introductions for all developers of the project.<br>
-Main will contain all the source code of Tetris Helper</p>
+<p> <i>MemberIntroductions</i> contain introductions for all developers of the project.<br>
+<i>Main</i> will contain all the source code of Tetris Helper</p>
