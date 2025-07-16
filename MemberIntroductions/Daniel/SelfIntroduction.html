@@ -19,7 +19,7 @@
         </ol>
 
         <table id = "table"style="width: 40%">
-            <h2 style="margin-left:13%">My Achievements</h2>
+            <h2  id="title"style="margin-left:13%">My Achievements</h2>
             <tr>
                 <th>Computer Science</th>
                 <th>Counter-Strike</th>
@@ -60,6 +60,7 @@
                 
             }
             document.getElementById("GithubButt").onmouseout = function(){
+                document.getElementById("GithubButt").style.cursor = "default";
                 document.getElementById("GithubButt").style.height = "50px";
                 document.getElementById("GithubButt").style.width = "50px";
                 document.getElementById("GithubButt").style.filter = "drop-shadow(0px 1px 1px black)";
@@ -71,8 +72,12 @@
             document.getElementById("DarkOrLight").onmouseover = function(){
                 document.body.style.cursor = "pointer";
             }
+            document.getElementById("DarkOrLight").onmouseout = function(){
+                document.body.style.cursor = "default";
+            }
             document.getElementById("DarkOrLight").onclick = function(){
                 if(document.body.style.backgroundColor === "white"){
+                    
                     document.getElementById("DarkOrLight").src = "https://truly.co.uk/cdn/shop/articles/stefan-schwinghammer-VyP8cz60LNY-unsplash.jpg?v=1726482248&width=1000";
                     document.getElementById("DarkOrLight").style.filter = "drop-shadow(0px 5px 5px blue)";
                     document.getElementById("GithubButt").style.filter = "drop-shadow(0px 1px 1px grey)";
@@ -81,6 +86,7 @@
                     document.getElementById("table").style.color = "white";
                     document.getElementById("list").style.color = "white";
                     document.getElementById("h1").style.color = "white";
+                    document.getElementById("title").style.color = "white";
                 }
                 else{
                     document.getElementById("DarkOrLight").src = "https://media.istockphoto.com/id/1124567572/vector/cute-flat-sun-icon.jpg?s=612x612&w=0&k=20&c=_ekkRvw-dX-3Dt-jH3tG8wonvYJ1NrBHEAEDFm4cGVc=";
@@ -91,6 +97,7 @@
                     document.getElementById("table").style.color = "black";
                     document.getElementById("list").style.color = "black";
                     document.getElementById("h1").style.color = "black";
+                    document.getElementById("title").style.color = "black";
                 }
 
                 
