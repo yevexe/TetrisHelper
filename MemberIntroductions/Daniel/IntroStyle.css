@@ -1,0 +1,161 @@
+/* HERE contains the code I wrote myself for my own look of the website*/
+.BUTT{
+    justify-content: center;
+    transition: 2s;
+    filter: drop-shadow(0px 1px 1px black);
+    height:50px;
+    width:50px;
+  
+}
+.BUTT:hover{
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    filter : drop-shadow(0px 10px 10px rgb(160 0 210));
+}
+#DarkOrLight{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    filter: drop-shadow(0px 5px 5px orange);
+}
+#DarkOrLight:hover{
+    cursor:pointer;
+}
+.ButtTag{
+  display: block;
+  margin-top: 5px; /* optional spacing from image */
+}
+
+
+/*HERE contains the code needed for the homework*/
+
+body{
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    background-color: #F8F8F8;
+    color: #333333;
+
+}
+
+h1{
+    color: #1A535C;
+    justify-content: center;
+    text-align: center;
+}
+
+h2{
+    color: #4ECDC4;
+}
+
+#para{
+    text-align: center;
+}
+
+#Self{
+    display: block;
+    margin: 0 auto;
+    width: 180px;
+    height: 260px; /*edited dimensions a little bit so it looks right */
+    border: 3px solid #4ECDC4;
+    border-radius: 50%;
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#main-content{
+    width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+td{
+    padding: 12px 15px;
+    border: 1px solid #E0E0E0;
+    text-align: left;
+
+}
+
+th{
+    padding: 12px 15px;
+    border: 1px solid #E0E0E0;
+    text-align: left;
+
+}
+
+.section-block{
+    display: block;
+    margin-bottom: 30px;
+
+}
+
+.contact-item{
+    display: inline-block;
+    width: 200px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #AAD8D3;
+    text-align: center;
+    background-color: #E6F7F5;
+
+
+}
+
+#box-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 600px;
+    width: 100%;
+    margin-top: 50px;
+
+}
+
+.box{
+    width: 100px;
+    height: 100px;
+    border-top: 1px solid #687291;
+    text-align: center;
+    font-family: Tahoma, sans-serif;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+box:nth-child(odd) { background-color: #dfe1e7; }
+.box:nth-child(even) { background-color: #eeeff2; }
+
+.box:last-child{
+    background-color: #687291;
+    border: 4px solid black;
+
+}
+
+.ButtTag:hover{
+    background-color: #1A535C;
+    color: #FFFFFF;
+    text-decoration: none;
+
+}
+tr:nth-child(even){
+    background-color: #F2F2F2;
+}
+
+#para::first-letter{
+    font-size: 1.8em;
+    font-weight: bold;
+
+}
