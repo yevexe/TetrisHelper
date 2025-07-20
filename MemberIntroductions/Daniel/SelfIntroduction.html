@@ -1,103 +1,137 @@
 <!DOCTYPE html>
 <html>
+    <link rel="stylesheet" href="IntroStyle.css">
     <head>
         <img id="DarkOrLight" style="height:50px; width: 50px;filter: drop-shadow(0px 5px 5px orange);"src="https://media.istockphoto.com/id/1124567572/vector/cute-flat-sun-icon.jpg?s=612x612&w=0&k=20&c=_ekkRvw-dX-3Dt-jH3tG8wonvYJ1NrBHEAEDFm4cGVc="></img>
         <h1 id="h1">My name is: Daniel Yurskiy</h1>
+        <img id="Self" style="margin-top: 10px"src="https://github.com/yevexe/3140ProjectsRepo/blob/main/TetrisHelper/MemberIntroductions/images/IMG_8218.jpg?raw=true" height="250px" width="180px"></img>
     </head>
 
-    <body style="background-color: white;">
-        <p id="para">Hello, I am currently enrolled in Brooklyn College as a Computer Science student in my 4th year :)</p>
-        <img id="GithubButt" style= "display:flex; transition: 2s; filter: drop-shadow(0px 1px 1px black);"src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" height="50px" width="50px">
-        <img id="Self" style="margin-top: 10px"src="https://github.com/yevexe/3140ProjectsRepo/blob/main/TetrisHelper/MemberIntroductions/images/IMG_8218.jpg?raw=true" height="250px" width="180px"></img>
-        
-        <ol id = "list">
-            My list of Favorite Places in NYC
-            <li>Central Park</li>
-            <li>The Hight Line</li>
-            <li>Bryant Park</li>
-            <li>Bronx Zoo</li>
-        </ol>
+    <body>
+        <div id="main-content">
 
-        <table id = "table"style="width: 40%">
-            <h2  id="title"style="margin-left:13%">My Achievements</h2>
-            <tr>
-                <th>Computer Science</th>
-                <th>Counter-Strike</th>
-            </tr>
-            <tr>
-                <td>Do my first Freelanced project/website</td>
-                <td>3-4th at Launders LAN (Toronto, Canada)</td>
+            <p id="para">I am currently enrolled in Brooklyn College as a Computer Science student in my 4th year :)</p>
+            
+
+                <div class="contact-item">
+                    <img id="GithubButt" class="BUTT"src="https://img.icons8.com/ios_filled/512/github.png"></img>
+                    <a class="ButtTag">GitHub</a>
+                </div>
+
+                <div class="contact-item">
+                    <img id="SteamButt" class="BUTT"src="https://images.icon-icons.com/3261/PNG/512/steam_logo_icon_206670.png"></img>
+                    <a class="ButtTag">Steam</a>
+                </div>
+
+          
+
+            
+            
+            <div class="section-block">
+                <ol id = "list">
+                    My list of Favorite Places in NYC
+                    <li>Central Park</li>
+                    <li>The Hight Line</li>
+                    <li>Bryant Park</li>
+                    <li>Bronx Zoo</li>
+                </ol>
+            </div>
+   
+
+            <table id="table">
+                <h2 id="title">My Achievements</h2>
+                <tr>
+                    <th>Computer Science</th>
+                    <th>Counter-Strike</th>
+                </tr>
+                <tr>
+                    <td>Do my first Freelanced project/website</td>
+                    <td>3-4th at Launders LAN (Toronto, Canada)</td>
+                    
+                </tr>
+                <tr>
+                    <td>+$100</td>
+                    <td>+$1000</td>
+                </tr>
+                <tr>
+                    <td>Bachelors Degree at Brooklyn College</td>
+                    <td>3-4th ESEA League Division Main (Online) </td>
+                </tr>
+                <tr>
+                    <td>(IN PROGRESS)</td>
+                    <td>+$200</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>1st Phygital eSports LAN (Brooklyn, NY)</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>+$250</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="box-container">
+            <div class="box">1 2 3 4 5 6
+
+            </div>
+
+            <div class="box">1 2 3 4 5 6
                 
-            </tr>
-            <tr>
-                <td>+$100</td>
-                <td>+$1000</td>
-            </tr>
-            <tr>
-                <td>Bachelors Degree at Brooklyn College</td>
-                <td>3-4th ESEA League Division Main (Online) </td>
-            </tr>
-            <tr>
-                <td>(IN PROGRESS)</td>
-                <td>+$200</td>
-            </tr>
-            <tr>
-                <td> </td>
-                <td>1st Phygital eSports LAN (Brooklyn, NY)</td>
-            </tr>
-            <tr>
-                <td> </td>
-                <td>+$250</td>
-            </tr>
-        </table>
+            </div>
+
+            <div class="box">1 2 3 4 5 6
+                
+            </div>
+
+            <div class="box">short text
+                
+            </div>
+
+            <div class="box">1 2 3 4 5 6
+                
+            </div>
+
+            <div class="box">1 2 3 4 5 6
+                
+            </div>
+        </div>
         
         <script>
-            document.getElementById("GithubButt").onmouseover = function(){
-                document.getElementById("GithubButt").style.cursor = "pointer";
-                document.getElementById("GithubButt").style.height = "80px";
-                document.getElementById("GithubButt").style.width = "80px";
-                document.getElementById("GithubButt").style.filter = "drop-shadow(0px 10px 10px rgb(160 0 210))";
-                
-            }
-            document.getElementById("GithubButt").onmouseout = function(){
-                document.getElementById("GithubButt").style.cursor = "default";
-                document.getElementById("GithubButt").style.height = "50px";
-                document.getElementById("GithubButt").style.width = "50px";
-                document.getElementById("GithubButt").style.filter = "drop-shadow(0px 1px 1px black)";
-            }
             document.getElementById("GithubButt").onclick = function(){
                 window.location.href = "https://github.com/AtomicRecall/";
             }
-
-            document.getElementById("DarkOrLight").onmouseover = function(){
-                document.body.style.cursor = "pointer";
-            }
-            document.getElementById("DarkOrLight").onmouseout = function(){
-                document.body.style.cursor = "default";
+            document.getElementById("SteamButt").onclick = function(){
+                window.location.href = "https://steamcommunity.com/id/urmumhomo/";
             }
             document.getElementById("DarkOrLight").onclick = function(){
-                if(document.body.style.backgroundColor === "white"){
+                
+                if(document.body.style.backgroundColor === "rgb(248, 248, 248)" || document.body.style.backgroundColor === ""){
                     
                     document.getElementById("DarkOrLight").src = "https://truly.co.uk/cdn/shop/articles/stefan-schwinghammer-VyP8cz60LNY-unsplash.jpg?v=1726482248&width=1000";
                     document.getElementById("DarkOrLight").style.filter = "drop-shadow(0px 5px 5px blue)";
                     document.getElementById("GithubButt").style.filter = "drop-shadow(0px 1px 1px grey)";
                     document.body.style.backgroundColor = "black";
                     document.getElementById("para").style.color = "white";
-                    document.getElementById("table").style.color = "white";
+
                     document.getElementById("list").style.color = "white";
                     document.getElementById("h1").style.color = "white";
                     document.getElementById("title").style.color = "white";
+                    document.getElementById("main-content").style.backgroundColor = "black";
                 }
                 else{
                     document.getElementById("DarkOrLight").src = "https://media.istockphoto.com/id/1124567572/vector/cute-flat-sun-icon.jpg?s=612x612&w=0&k=20&c=_ekkRvw-dX-3Dt-jH3tG8wonvYJ1NrBHEAEDFm4cGVc=";
                     document.getElementById("DarkOrLight").style.filter = "drop-shadow(0px 5px 5px orange)";
                     document.getElementById("GithubButt").style.filter = "drop-shadow(0px 1px 1px black)";
-                    document.body.style.backgroundColor = "white";
+                    document.body.style.backgroundColor = "#F8F8F8";
+                    document.body.style.color = "#333333";
                     document.getElementById("para").style.color = "black";
                     document.getElementById("table").style.color = "black";
                     document.getElementById("list").style.color = "black";
-                    document.getElementById("h1").style.color = "black";
-                    document.getElementById("title").style.color = "black";
+                    document.getElementById("h1").style.color = "#1A535C";
+                    document.getElementById("title").style.color = "#4ECDC4";
+                    document.getElementById("main-content").style.backgroundColor = "#FFFFFF";
                 }
 
                 
