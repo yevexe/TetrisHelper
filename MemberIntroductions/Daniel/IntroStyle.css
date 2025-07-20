@@ -24,7 +24,7 @@
 }
 .ButtTag{
   display: block;
-  margin-top: 5px; /* optional spacing from image */
+  margin-top: 5px; 
 }
 
 
@@ -56,7 +56,7 @@ h2{
     display: block;
     margin: 0 auto;
     width: 180px;
-    height: 260px; /*edited dimensions a little bit so it looks right */
+    height: 260px; 
     border: 3px solid #4ECDC4;
     border-radius: 50%;
     padding: 5px;
