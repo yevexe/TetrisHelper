@@ -21,6 +21,11 @@ document.getElementById("submitButton").onclick = function(){
                     let PCMODEInfo = ObtainGameInformation(username, 8);
 
                     AddInfoToFrontend(SprintInfo);
+                    AddInfoToFrontend(CheeseInfo);
+                    AddInfoToFrontend(SurvivalInfo);
+                    AddInfoToFrontend(UltraInfo);
+                    AddInfoToFrontend(TwentyInfo);
+                    AddInfoToFrontend(PCMODEInfo);
 
                     //Show the result
                     //final ternary statement, if the username is not undefined (meaning the user actually typed something), then actually print the result, only if it equals undefined will it "do nothing".
@@ -28,7 +33,11 @@ document.getElementById("submitButton").onclick = function(){
                 }
 
 }
-
+document.addEventListener("keypress", function(event){
+    if (event.key === "Enter"){
+        document.getElementById("submitButton").click();
+    }
+})
 /*
 <p> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>
@@ -111,10 +120,9 @@ function ObtainGameInformation(username, game){
                         default:
                             break;
                     }
-
-                    fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}` , {
-                        method: 'GET',
-                        redirect: 'follow',
+                    
+                    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`, {
+         
                     })
                     .then(response => response.text())
                     .then(result => {
@@ -145,9 +153,8 @@ function ObtainGameInformation(username, game){
                         Name = "PC Mode";
                         break;
                 }
-                fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
-                    method: 'GET',
-                    redirect: 'follow',
+                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
+    
                 })
                 .then(response => response.text())
                 .then(result => {
