@@ -29,6 +29,13 @@ p {
     margin-bottom: 1em;
 }
 
+
+#DevloperTags{
+    display: grid;
+}
+.DevTag{
+    margin-bottom: 10px;
+}
 /* Container for all page content */
 .body-container {
     max-width: 720px;
