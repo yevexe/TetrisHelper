@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>TetrisHelper (v0.1.0) </title>
         
     
         <link rel="stylesheet" href="style.css">
@@ -12,23 +12,23 @@
             
 
             <header>
-                <h1><b>TetrisHelper (v0.1.0)</b></h1>
+                <h1 id="h1"><b>TetrisHelper (v0.1.0)</b></h1>
             </header>
     
-            <p>Jstris is a fast-paced, browser-based Tetris game with a competitive 
+            <p id="introParagraph">Jstris is a fast-paced, browser-based Tetris game with a competitive 
                 community and a public API that tracks detailed user and gameplay data. 
                 This project transforms that data into a personalized analytics tool 
                 designed to help players better understand and improve their performance. 
             </p>
             
-            <h2>STATS EXTRACTED FROM THE API:</h2>
-            <form id="username-form" action="/submit" method="post" class="datadump-form">
+            <h2 id="h2">ENTER YOUR USERNAME TO GET STARTED!</h2>
+
                 <p class="datadump"> ENTER USERNAME: 
                   <input type="text" name="username" id="username" placeholder="Type here">
-                  <input type="submit" value="SUBMIT">
+                  <input id="submitButton" type="submit" value="SUBMIT">
                 </p>
-              </form>
-            <div class="datadump"> 
+              
+            <div id="result" class="datadump"> 
                 <p> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>  
                     GAME_TYPE: <span id="GAME_TYPE">[GAME_TYPE]</span>  
@@ -62,6 +62,8 @@
                     RECORD_BLOCKS: <span id="RECORD_BLOCKS">[RECORD_BLOCKS]</span>  
                     RECORD_FINESSE: <span id="RECORD_FINESSE">[RECORD_FINESSE]</span>  
                     REPLAY_AVAILABLE: <span id="REPLAY_AVAILABLE">[REPLAY_AVAILABLE]</span>
+
+                    ************************************************
                 </p>
             </div>
             
@@ -71,7 +73,12 @@
 
 
         </div>
-
+        
+        <script>
+            document.getElementById("submitButton").onclick = function(){
+                document.getElementById("result").style.opacity = "1";
+            }
+        </script>
         <script src="" async defer></script>
     </body>
 
