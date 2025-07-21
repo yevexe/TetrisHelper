@@ -1,0 +1,51 @@
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 1.1;
+    color: rgb(211, 214, 216);
+    
+    background-color: #1c2028;
+    margin: 0;
+    padding: 2em;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+h1, h2 {
+    margin-top: 0.25em;
+    margin-bottom: 0em;
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+/* Container for all page content */
+.body-container {
+    max-width: 720px;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Terminal-style output block */
+.datadump {
+    font-family: monospace;
+    white-space: pre-line;
+    line-height: 1.2;
+    background-color: #111;
+    padding: 1em;
+    color: #11ff00;
+    outline: 1px solid rgb(211, 214, 216);
+    border-radius: 4px;
+    margin-bottom: 2em;
+}
