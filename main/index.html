@@ -29,41 +29,9 @@
                 </p>
               
             <div id="result" class="datadump"> 
-                <p> ************************************************
+                <p id="resultPara"> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>  
-                    GAME_TYPE: <span id="GAME_TYPE">[GAME_TYPE]</span>  
-                    GAME_MODE: <span id="GAME_MODE">[GAME_MODE]</span>  
-                    TOP_PLAYER: <span id="TOP_PLAYER">[TOP_PLAYER]</span>  
-                    TOP_TIME: <span id="TOP_TIME">[TOP_TIME]</span>  
-                    LEADERBOARD_TIMESTAMP: <span id="LEADERBOARD_TIMESTAMP">[LEADERBOARD_TIMESTAMP]</span>  
-                
-                    MAP_ID: <span id="MAP_ID">[MAP_ID]</span>  
-                    MAP_NAME: <span id="MAP_NAME">[MAP_NAME]</span>  
-                    MAP_QUEUE: <span id="MAP_QUEUE">[MAP_QUEUE]</span>  
-                    MAP_FINISH: <span id="MAP_FINISH">[MAP_FINISH]</span>  
-                
-                    LIVE_USER: <span id="LIVE_USER">[LIVE_USER]</span>  
-                    LIVE_GAMES_COUNT: <span id="LIVE_GAMES_COUNT">[LIVE_GAMES_COUNT]</span>  
-                    LAST_POSITION: <span id="LAST_POSITION">[LAST_POSITION]</span>  
-                    LAST_OPPONENT: <span id="LAST_OPPONENT">[LAST_OPPONENT]</span>  
-                    LAST_GAMETIME: <span id="LAST_GAMETIME">[LAST_GAMETIME]</span>  
-                    LAST_ATTACK: <span id="LAST_ATTACK">[LAST_ATTACK]</span>  
-                
-                    SINGLEPLAYER_GAME: <span id="SINGLEPLAYER_GAME">[SINGLEPLAYER_GAME]</span>  
-                    SP_USERNAME: <span id="SP_USERNAME">[SP_USERNAME]</span>  
-                    SP_BEST_TIME: <span id="SP_BEST_TIME">[SP_BEST_TIME]</span>  
-                    SP_BEST_DATE: <span id="SP_BEST_DATE">[SP_BEST_DATE]</span>  
-                    SP_TOTAL_GAMES: <span id="SP_TOTAL_GAMES">[SP_TOTAL_GAMES]</span>  
-                    SP_AVERAGE_TIME: <span id="SP_AVERAGE_TIME">[SP_AVERAGE_TIME]</span>  
-                    SP_DAYS_SINCE_PB: <span id="SP_DAYS_SINCE_PB">[SP_DAYS_SINCE_PB]</span>  
-                
-                    RECORD_ID: <span id="RECORD_ID">[RECORD_ID]</span>  
-                    RECORD_GAMETIME: <span id="RECORD_GAMETIME">[RECORD_GAMETIME]</span>  
-                    RECORD_BLOCKS: <span id="RECORD_BLOCKS">[RECORD_BLOCKS]</span>  
-                    RECORD_FINESSE: <span id="RECORD_FINESSE">[RECORD_FINESSE]</span>  
-                    REPLAY_AVAILABLE: <span id="REPLAY_AVAILABLE">[REPLAY_AVAILABLE]</span>
-
-                    ************************************************
+                    
                 </p>
             </div>
             
@@ -73,13 +41,8 @@
 
 
         </div>
-        
-        <script>
-            document.getElementById("submitButton").onclick = function(){
-                document.getElementById("result").style.opacity = "1";
-            }
-        </script>
-        <script src="" async defer></script>
+
+        <script src="APIscripts.js" async defer></script>
     </body>
 
 </html>
