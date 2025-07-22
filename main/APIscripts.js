@@ -7,6 +7,9 @@ let PCMODEInfo = [];
 
 document.getElementById("submitButton").onclick = async function(){
 
+
+                document.getElementById("footer").style.marginTop = "0px";
+
                 //Getting the username from the input in the main page
                 //first ever ternary statement, if the username has a value then let username equal to that value, anything else (meaning it's empty) throw an alert.
                 let username = (document.getElementById("username").value) ? document.getElementById("username").value : alert("You Wrote the Wrong Input?!");
@@ -31,6 +34,11 @@ document.getElementById("submitButton").onclick = async function(){
                     PCMODEInfo = await ObtainGameInformation(username, 8);
 
                     AddInfoToFrontend(SprintInfo);
+                    AddInfoToFrontend(CheeseInfo);
+                    AddInfoToFrontend(SurvivalInfo);
+                    AddInfoToFrontend(UltraInfo);
+                    AddInfoToFrontend(TwentyInfo);
+                    AddInfoToFrontend(PCMODEInfo);
 
                     //Show the result
                     //final ternary statement, if the username is not undefined (meaning the user actually typed something), then actually print the result, only if it equals undefined will it "do nothing".
@@ -38,7 +46,15 @@ document.getElementById("submitButton").onclick = async function(){
                 }
 
 }
+document.addEventListener("keypress", function(event){
 
+    if (event.key === "Enter"){
+
+        document.getElementById("submitButton").click();
+
+    }
+
+})
 /*
 <p> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>
@@ -57,22 +73,28 @@ document.getElementById("submitButton").onclick = async function(){
 */
 
 function AddInfoToFrontend(dataArray){
+    let ShouldBeOutputted = true;
+    let amountThatIs0 = 0;
+    
     console.log(dataArray);
     console.log(dataArray[0]);
-    
+
+    document.getElementById("resultPara").innerHTML+=`<br>++++++++++++++++++<br>`;
     document.getElementById("resultPara").innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
     document.getElementById("resultPara").innerHTML+=`----------<br>`;
 
     for(const game of dataArray){
-        (game.Type !== undefined) ? document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : console.log("doing nothing");
-        document.getElementById("resultPara").innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>`;
-        document.getElementById("resultPara").innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>`;
-        document.getElementById("resultPara").innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>`;
-        document.getElementById("resultPara").innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>`;
-        document.getElementById("resultPara").innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>`;
-        document.getElementById("resultPara").innerHTML+=`----------<br>`;
-    }
 
+        (game.Type !== undefined) ? document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
+        (game.min !== undefined && game.min !== 0) ? document.getElementById("resultPara").innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
+        (game.max !== undefined && game.max !== 0) ? document.getElementById("resultPara").innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
+        (game.days !== undefined && game.days !== 0) ? document.getElementById("resultPara").innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
+        (game.games !== undefined && game.games !== 0) ? document.getElementById("resultPara").innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
+        (game.avg !== undefined && game.avg !== 0) ? document.getElementById("resultPara").innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
+        (ShouldBeOutputted) ? document.getElementById("resultPara").innerHTML+=`----------<br>` :console.log("do nothing");
+
+    }
+    (ShouldBeOutputted) ? document.getElementById("resultPara").innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
     
 }
 
@@ -136,11 +158,8 @@ async function ObtainGameInformation(username, game){
                             break;
                     }
 
-                    fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}` , {
-                        method: 'GET',
-                        redirect: 'follow',
-                    })
-                    .then(response => response.text())
+                   let promise = fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`)
+                    .then(response => response.json())
                     .then(result => {
 
                         result.GameMode = Name;
@@ -175,20 +194,17 @@ async function ObtainGameInformation(username, game){
                         Name = "PC Mode";
                         break;
                 }
-                fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
-                    method: 'GET',
-                    redirect: 'follow',
-                })
-                .then(response => response.text())
-                .then(result => {
-             
-                    let data = [];
-                    data.push(JSON.parse(result));  
-                    data[0].GameMode = Name;
+                try{
+                    const singleApiCall = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}`)
+                    let response = await singleApiCall.json();
 
-                    ResultArray.push(data);
-                })
-                .catch(error => console.log('error', error));
+
+                    response.GameMode = Name;
+                    ResultArray.push(response);
+
+
+
+                }catch(error){console.log('error', error);}
 
                 break;
 
