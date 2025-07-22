@@ -73,6 +73,9 @@ function AddInfoToFrontend(dataArray){
         (game.Type !== undefined) ? document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : console.log("doing nothing");
         document.getElementById("resultPara").innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>`;
         document.getElementById("resultPara").innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>`;
         document.getElementById("resultPara").innerHTML+=`----------<br>`;
     }
 
