@@ -19,6 +19,9 @@ document.getElementById("submitButton").onclick = async function(){
                     //edit the datadump with the info I already have (only the username)
                     document.getElementById("USERNAME").innerHTML = username;
 
+                    //Show the result
+                    document.getElementById("result").style.opacity = "1";
+                  
                     //What game you want 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
                     SprintInfo = await ObtainGameInformation(username, 1);
                     CheeseInfo = await ObtainGameInformation(username, 3);
@@ -34,9 +37,6 @@ document.getElementById("submitButton").onclick = async function(){
                     AddInfoToFrontend(TwentyInfo);
                     AddInfoToFrontend(PCMODEInfo);
 
-                    //Show the result
-                    //final ternary statement, if the username is not undefined (meaning the user actually typed something), then actually print the result, only if it equals undefined will it "do nothing".
-                    (username !== undefined) ? document.getElementById("result").style.opacity = "1" : console.log("donothing");
                 }
 
 }
