@@ -95,13 +95,10 @@ function ObtainGameInformation(username, game){
                 //If the game = 1, then the mode we are looking at is Sprint
                 Name = "Sprint";
             case 3:
-                //1 = 40L/10L, 2 = 20L/18L, 3 = 100L, 4 = 1000L
-                
                 //If the game has already been initalized as Sprint, then case 1 already ran so dont change the name to cheese, other than that, the case 3 has only ran meaning the game mode we are looking at is cheese.
                 (Name !== "Sprint") ? Name = "Cheese" : Name = "Sprint";
 
-                //This is some fuck-ass solution for our fetch request, CORS is a bitch and doesn't allow this to be easy so we are using a 3rd party proxy to help us
-                //we SHOULD later convert to vercel and write our own proxy later.
+                //1 = 40L/10L, 2 = 20L/18L, 3 = 100L, 4 = 1000L
                 for (let d = 1; d <= 4; d++){
                     let ModeInTheMode = null;
                     switch(d){
@@ -120,10 +117,10 @@ function ObtainGameInformation(username, game){
                         default:
                             break;
                     }
-                    
-                    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`, {
-         
-                    })
+                  
+                    //This is some fuck-ass solution for our fetch request, CORS is a bitch and doesn't allow this to be easy so we are using a 3rd party proxy to help us
+                    //we SHOULD later convert to vercel and write our own proxy later.
+                    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`)
                     .then(response => response.text())
                     .then(result => {
                 
@@ -131,13 +128,14 @@ function ObtainGameInformation(username, game){
                         data.push(JSON.parse(result));  
                         data[0].GameMode = Name;
                         data[0].Type = ModeInTheMode;
-                        ResultArray.push(data);
+                        ResultArray.push(data[0]);
                     })
                     .catch(error => console.log('error', error));
                 }
                 break;
 
             //Everything else other than sprint and cheese only use mode 1.
+            //4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
             default:
                 switch(game){
                     case 4:
@@ -153,9 +151,7 @@ function ObtainGameInformation(username, game){
                         Name = "PC Mode";
                         break;
                 }
-                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
-    
-                })
+                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}`)
                 .then(response => response.text())
                 .then(result => {
              
@@ -163,7 +159,7 @@ function ObtainGameInformation(username, game){
                     data.push(JSON.parse(result));  
                     data[0].GameMode = Name;
 
-                    ResultArray.push(data);
+                    ResultArray.push(data[0]);
                 })
                 .catch(error => console.log('error', error));
 
