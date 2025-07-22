@@ -1,4 +1,11 @@
-document.getElementById("submitButton").onclick = function(){
+let SprintInfo = [];
+let CheeseInfo = [];
+let SurvivalInfo = [];
+let UltraInfo = [];
+let TwentyInfo = [];
+let PCMODEInfo = [];
+
+document.getElementById("submitButton").onclick = async function(){
 
                 //Getting the username from the input in the main page
                 //first ever ternary statement, if the username has a value then let username equal to that value, anything else (meaning it's empty) throw an alert.
@@ -12,20 +19,18 @@ document.getElementById("submitButton").onclick = function(){
                     //edit the datadump with the info I already have (only the username)
                     document.getElementById("USERNAME").innerHTML = username;
 
+                    //Show the result
+                    document.getElementById("result").style.opacity = "1";
+                  
                     //What game you want 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
-                    let SprintInfo = ObtainGameInformation(username, 1);
-                    let CheeseInfo = ObtainGameInformation(username, 3);
-                    let SurvivalInfo = ObtainGameInformation(username, 4);
-                    let UltraInfo = ObtainGameInformation(username, 5);
-                    let TwentyInfo = ObtainGameInformation(username, 7);
-                    let PCMODEInfo = ObtainGameInformation(username, 8);
+                    SprintInfo = await ObtainGameInformation(username, 1);
+                    CheeseInfo = await ObtainGameInformation(username, 3);
+                    SurvivalInfo = await ObtainGameInformation(username, 4);
+                    UltraInfo = await ObtainGameInformation(username, 5);
+                    TwentyInfo = await ObtainGameInformation(username, 7);
+                    PCMODEInfo = await ObtainGameInformation(username, 8);
 
                     AddInfoToFrontend(SprintInfo);
-                    AddInfoToFrontend(CheeseInfo);
-                    AddInfoToFrontend(SurvivalInfo);
-                    AddInfoToFrontend(UltraInfo);
-                    AddInfoToFrontend(TwentyInfo);
-                    AddInfoToFrontend(PCMODEInfo);
 
                     //Show the result
                     //final ternary statement, if the username is not undefined (meaning the user actually typed something), then actually print the result, only if it equals undefined will it "do nothing".
@@ -33,11 +38,7 @@ document.getElementById("submitButton").onclick = function(){
                 }
 
 }
-document.addEventListener("keypress", function(event){
-    if (event.key === "Enter"){
-        document.getElementById("submitButton").click();
-    }
-})
+
 /*
 <p> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>
@@ -57,12 +58,26 @@ document.addEventListener("keypress", function(event){
 
 function AddInfoToFrontend(dataArray){
     console.log(dataArray);
+    console.log(dataArray[0]);
+    
+    document.getElementById("resultPara").innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
+    document.getElementById("resultPara").innerHTML+=`----------<br>`;
 
-    //document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">fart</span>`;
+    for(const game of dataArray){
+        (game.Type !== undefined) ? document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : console.log("doing nothing");
+        document.getElementById("resultPara").innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>`;
+        document.getElementById("resultPara").innerHTML+=`----------<br>`;
+    }
+
+    
 }
 
 
-function ObtainGameInformation(username, game){
+async function ObtainGameInformation(username, game){
      /*
         ObtainGameInformation(username, game) will be a function that returns the PBs for each mode of that game
         //Programmer uses this function by inputting the username and the game mode 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
@@ -95,13 +110,13 @@ function ObtainGameInformation(username, game){
                 //If the game = 1, then the mode we are looking at is Sprint
                 Name = "Sprint";
             case 3:
-                //1 = 40L/10L, 2 = 20L/18L, 3 = 100L, 4 = 1000L
-                
                 //If the game has already been initalized as Sprint, then case 1 already ran so dont change the name to cheese, other than that, the case 3 has only ran meaning the game mode we are looking at is cheese.
                 (Name !== "Sprint") ? Name = "Cheese" : Name = "Sprint";
 
-                //This is some fuck-ass solution for our fetch request, CORS is a bitch and doesn't allow this to be easy so we are using a 3rd party proxy to help us
-                //we SHOULD later convert to vercel and write our own proxy later.
+                //Store all async promises for Promise.all() to wait for them to finish later
+                let promises = [];
+
+                //1 = 40L/10L, 2 = 20L/18L, 3 = 100L, 4 = 1000L
                 for (let d = 1; d <= 4; d++){
                     let ModeInTheMode = null;
                     switch(d){
@@ -120,25 +135,32 @@ function ObtainGameInformation(username, game){
                         default:
                             break;
                     }
-                    
-                    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`, {
-         
+
+                    fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}` , {
+                        method: 'GET',
+                        redirect: 'follow',
                     })
                     .then(response => response.text())
                     .then(result => {
-                
-                        let data = [];
-                        data.push(JSON.parse(result));  
-                        data[0].GameMode = Name;
-                        data[0].Type = ModeInTheMode;
-                        ResultArray.push(data);
+
+                        result.GameMode = Name;
+                        result.Type = ModeInTheMode;
+
+                        ResultArray.push(result);
                     })
                     .catch(error => console.log('error', error));
+                    //push this specific fetch call into current promises
+                    promises.push(promise);
                 }
+                //Wait until each promise is finished
+                await Promise.all(promises);
+                //once all promises finished then finish the case code.
                 break;
 
             //Everything else other than sprint and cheese only use mode 1.
+            //4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
             default:
+  
                 switch(game){
                     case 4:
                         Name = "survival";
@@ -153,8 +175,9 @@ function ObtainGameInformation(username, game){
                         Name = "PC Mode";
                         break;
                 }
-                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
-    
+                fetch(`https://corsproxy.io/?${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}` , {
+                    method: 'GET',
+                    redirect: 'follow',
                 })
                 .then(response => response.text())
                 .then(result => {
@@ -171,6 +194,7 @@ function ObtainGameInformation(username, game){
 
         }
 
+        //console.log(ResultArray);
     //Return the result array (every information has been obtained and sorted)
     return ResultArray;
         
