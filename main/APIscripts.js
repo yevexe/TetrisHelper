@@ -5,56 +5,99 @@ let UltraInfo = [];
 let TwentyInfo = [];
 let PCMODEInfo = [];
 
-document.getElementById("submitButton").onclick = async function(){
+let EnterKeyCliked = false;
 
-
+async function ButtClick(butt){
+    
                 document.getElementById("footer").style.marginTop = "0px";
 
                 //Getting the username from the input in the main page
+
+                /*
+                DANIEL YURSKIY 07/29/25
+                    TWO PLAYER COMPARISON UPDATE:
+                        1. CHECK IF THE PLAYER 1 THING IS EMPTY/ HAS AN OUTPUT
+                         A. IF IT HAS AN OUTPUT THAT MEANS THE USER IS CHECKING PLAYER 2, SO CHECK PLAYER 2
+                         B. IF IT HAS NO OUTPUT THAT MEANS WE ARE ALLOWED TO ASSUME THE USER WANTS TO CHECK PLAYER 1.
+                        2. IF THERE IS INPUTS ON BOTH AND OUTPUTS ON NEITHER THAN CHECK PLAYER 1.
+                        3. IF THERE IS NO INPUT ON PLAYER 1 AND THERE IS ONE ON PLAYER 2, THEN JUST RUN PLAYER 2.
+                        
+                    SOMETHING TO TALK ABOUT WITH FRONT-END:
+                    the user is capable of writing someone in the player 2 field and searching only in the player 2 field, is that what we want?
+                */
+                let username;
+                let whereToOutput;
+                
+                //runs when the user clicks on the button but not from a enter key press, meaning they clicked on a specific button.
+                if(!EnterKeyCliked){
+                    if(butt.id.includes("2")){
+                        username = document.getElementById("username1").value;
+                        whereToOutput = "result2"
+                    }
+                    else{
+                        username = document.getElementById("username").value;
+                        whereToOutput = "result1";
+                    }
+
+                }
+                //only runs if the enter key is clicked
+                else{
+                    //checks if player 1's output is empty, if the last element is the username, that means there was nothing added onto it.
+                    if(document.getElementById("result").lastElementChild.lastElementChild.id === "USERNAME"){
+                        username = document.getElementById("username").value;
+                        whereToOutput = "result1";
+                    }
+                    else{
+                        username = document.getElementById("username1").value;
+                        whereToOutput = "result2";
+                    }
+                }
+
+                /* REMOVED AS OF 07/29/25 FOR THE TWO PLAYER COMPARISON UPDATE.
                 //first ever ternary statement, if the username has a value then let username equal to that value, anything else (meaning it's empty) throw an alert.
                 let username = (document.getElementById("username").value) ? document.getElementById("username").value : alert("You Wrote the Wrong Input?!");
+                */
 
                 console.log(username);
 
                 //Only run the code if the username is a valid input
-                if(username!== undefined){
+                if(username !== undefined){
 
                     //edit the datadump with the info I already have (only the username)
-                    document.getElementById("USERNAME").innerHTML = username;
+                    document.getElementById(whereToOutput).querySelector("#USERNAME").innerHTML = "USERNAME INPUTTED: "+username+"<br>";
 
                     //Show the result
                     document.getElementById("result").style.opacity = "1";
                   
                     //What game you want 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
                     SprintInfo = await ObtainGameInformation(username, 1);
+                    AddInfoToFrontend(SprintInfo, whereToOutput);
                     CheeseInfo = await ObtainGameInformation(username, 3);
+                    AddInfoToFrontend(CheeseInfo, whereToOutput);
                     SurvivalInfo = await ObtainGameInformation(username, 4);
+                    AddInfoToFrontend(SurvivalInfo, whereToOutput);
                     UltraInfo = await ObtainGameInformation(username, 5);
+                    AddInfoToFrontend(UltraInfo, whereToOutput);
                     TwentyInfo = await ObtainGameInformation(username, 7);
+                    AddInfoToFrontend(TwentyInfo, whereToOutput);
                     PCMODEInfo = await ObtainGameInformation(username, 8);
-
-                    AddInfoToFrontend(SprintInfo);
-                    AddInfoToFrontend(CheeseInfo);
-                    AddInfoToFrontend(SurvivalInfo);
-                    AddInfoToFrontend(UltraInfo);
-                    AddInfoToFrontend(TwentyInfo);
-                    AddInfoToFrontend(PCMODEInfo);
-
-                    //Show the result
-                    //final ternary statement, if the username is not undefined (meaning the user actually typed something), then actually print the result, only if it equals undefined will it "do nothing".
-                    (username !== undefined) ? document.getElementById("result").style.opacity = "1" : console.log("donothing");
+                    AddInfoToFrontend(PCMODEInfo, whereToOutput);
                 }
-
 }
+
+document.querySelectorAll(".submitButton").forEach(butt => butt.onclick =  () => ButtClick(butt));
+
 document.addEventListener("keypress", function(event){
 
     if (event.key === "Enter"){
 
-        document.getElementById("submitButton").click();
+        EnterKeyCliked = true;
+
+        ButtClick();
 
     }
 
-})
+}); 
 /*
 <p> ************************************************
                     USERNAME: <span id="USERNAME">[USERNAME]</span>
@@ -72,29 +115,26 @@ document.addEventListener("keypress", function(event){
 <p> ************************************************
 */
 
-function AddInfoToFrontend(dataArray){
+function AddInfoToFrontend(dataArray, whereToOutput){
     let ShouldBeOutputted = true;
     let amountThatIs0 = 0;
-    
-    console.log(dataArray);
-    console.log(dataArray[0]);
 
-    document.getElementById("resultPara").innerHTML+=`<br>++++++++++++++++++<br>`;
-    document.getElementById("resultPara").innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
-    document.getElementById("resultPara").innerHTML+=`----------<br>`;
+    document.getElementById(`${whereToOutput}`).innerHTML+=`<br>++++++++++++++++++<br>`;
+    document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
+    document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>`;
 
     for(const game of dataArray){
 
-        (game.Type !== undefined) ? document.getElementById("resultPara").innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
-        (game.min !== undefined && game.min !== 0) ? document.getElementById("resultPara").innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
-        (game.max !== undefined && game.max !== 0) ? document.getElementById("resultPara").innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
-        (game.days !== undefined && game.days !== 0) ? document.getElementById("resultPara").innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
-        (game.games !== undefined && game.games !== 0) ? document.getElementById("resultPara").innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
-        (game.avg !== undefined && game.avg !== 0) ? document.getElementById("resultPara").innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
-        (ShouldBeOutputted) ? document.getElementById("resultPara").innerHTML+=`----------<br>` :console.log("do nothing");
+        (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
+        (game.min !== undefined && game.min !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
+        (game.max !== undefined && game.max !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
+        (game.days !== undefined && game.days !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
+        (game.games !== undefined && game.games !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
+        (game.avg !== undefined && game.avg !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
+        (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>` :console.log("do nothing");
 
     }
-    (ShouldBeOutputted) ? document.getElementById("resultPara").innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
+    (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
     
 }
 
