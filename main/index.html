@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TetrisHelper (v0.1.0) </title>
+        <title>TetrisHelper (v0.3.0) </title>
         <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
         <div class="body-container">
             <header>
-                <h1><b>TetrisHelper (v0.2.0)</b></h1>
+                <h1><b>TetrisHelper (v0.3.0)</b></h1>
             </header>
 
             <p class="author-list">                
@@ -28,18 +28,23 @@
 
             <div class="comparisonSpace-Container">
                 <div class="Player1"> <!-- ------ PLAYER 1 START ------ -->
+                    <!-- this needs better differentiation between which is which.-->
                     <div class="datadump"> 
                         <div class="EnterUsername-Form">
                             <b>Player 1</><br>
-                            <input type="text" name="username" id="username" placeholder="Enter Username">
-                            <input id="submitButton" type="submit" value="SUBMIT">
+                            <input type="text" name="username" id="username" class="user" placeholder="Enter Username">
+                            <input class="submitButton" id="submitButton1" type="submit" value="SUBMIT">
                         </div>
                     </div>
               
 
                     <div id="result" class="datadump">
-                        <p id="resultPara">
-                            USERNAME: <span id="USERNAME">[USERNAME]</span>  
+                        <p id="result1" class="resultPara">
+                            <!-- YO THIS IS DANIEL,
+                                    I THINK WE SHOULD MAKE IT SO THE USERNAME ONLY POPS UP WHEN THE USER CLICKS ON SUBMIT/ ENTER,
+                                    SO THAT THEY KNOW THAT THEIR INPUT IS ACTUALLY DOING 
+                                    (i was lowkey confused when i clicked submit if our shit is working)-->
+                            <span id="USERNAME"></span>  
                         </p>
                     </div>
                 </div> <!-- ------ PLAYER 1 END ------ -->
@@ -48,15 +53,15 @@
                     <div class="datadump"> 
                         <div class="EnterUsername-Form">
                             <b>Player 2</b><br>
-                            <input type="text" name="username" id="username" placeholder="Enter Username">
-                            <input id="submitButton" type="submit" value="SUBMIT">
+                            <input type="text" name="username" id="username1" class="user" placeholder="Enter Username">
+                            <input class="submitButton" id="submitButton2" type="submit" value="SUBMIT">
                         </div>
                     </div>
               
               
                     <div id="result" class="datadump">
-                        <p id="resultPara">
-                            USERNAME: <span id="USERNAME">[USERNAME]</span>  
+                        <p id="result2" class="resultPara">
+                            <span id="USERNAME"></span>  
                         </p>
                     </div>
                 </div> <!-- ------ PLAYER 2 END ------ -->
