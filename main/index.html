@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TetrisHelper (v0.1.0) </title>
+        <title>TetrisHelper (v0.3.0) </title>
         <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
         <div class="body-container">
             <header>
-                <h1><b>TetrisHelper (v0.2.0)</b></h1>
+                <h1><b>TetrisHelper (v0.3.0)</b></h1>
             </header>
 
             <p class="author-list">                
@@ -24,16 +24,46 @@
                 designed to help players better understand and improve their performance. 
             </p>
 
-                <p class="datadump"> ENTER USERNAME: 
-                  <input type="text" name="username" id="username" placeholder="Type here">
-                  <input id="submitButton" type="submit" value="SUBMIT">
-                </p>
+
+
+            <div class="comparisonSpace-Container">
+                <div class="Player1"> <!-- ------ PLAYER 1 START ------ -->
+                    <div class="datadump"> 
+                        <div class="EnterUsername-Form">
+                            <b>Player 1</><br>
+                            <input type="text" name="username" id="username" placeholder="Enter Username">
+                            <input id="submitButton" type="submit" value="SUBMIT">
+                        </div>
+                    </div>
               
-            <div id="result" class="datadump"> 
-                <p id="resultPara"> ************************************************
-                    <br>USERNAME: <span id="USERNAME">[USERNAME]</span>  
-                </p>
+
+                    <div id="result" class="datadump">
+                        <p id="resultPara">
+                            USERNAME: <span id="USERNAME">[USERNAME]</span>  
+                        </p>
+                    </div>
+                </div> <!-- ------ PLAYER 1 END ------ -->
+                
+                <div class="Player2"> <!-- ------ PLAYER 2 START ------ -->
+                    <div class="datadump"> 
+                        <div class="EnterUsername-Form">
+                            <b>Player 2</b><br>
+                            <input type="text" name="username" id="username" placeholder="Enter Username">
+                            <input id="submitButton" type="submit" value="SUBMIT">
+                        </div>
+                    </div>
+              
+              
+                    <div id="result" class="datadump">
+                        <p id="resultPara">
+                            USERNAME: <span id="USERNAME">[USERNAME]</span>  
+                        </p>
+                    </div>
+                </div> <!-- ------ PLAYER 2 END ------ -->
+            
             </div>
+
+
 
 
 
