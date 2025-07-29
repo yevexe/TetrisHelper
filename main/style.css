@@ -154,9 +154,8 @@ p.EnterUsername-Form{
     margin: 0;
 }
 
-.resultContainer{
+#result{
     /* !!! JavaScript !!! Control Collapse/Expand the information window */
-    
     /* height: 0;
     overflow: hidden; 
     padding: 0;
