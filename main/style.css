@@ -115,11 +115,15 @@ footer{
 
 .comparisonSpace-Container{
     display: flex;
+    /*
     flex-wrap: wrap;
+
+    HAVING THIS CAUSES THE TWO PLAYERS NOT TO BE SIDE BY SIDE. 
+    */
     justify-content: space-evenly;
 }
 
-#username{
+.username{
     width: auto;
 }
 
@@ -164,11 +168,32 @@ p.EnterUsername-Form{
     outline: none; */
 }
 
-p#resultPara{
+p.resultPara{
     margin-top: 0em;
     margin-bottom: 0em;
 }
 
 footer{
     margin: 1em;
+}
+.submitButton{
+    
+    border-color: #151522;
+    background: #15154F;
+    color: wheat;
+}
+.submitButton:hover{
+    cursor: pointer;
+    transition: 2s;
+    filter: drop-shadow(1px 1px 4px wheat);
+    /* or color #4444dd */
+}
+.submitButton:not(:hover){
+    cursor:default;
+    transition: 2s;
+}
+.user{
+    color: wheat;
+    border-color: #15154F;
+    background-color: #15154F;
 }
