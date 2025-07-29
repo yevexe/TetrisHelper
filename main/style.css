@@ -176,24 +176,3 @@ p.resultPara{
 footer{
     margin: 1em;
 }
-.submitButton{
-    
-    border-color: #151522;
-    background: #15154F;
-    color: wheat;
-}
-.submitButton:hover{
-    cursor: pointer;
-    transition: 2s;
-    filter: drop-shadow(1px 1px 4px wheat);
-    /* or color #4444dd */
-}
-.submitButton:not(:hover){
-    cursor:default;
-    transition: 2s;
-}
-.user{
-    color: wheat;
-    border-color: #15154F;
-    background-color: #15154F;
-}
