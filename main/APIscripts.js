@@ -61,7 +61,7 @@ async function ButtClick(butt){
                 console.log(username);
 
                 //Only run the code if the username is a valid input
-                if(username !== undefined){
+                if(username !== undefined && !(username === "")){
 
                     //edit the datadump with the info I already have (only the username)
                     document.getElementById(whereToOutput).querySelector("#USERNAME").innerHTML = "USERNAME INPUTTED: "+username+"<br>";
@@ -83,43 +83,24 @@ async function ButtClick(butt){
                     PCMODEInfo = await ObtainGameInformation(username, 8);
                     AddInfoToFrontend(PCMODEInfo, whereToOutput);
                 }
+                else{
+                    alert("You Wrote the Wrong Input?!");
+                }
 }
 
 document.querySelectorAll(".submitButton").forEach(butt => butt.onclick =  () => ButtClick(butt));
 
 document.addEventListener("keypress", function(event){
-
-    if (event.key === "Enter"){
-
-        EnterKeyCliked = true;
-
-        ButtClick();
-
-    }
-
+    (event.key === "Enter" ? (EnterKeyCliked = true , ButtClick()) : console.log());
 }); 
-/*
-<p> ************************************************
-                    USERNAME: <span id="USERNAME">[USERNAME]</span>
-                    
-                    
-                    GAME_TYPE: <span id="GAME_TYPE">[GAME_TYPE]</span>  
-                    GAME_MODE: <span id="GAME_MODE">[GAME_MODE]</span>  
-                    TOP_TIME: <span id="TOP_TIME">[TOP_TIME]</span>
-                    MAX_TIME: <span id="MAX_TIME">[MAX_TIME]</span>
-                    DAYS_PLAYED: <span id="DAYS_PLAYED">[DAYS_PLAYED]</span>
-                    GAMES_PLAYED: <span id="GAMES_PLAYED">[GAMES_PLAYED]</span>
-                    AVG_TIME: <span id="AVG_TIME">[AVG_BLOCKS]</span>    
-                    LEADERBOARD_TIMESTAMP: <span id="LEADERBOARD_TIMESTAMP">[LEADERBOARD_TIMESTAMP]</span>
-
-<p> ************************************************
-*/
 
 function AddInfoToFrontend(dataArray, whereToOutput){
+
     let ShouldBeOutputted = true;
     let amountThatIs0 = 0;
-    console.log(dataArray[0].best.length);
 
+    //If the data found does not have a best game, that means there was no games played at all.
+    //if the user has played a game, no matter what that will be considered the 'best' game
     if (dataArray[0].best.length !== 0){
         
         document.getElementById(`${whereToOutput}`).innerHTML+=`<br>++++++++++++++++++<br>`;
@@ -128,14 +109,15 @@ function AddInfoToFrontend(dataArray, whereToOutput){
 
         for(const game of dataArray){
 
+            //if the game does not have a best, that means the user has not played a game in this mode AT ALL.
             if(game.best.length !== 0){
-                    (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
+
+                (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
                 (game.min !== undefined && game.min !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
                 (game.max !== undefined && game.max !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
                 (game.days !== undefined && game.days !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
                 (game.games !== undefined && game.games !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
                 (game.avg !== undefined && game.avg !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
-
                 (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>` :console.log("do nothing");
             }   
 
