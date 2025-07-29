@@ -118,24 +118,35 @@ document.addEventListener("keypress", function(event){
 function AddInfoToFrontend(dataArray, whereToOutput){
     let ShouldBeOutputted = true;
     let amountThatIs0 = 0;
+    console.log(dataArray[0].best.length);
 
-    document.getElementById(`${whereToOutput}`).innerHTML+=`<br>++++++++++++++++++<br>`;
-    document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
-    document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>`;
+    if (dataArray[0].best.length !== 0){
+        
+        document.getElementById(`${whereToOutput}`).innerHTML+=`<br>++++++++++++++++++<br>`;
+        document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_MODE: <span id="GAME_MODE">${dataArray[0].GameMode}</span><br>`;
+        document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>`;
 
-    for(const game of dataArray){
+        for(const game of dataArray){
 
-        (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
-        (game.min !== undefined && game.min !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
-        (game.max !== undefined && game.max !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
-        (game.days !== undefined && game.days !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
-        (game.games !== undefined && game.games !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
-        (game.avg !== undefined && game.avg !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
-        (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>` :console.log("do nothing");
+            if(game.best.length !== 0){
+                    (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAME_TYPE: <span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
+                (game.min !== undefined && game.min !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`TOP_TIME: <span id="TOP_TIME">${game.min}s</span><br>` : amountThatIs0++;
+                (game.max !== undefined && game.max !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`WORST_TIME: <span id="WORST_TIME">${game.max}s</span><br>` : amountThatIs0++;
+                (game.days !== undefined && game.days !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED">${game.days}</span><br>` : amountThatIs0++;
+                (game.games !== undefined && game.games !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED">${game.games}</span><br>` : amountThatIs0++;
+                (game.avg !== undefined && game.avg !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`AVG_TIME: <span id="AVG_TIME">${game.avg}</span><br>` : amountThatIs0++;
 
-    }
-    (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
+                (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>` :console.log("do nothing");
+            }   
+
+            
+
+        }
+
+        (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
     
+    }
+
 }
 
 
