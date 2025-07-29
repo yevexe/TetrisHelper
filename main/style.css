@@ -1,6 +1,56 @@
+/* ------------------------------------ CSS RESET START ------------------------------------ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* ------------------------------------ CSS RESET END ------------------------------------ */
+
+
+
 body {
     font-family: 'Arial', sans-serif;
-    font-size: 1.5em;
+    font-size: 20px;
     font-weight: normal;
     line-height: 1.1;
     color: rgb(211, 214, 216);
@@ -17,23 +67,31 @@ body {
 }
 
 h1{
+    font-size: 2.986rem;
+    font-weight: bold;
     text-align: center;
 }
 
 h2 {
-    font-size: 1.25em;
+    font-size: 2.488em;
     margin-top: 1em;
     margin-bottom: 0em;
 }
 
+h3 {
+    margin: 0em;
+    font-size: 1.44em;
+}
+
 p {
-    margin-top: 0em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
 }
 
 p.author-list{
-    font-size: 0.8em;
-    margin: 0em;
-    margin-bottom: 0.5em;
+    font-size: 1em;
+    margin-top: 0.25em;
+
 }
 
 p.copyright-text{
@@ -55,41 +113,62 @@ footer{
     margin-top: 250px;
 }
 
-
-
-#DevloperTags{
-    display: grid;
+.comparisonSpace-Container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
+
+#username{
+    width: auto;
+}
+
 .DevTag{
     margin-bottom: 10px;
 }
 /* Container for all page content */
 .body-container {
-    max-width: 720px;
+    align-items: flex-start;
     width: 100%;
+    max-width: 720px;
     padding: 0;
     box-sizing: border-box;
     margin: auto;
 }
 
-
-
 /* Terminal-style output block */
 .datadump {
-    font-family: monospace;
-    white-space: pre-line;
-    line-height: 1.2;
-    background-color: #111;
+    font-family: Verdana;
+    line-height: 1.2em;
+    background-color: #10101d;
+    width: auto;
     padding: 1em;
-    color: #11ff00;
+    color: rgb(211, 214, 216);
     outline: 1px solid rgb(211, 214, 216);
     border-radius: 4px;
+
+    margin-bottom: 0.25em;
+}
+
+p.EnterUsername-Form{
+    margin: 0;
 }
 
 #result{
-    opacity: 0;
+    /* !!! JavaScript !!! Control Collapse/Expand the information window */
+    /* height: 0;
+    overflow: hidden; 
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: none; */
 }
 
 p#resultPara{
+    margin-top: 0em;
     margin-bottom: 0em;
+}
+
+footer{
+    margin: 1em;
 }
