@@ -27,8 +27,8 @@ async function ButtClick(butt){
                 if(!EnterKeyCliked){
 
                     (butt.id.includes("2") 
-                    ? (username = document.getElementById("username1").value, whereToOutput = "result2") 
-                    : (username = document.getElementById("username").value, whereToOutput = "result1"));
+                    ? (username = document.getElementById("username1").value, whereToOutput = "2") 
+                    : (username = document.getElementById("username").value, whereToOutput = "1"));
 
                 }
                 //only runs if the enter key is clicked
@@ -36,8 +36,8 @@ async function ButtClick(butt){
 
                     //checks if player 1's output is empty => if the last element in the resultPara is the username, that means there was nothing added onto it.
                     (document.getElementById("result").lastElementChild.lastElementChild.id === "USERNAME" 
-                    ?(username = document.getElementById("username").value, whereToOutput = "result1")
-                    :(username = document.getElementById("username1").value, whereToOutput = "result2"));
+                    ?(username = document.getElementById("username").value, whereToOutput = "1")
+                    :(username = document.getElementById("username1").value, whereToOutput = "2"));
 
                 }
 
@@ -52,29 +52,36 @@ async function ButtClick(butt){
                 if(username !== undefined && !(username === "")){
 
                     //edit the datadump with the info I already have (only the username)
-                    document.getElementById(whereToOutput).querySelector("#USERNAME").innerHTML = "USERNAME INPUTTED: <br>"+username+"<br>";
+                   // document.getElementById(whereToOutput).querySelector("#USERNAME").innerHTML = "USERNAME INPUTTED: <br>"+username+"<br>";
 
-                    //Show the result
-                    document.getElementById("result").style.opacity = "1";
+                   
+                   let type;
                   
                     //What game you want 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
+
                     SprintInfo = await ObtainGameInformation(username, 1);
-                    AddInfoToFrontend(SprintInfo, whereToOutput);
+                    type = "sprint";
+                    AddInfoToFrontend(SprintInfo, whereToOutput,type);
+                     //Show the result
+                    document.getElementById("Sprint").classList.remove("hiddenToggleOn");
 
                     CheeseInfo = await ObtainGameInformation(username, 3);
-                    AddInfoToFrontend(CheeseInfo, whereToOutput);
+                    type = "cheese"
+                    AddInfoToFrontend(CheeseInfo, whereToOutput,type);
 
                     SurvivalInfo = await ObtainGameInformation(username, 4);
-                    AddInfoToFrontend(SurvivalInfo, whereToOutput);
+                    type = "surv"
+                    AddInfoToFrontend(SurvivalInfo, whereToOutput,type);
 
                     UltraInfo = await ObtainGameInformation(username, 5);
-                    AddInfoToFrontend(UltraInfo, whereToOutput);
+                    type = "ultra"
+                    AddInfoToFrontend(UltraInfo, whereToOutput,type);
 
                     TwentyInfo = await ObtainGameInformation(username, 7);
-                    AddInfoToFrontend(TwentyInfo, whereToOutput);
+                    AddInfoToFrontend(TwentyInfo, whereToOutput,type);
 
                     PCMODEInfo = await ObtainGameInformation(username, 8);
-                    AddInfoToFrontend(PCMODEInfo, whereToOutput);
+                    AddInfoToFrontend(PCMODEInfo, whereToOutput,type);
 
                 }
                 else{
@@ -84,11 +91,13 @@ async function ButtClick(butt){
 
 document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
 
+/*
 document.addEventListener("keypress", function(event){
     (event.key === "Enter" ? (EnterKeyCliked = true , ButtClick()) : console.log());
 }); 
+*/
 
-function AddInfoToFrontend(dataArray, whereToOutput){
+function AddInfoToFrontend(dataArray, whereToOutput,type){
 
     let ShouldBeOutputted = true;
     let amountThatIs0 = 0;
@@ -97,8 +106,6 @@ function AddInfoToFrontend(dataArray, whereToOutput){
     //if the user has played a game, no matter what that will be considered the 'best' game
     if (dataArray[0].best.length !== 0){
         
-        document.getElementById(`${whereToOutput}`).innerHTML+=`<br>++++++++++++++++++<br>`;
-        document.getElementById(`${whereToOutput}`).innerHTML+=`<span id="GAME_MODE" class="text">${dataArray[0].GameMode}</span><br>`;
         
 
         var forty;
@@ -137,27 +144,83 @@ function AddInfoToFrontend(dataArray, whereToOutput){
 
         }
 
-        if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0);
-        if (twenty) ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0);
-        if (hundred) ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0);
-        if (thousand) ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0);
-        
+        if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
+
+        let buttons = document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button');
+        for (const butt of buttons){
+            butt.onclick = function(){
+                
+                    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+                    wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML=` `
+                    wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = ` `
+
+                switch(butt.id){
+                    case "40L/10L":
+                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        butt.classList.add("buttonActivatedToggleOn");
+                        ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
+                        break;
+                    case "20L/18L":
+                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        butt.classList.add("buttonActivatedToggleOn");
+                        ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type);
+                        break;
+                    case "100L":
+                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        butt.classList.add("buttonActivatedToggleOn");
+                        ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type);
+                        break;
+                    
+                    case "1000L":
+                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        butt.classList.add("buttonActivatedToggleOn");
+                        ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type);
+                        break;
+                }
+            }   
             
-        (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
+        }
+;
+
+        /*
+        if (twenty) ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type);
+        if (hundred) ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type);
+        if (thousand) ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type);
+        */
+        
+        
     
     }
 
 }
-function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0){
+
+
+function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
     
-    document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>`;
-    (game.Type !== undefined) ? document.getElementById(`${whereToOutput}`).innerHTML+=`<span id="GAME_TYPE">${game.Type}</span><br>` : amountThatIs0++;
-    (game.min !== undefined && game.min !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`TOP_TIME: <span id="TOP_TIME" class="text">${game.min}s</span><br>` : amountThatIs0++;
-    (game.max !== undefined && game.max !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`WORST_TIME: <span id="WORST_TIME" class="text">${game.max}s</span><br>` : amountThatIs0++;
-    (game.days !== undefined && game.days !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`DAYS_PLAYED: <span id="DAYS_PLAYED" class="text">${game.days}</span><br>` : amountThatIs0++;
-    (game.games !== undefined && game.games !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`GAMES_PLAYED: <span id="GAMES_PLAYED" class="text">${game.games}</span><br>` : amountThatIs0++;
-    (game.avg !== undefined && game.avg !== 0) ? document.getElementById(`${whereToOutput}`).innerHTML+=`AVG_TIME: <span id="AVG_TIME" class="text">${game.avg}</span><br>` : amountThatIs0++;
-    document.getElementById(`${whereToOutput}`).innerHTML+=`----------<br>`;
+    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+
+    (game.min !== undefined && game.min !== 0 ) 
+    ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML+=`${game.min}s` 
+    : amountThatIs0++;
+
+    (game.max !== undefined && game.max !== 0) 
+    ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML+=`${game.max}s` 
+    : amountThatIs0++;
+
+    (game.days !== undefined && game.days !== 0) 
+    ? wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML+=`${game.days}` 
+    : amountThatIs0++;
+
+    (game.games !== undefined && game.games !== 0) 
+    ? wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML+=`${game.games}` 
+    : amountThatIs0++;
+
+    (game.avg !== undefined && game.avg !== 0) 
+    ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML+=`${game.avg}` 
+    : amountThatIs0++;
     
 }
 
