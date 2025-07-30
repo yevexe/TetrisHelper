@@ -127,6 +127,10 @@ function AddInfoToFrontend(dataArray, whereToOutput){
                             thousand = game;
                             break;
                     }
+
+                }
+                else{
+                    forty = game;
                 }
                 
             }   
