@@ -80,7 +80,17 @@ h2 {
 
 h3 {
     margin: 0em;
-    font-size: 1.44em;
+    margin-bottom: 0.25em;
+    font-size: 1.728rem;
+    font-weight: bold;
+}
+
+h4 {
+    margin: 0em;
+    margin-bottom: 0.125rem;
+    font-size: 1.44rem;
+    font-weight: bold;
+    /* display: inline-block; */
 }
 
 p {
@@ -101,25 +111,40 @@ p.copyright-text{
     text-align: center;
 }
 
+.resultPara{
+    margin-top: 0em;
+    margin-bottom: 0em;
+    font-size:  1rem;
+}
+
+.resultPara b{
+    font-weight: bold;
+}
+
+hr{
+    margin: 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    color: rgb(111, 114, 116);
+}
+
 a{
     all: unset;
     text-decoration: underline;
     cursor: pointer;
-    color:hsl(204, 6%, 84%);
+    color:rgb(212, 215, 217);
 }
 
 footer{
     margin: auto 0 0 0;
+    margin-top: 250px;
 }
 
 .comparisonSpace-Container{
     display: flex;
-    /*
     flex-wrap: wrap;
-
-    HAVING THIS CAUSES THE TWO PLAYERS NOT TO BE SIDE BY SIDE. 
-    */
     justify-content: space-evenly;
+    gap: 0.5em;
 }
 
 .username{
@@ -129,6 +154,7 @@ footer{
 .DevTag{
     margin-bottom: 10px;
 }
+
 /* Container for all page content */
 .body-container {
     align-items: flex-start;
@@ -142,10 +168,13 @@ footer{
 /* Terminal-style output block */
 .datadump {
     font-family: Verdana;
-    line-height: 1.2em;
+    line-height: 1.2rem;
     background-color: #10101d;
-    width: auto;
     padding: 1em;
+
+    min-width: auto;
+    max-width: 315px;
+
     color: rgb(211, 214, 216);
     outline: 1px solid rgb(211, 214, 216);
     border-radius: 4px;
@@ -153,58 +182,91 @@ footer{
     margin-bottom: 0.25em;
 }
 
-p.EnterUsername-Form{
-    margin: 0;
-}
-
-#result{
+/* Toggle to hide/show Player Containers */
+.hiddenToggleOn{
     /* !!! JavaScript !!! Control Collapse/Expand the information window */
-    /* height: 0;
+    display: none;
+    position: absolute;
     overflow: hidden; 
+    height: 0;
+    width: 0;
     padding: 0;
     margin: 0;
     border: 0;
-    outline: none; */
+    outline: none;
 }
 
-p.resultPara{
-    margin-top: 0em;
-    margin-bottom: 0em;
-}
 
-footer{
-    margin: 1em;
-}
 
+/* ----------------- PLAYER FORMS STYLING ------------------------------------ */
+/* Player1/Player2 Submit Forms Styling */
 .submitButton{
-    border-color: #151522;
-    background: #15154F;
+    border-color: #011936;
+    border-radius: 4px;
+    background: #011936;
+    border: 1.5px solid wheat;
+    border-radius: 4px;
     color: wheat;
-    font-size:1.2rem;
 }
 
 
 .submitButton:hover{
     cursor: pointer;
-    transition: 2s;
-    filter: drop-shadow(1px 1px 4px wheat);
-    /* or color #4444dd */
+    transition: 0.1s;
+    box-shadow: 0 0 8px 2px #d0bc73; /* subtle glow effect */
 }
-
-
-.submitButton:not(:hover){
-    cursor:default;
-    transition: 2s;
-}
-
 
 .user{
-    color: wheat;
-    border-color: #15154F;
-    background-color: #15154F;
-    font-size: 1.18rem;
-}
-.text{
+    display: inline-block;
+    width: 100%;
+
+    font-size: 1.2rem;
     font-weight: bold;
-    text-decoration: underline;
+    color: rgb(212, 215, 217);
+
+    /* Prevents padding to get out of the container visually */
+    box-sizing: border-box;
+    padding-left: 0.25rem;
+
+    border-color: #011936;
+    background-color: #011936;
+    border: 1.5px solid wheat;
+    border-radius: 4px;
+}
+
+.user:focus{
+    outline: none; /* Removes blue highlight on mac/win around the form*/
+}
+
+/* BUTTON STRIP 40L/10L 20L/18L 100L 1000L etc. */
+.buttonGroupContainer button { 
+    background: #011936;
+    /* border: 1.5px solid wheat; */
+    border: 1.5px solid wheat;
+    border-radius: 4px;
+    color: wheat;
+
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: filter 0.2s ease-in;
+
+    margin-bottom: 0.5rem;
+}
+
+.buttonGroupContainer button:hover{
+    transition: 0.1s;
+    box-shadow: 0 0 8px 2px #d0bc73; /* subtle glow effect */
+}
+.buttonActivatedToggleOn {
+    box-shadow: 0 0 8px 2px #d0bc73; /* subtle glow effect */
+}
+
+/* .buttonGroupSelector button:hover {
+    filter: drop-shadow(1px 1px 4px wheat);
+} */
+
+/* Footer Styling */
+footer{
+    margin: 1em;
 }
