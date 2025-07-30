@@ -116,12 +116,16 @@ function AddInfoToFrontend(dataArray, whereToOutput){
                     switch(game.Type){
                         case "40L/10L":
                             forty = game;
+                            break;
                         case "20L/18L":
                             twenty = game;
+                            break;
                         case "100L":
                             hundred = game;
+                            break;
                         case "1000L":
                             thousand = game;
+                            break;
                     }
                 }
                 
@@ -129,10 +133,10 @@ function AddInfoToFrontend(dataArray, whereToOutput){
 
         }
 
-        (forty !== undefined ? ACTUALLYPushToFrontEnd(forty,whereToOutput,amountThatIs0):console.log());
-        (twenty !== undefined ? ACTUALLYPushToFrontEnd(twenty,whereToOutput,amountThatIs0):console.log());
-        (hundred !== undefined ? ACTUALLYPushToFrontEnd(hundred,whereToOutput,amountThatIs0):console.log());
-        (thousand !== undefined ? ACTUALLYPushToFrontEnd(thousand,whereToOutput,amountThatIs0):console.log());
+        if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0);
+        if (twenty) ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0);
+        if (hundred) ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0);
+        if (thousand) ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0);
         
             
         (ShouldBeOutputted) ? document.getElementById(`${whereToOutput}`).innerHTML+=`++++++++++++++++++<br>` : console.log("do nothing");
