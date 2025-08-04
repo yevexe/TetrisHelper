@@ -7,6 +7,23 @@ let PCMODEInfo = [];
 
 let EnterKeyCliked = false;
 let alreadyPushed = false;
+
+
+//CONNECTING TO THE SERVER
+fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.message); 
+    if(data.message === "Connection successful") {
+      document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
+    }
+    else{
+        alert("Connection to the server failed. Please try again later.");
+    }
+  })
+  .catch(err => (console.error("Connection failed:", err), alert("Connection to the server failed. Please try again later.")));
+
+
 async function ButtClick(butt){
                 /*
                 DANIEL YURSKIY 07/29/25
@@ -89,7 +106,7 @@ async function ButtClick(butt){
                 }
 }
 
-document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
+
 
 /*
 document.addEventListener("keypress", function(event){
@@ -197,8 +214,6 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
 
 function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
-    console.log(game);
-    console.log(type);
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
         alreadyPushed = true;
