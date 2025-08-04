@@ -261,11 +261,11 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
     console.log(`#TopTime${whereToOutput}`);
 
     (game.min !== undefined && game.min !== 0 ) 
-        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}` 
+        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}s` 
         : amountThatIs0++;
 
     (game.max !== undefined && game.max !== 0) 
-        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML = `${game.max}` 
+        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML = `${game.max}s` 
         : amountThatIs0++;
 
     (game.days !== undefined && game.days !== 0) 
@@ -277,7 +277,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         : amountThatIs0++;
 
     (game.avg !== undefined && game.avg !== 0) 
-        ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = `${game.avg}` 
+        ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = `${game.avg}s` 
         : amountThatIs0++;
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
@@ -308,13 +308,13 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         
         if((game.min !== undefined && game.min !== 0 ) ){
             let TopTime = document.createElement("td");
-            TopTime.innerHTML = `${game.min}s`
+            TopTime.innerHTML = `${game.min}`
             newEntry.appendChild(TopTime);
         }
 
         let WorstTime = document.createElement("td");
         if((game.max !== undefined && game.max !== 0)){
-            WorstTime.innerHTML = `${game.max}s`
+            WorstTime.innerHTML = `${game.max}`
             newEntry.appendChild(WorstTime);
         }
         let DaysPlayed = document.createElement("td");
