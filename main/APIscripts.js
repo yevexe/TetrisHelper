@@ -6,7 +6,7 @@ let TwentyInfo = [];
 let PCMODEInfo = [];
 
 let EnterKeyCliked = false;
-
+let alreadyPushed = false;
 async function ButtClick(butt){
                 /*
                 DANIEL YURSKIY 07/29/25
@@ -99,12 +99,11 @@ document.addEventListener("keypress", function(event){
 
 function AddInfoToFrontend(dataArray, whereToOutput,type){
 
-    let ShouldBeOutputted = true;
     let amountThatIs0 = 0;
 
     //If the data found does not have a best game, that means there was no games played at all.
     //if the user has played a game, no matter what that will be considered the 'best' game
-    if (dataArray[0].best.length !== 0){
+    //if (dataArray[0].mode.length !== 0){
         
         
 
@@ -116,7 +115,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
         for(const game of dataArray){
             
             //if the game does not have a best, that means the user has not played a game in this mode AT ALL.
-            if(game.best.length !== 0){
+            //if(game.best.length !== 0){
 
                 if(game.GameMode === "Sprint" || game.GameMode === "Cheese"){
 
@@ -140,7 +139,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                     forty = game;
                 }
                 
-            }   
+            //}   
 
         }
 
@@ -183,7 +182,6 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
             }   
             
         }
-;
 
         /*
         if (twenty) ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type);
@@ -193,15 +191,61 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
         
         
     
-    }
+    
 
 }
 
 
 function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
-    
-    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+    console.log(game);
+    console.log(type);
 
+    if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
+        alreadyPushed = true;
+        console.log("Pushing Sprint 40L/10L to Frontend");
+        //create new leaderboard entry and put it there (sorting will be done later)
+        let newEntry = document.createElement("tr");
+        newEntry.classList.add("leaderboard-entry");
+        let number = document.createElement("td");
+        number.innerHTML = "3";
+        newEntry.appendChild(number)
+        let name = document.createElement("td");
+        name.innerHTML = game.name;
+        newEntry.appendChild(name);
+
+        
+        
+        if((game.min !== undefined && game.min !== 0 ) ){
+            let TopTime = document.createElement("td");
+            TopTime.innerHTML = `${game.min}s`
+            newEntry.appendChild(TopTime);
+        }
+
+        let WorstTime = document.createElement("td");
+        if((game.max !== undefined && game.max !== 0)){
+            WorstTime.innerHTML = `${game.max}s`
+            newEntry.appendChild(WorstTime);
+        }
+        let DaysPlayed = document.createElement("td");
+        if((game.days !== undefined && game.days !== 0)){   
+            DaysPlayed.innerHTML = `${game.days}`
+            newEntry.appendChild(DaysPlayed);       
+        }
+
+        let GamesPlayed = document.createElement("td");
+        if((game.games !== undefined && game.games !== 0)){     
+            GamesPlayed.innerHTML = `${game.games}`
+            newEntry.appendChild(GamesPlayed);
+        }
+
+        let AverageTime = document.createElement("td");
+        if((game.avg !== undefined && game.avg !== 0)){
+            AverageTime.innerHTML = `${game.avg}`
+            newEntry.appendChild(AverageTime);  
+        }
+        document.getElementById("daBody").appendChild(newEntry);
+    }
+    let wheretoOut = document.querySelector(`.resultPara.${type}`);
     (game.min !== undefined && game.min !== 0 ) 
     ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML+=`${game.min}s` 
     : amountThatIs0++;
@@ -221,7 +265,7 @@ function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
     (game.avg !== undefined && game.avg !== 0) 
     ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML+=`${game.avg}` 
     : amountThatIs0++;
-    
+      
 }
 
 async function ObtainGameInformation(username, game){
@@ -282,7 +326,12 @@ async function ObtainGameInformation(username, game){
                             break;
                     }
 
-                   let promise = fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=${d}&best`)}`)
+                   let promise = fetch(`https://3140-projects-repo.vercel.app/api/proxy?endpoint=${username}/records/${game}?mode=${d}&best`, 
+                    {method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+                        'Access-Control-Allow-Headers' : '*',
+                    }})
                     .then(response => response.json())
                     .then(result => {
 
