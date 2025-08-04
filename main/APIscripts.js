@@ -261,11 +261,11 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
     console.log(`#TopTime${whereToOutput}`);
 
     (game.min !== undefined && game.min !== 0 ) 
-        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}s` 
+        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}` 
         : amountThatIs0++;
 
     (game.max !== undefined && game.max !== 0) 
-        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML = `${game.max}s` 
+        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML = `${game.max}` 
         : amountThatIs0++;
 
     (game.days !== undefined && game.days !== 0) 
