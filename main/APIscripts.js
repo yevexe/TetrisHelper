@@ -45,7 +45,7 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
         alert("Connection to the server failed. Please try again later.");
     }
   })
-  .catch(err => (console.error("Connection failed:", err), alert("Connection to the server failed. Please try again later.")));
+  .catch(err => console.error("Connection failed:", err));
 
 
 
