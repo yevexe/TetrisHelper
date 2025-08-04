@@ -13,7 +13,7 @@ let connectingToServer = document.createElement("div");
 connectingToServer.id = "connectingToServer";
 connectingToServer.style.color = "white";
 connectingToServer.innerHTML = "Connecting to the server...";
-document.body.prepend(connectingToServer);
+//document.body.prepend(connectingToServer);
 
 //CONNECTING TO THE SERVER
 fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
@@ -30,7 +30,7 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
       connectionSuccessful.style.alignSelf = "center";
       connectionSuccessful.style.display = "grid";
       connectionSuccessful.style.transition = "opacity 1s"; // Set transition for opacity
-      document.body.prepend(connectionSuccessful);
+      //document.body.prepend(connectionSuccessful);
 
       // Fade out after 10 seconds
       setTimeout(() => {
