@@ -1,21 +1,32 @@
 const https = require('https');
 
-module.exports = async (req, res) => {
-  // Example: /api?endpoint=username/records/1?mode=1&best
+module.exports = (req, res) => {
+  // Always set CORS headers first
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+
+  if (req.query.initConnect === "1") {
+    console.log('Client connecting to server....');
+    res.statusCode = 200;
+    console.log('Connection established with client.');
+    return res.end(JSON.stringify({ message: "Connection successful" }));
+   
+  }
+
+  console.log('Received a request from client.');
+
   const endpoint = req.query.endpoint;
   if (!endpoint) {
     res.statusCode = 400;
     return res.end(JSON.stringify({ error: "Missing endpoint parameter" }));
   }
   const apiUrl = `https://jstris.jezevec10.com/api/u/${endpoint}`;
-  console.log("Requesting data from:", apiUrl);
+  console.log("Proxying request to:", apiUrl);
 
   https.get(apiUrl, (apiRes) => {
     let data = '';
     apiRes.on('data', chunk => data += chunk);
     apiRes.on('end', () => {
-      res.setHeader("Access-Control-Allow-Headers", "*");
-      res.setHeader("Access-Control-Allow-Origin", "*");
       try {
         res.statusCode = 200;
         res.end(JSON.stringify(JSON.parse(data)));
