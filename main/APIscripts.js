@@ -48,6 +48,7 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   .catch(err => (console.error("Connection failed:", err), alert("Connection to the server failed. Please try again later.")));
 
 
+
 async function ButtClick(butt){
                 /*
                 DANIEL YURSKIY 07/29/25
@@ -63,9 +64,20 @@ async function ButtClick(butt){
                 //Getting the username from the input in the main page
                 let username;
                 let whereToOutput;
-                
+                console.log(butt);
+                if(butt.id === "submitButton1"){
+                    username = document.getElementById("username1").value;
+                    whereToOutput = 2;
+                }
+                else{
+                    username = document.getElementById("username").value;
+                    whereToOutput = 1;
+                }
+                /*
                 //runs when the user clicks on the button but not from a enter key press, meaning they clicked on a specific button.
                 if(!EnterKeyCliked){
+                    console.log(document.getElementById("username"));
+                    console.log(document.getElementById("username1"));
 
                     (butt.id.includes("2") 
                     ? (username = document.getElementById("username1").value, whereToOutput = "2") 
@@ -81,7 +93,7 @@ async function ButtClick(butt){
                     :(username = document.getElementById("username1").value, whereToOutput = "2"));
 
                 }
-
+                */
                 /* REMOVED AS OF 07/29/25 FOR THE TWO PLAYER COMPARISON UPDATE.
                 //first ever ternary statement, if the username has a value then let username equal to that value, anything else (meaning it's empty) throw an alert.
                 let username = (document.getElementById("username").value) ? document.getElementById("username").value : alert("You Wrote the Wrong Input?!");
@@ -104,15 +116,17 @@ async function ButtClick(butt){
                     type = "sprint";
                     AddInfoToFrontend(SprintInfo, whereToOutput,type);
                      //Show the result
-                    document.getElementById("Sprint").classList.remove("hiddenToggleOn");
+                    document.getElementById("Sprint"+whereToOutput).classList.remove("hiddenToggleOn");
 
                     CheeseInfo = await ObtainGameInformation(username, 3);
                     type = "cheese"
                     AddInfoToFrontend(CheeseInfo, whereToOutput,type);
+                    //document.getElementById("Cheese").classList.remove("hiddenToggleOn");
 
                     SurvivalInfo = await ObtainGameInformation(username, 4);
                     type = "surv"
                     AddInfoToFrontend(SurvivalInfo, whereToOutput,type);
+                    //document.getElementById("Surv").classList.remove("hiddenToggleOn");
 
                     UltraInfo = await ObtainGameInformation(username, 5);
                     type = "ultra"
@@ -145,7 +159,6 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
     //If the data found does not have a best game, that means there was no games played at all.
     //if the user has played a game, no matter what that will be considered the 'best' game
     //if (dataArray[0].mode.length !== 0){
-        
         
 
         var forty;
@@ -186,11 +199,14 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
         if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
 
-        let buttons = document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button');
+        console.log(`.buttonGroupContainer.${type}${whereToOutput}`);
+        let buttons = document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button');
         for (const butt of buttons){
+
             butt.onclick = function(){
                 
-                    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+                    let wheretoOut = document.querySelector(`.resultPara.${type}${whereToOutput}`);
+
                     wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML=` `
                     wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML =` ` 
                     wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML =` ` 
@@ -198,24 +214,25 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                     wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = ` `
 
                 switch(butt.id){
+
                     case "40L/10L":
-                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
                         ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
                         break;
                     case "20L/18L":
-                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
                         ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type);
                         break;
                     case "100L":
-                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
                         ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type);
                         break;
                     
                     case "1000L":
-                        document.querySelector(`.buttonGroupContainer.${type}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
                         ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type);
                         break;
@@ -240,9 +257,9 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
 
 
-    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+    let wheretoOut = document.querySelector(`.resultPara.${type}${whereToOutput}`);
 
-
+    console.log(`#TopTime${whereToOutput}`);
 
     (game.min !== undefined && game.min !== 0 ) 
         ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}s` 
@@ -280,7 +297,8 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
         newEntry.classList.add("leaderboard-entry");
         let number = document.createElement("td");
         number.innerHTML = "2";
-        newEntry.appendChild(number)
+
+        newEntry.appendChild(number);
         let name = document.createElement("td");
         name.innerHTML = game.name;
         newEntry.appendChild(name);
