@@ -222,23 +222,23 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
 
 
     (game.min !== undefined && game.min !== 0 ) 
-        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML += `${game.min}s` 
+        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}s` 
         : amountThatIs0++;
 
     (game.max !== undefined && game.max !== 0) 
-        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML += `${game.max}s` 
+        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML = `${game.max}s` 
         : amountThatIs0++;
 
     (game.days !== undefined && game.days !== 0) 
-        ? wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML += `${game.days}` 
+        ? wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML = `${game.days}` 
         : amountThatIs0++;
 
     (game.games !== undefined && game.games !== 0) 
-        ? wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML += `${game.games}` 
+        ? wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML = `${game.games}` 
         : amountThatIs0++;
 
     (game.avg !== undefined && game.avg !== 0) 
-        ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML += `${game.avg}` 
+        ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = `${game.avg}` 
         : amountThatIs0++;
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
@@ -398,7 +398,7 @@ async function ObtainGameInformation(username, game){
                         break;
                 }
                 try{
-                    const singleApiCall = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://jstris.jezevec10.com/api/u/${username}/records/${game}?mode=1&best`)}`)
+                    const singleApiCall = await fetch(`https://3140-projects-repo.vercel.app/api/proxy?endpoint=${username}/records/${game}?mode=1&best`)
                     let response = await singleApiCall.json();
 
 
