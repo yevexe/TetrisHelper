@@ -6,7 +6,6 @@ let TwentyInfo = [];
 let PCMODEInfo = [];
 
 let EnterKeyCliked = false;
-let alreadyPushed = false;
 
 console.log("Connecting to the server...");
 let connectingToServer = document.createElement("div");
@@ -197,7 +196,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
         }
 
-        if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
+        if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,false);
 
         console.log(`.buttonGroupContainer.${type}${whereToOutput}`);
         let buttons = document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button');
@@ -218,23 +217,23 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                     case "40L/10L":
                         document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type);
+                        ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,true);
                         break;
                     case "20L/18L":
                         document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type);
+                        ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type,true);
                         break;
                     case "100L":
                         document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type);
+                        ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type,true);
                         break;
                     
                     case "1000L":
                         document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
                         butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type);
+                        ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type,true);
                         break;
                 }
             }   
@@ -254,7 +253,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 }
 
 
-function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
+function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alreadyPushed) {
 
 
     let wheretoOut = document.querySelector(`.resultPara.${type}${whereToOutput}`);
@@ -282,9 +281,11 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
         : amountThatIs0++;
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
+
         // Check for duplicate before updating anything
         const names = document.querySelectorAll("#name");
         const alreadyExists = Array.from(names).some(name => game.name === name.innerHTML);
+
         if (alreadyExists) {
             alert("This user has already been added to the leaderboard, please check the leaderboard for more information.");
             return; // Exit the function immediately
