@@ -8,6 +8,7 @@ let PCMODEInfo = [];
 let EnterKeyCliked = false;
 let alreadyPushed = false;
 
+console.log("Connecting to the server...");
 
 //CONNECTING TO THE SERVER
 fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
@@ -213,11 +214,44 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 }
 
 
-function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
+function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
+
+
+    let wheretoOut = document.querySelector(`.resultPara.${type}`);
+
+
+
+    (game.min !== undefined && game.min !== 0 ) 
+        ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML += `${game.min}s` 
+        : amountThatIs0++;
+
+    (game.max !== undefined && game.max !== 0) 
+        ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML += `${game.max}s` 
+        : amountThatIs0++;
+
+    (game.days !== undefined && game.days !== 0) 
+        ? wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML += `${game.days}` 
+        : amountThatIs0++;
+
+    (game.games !== undefined && game.games !== 0) 
+        ? wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML += `${game.games}` 
+        : amountThatIs0++;
+
+    (game.avg !== undefined && game.avg !== 0) 
+        ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML += `${game.avg}` 
+        : amountThatIs0++;
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
+        // Check for duplicate before updating anything
+        const names = document.querySelectorAll("#name");
+        const alreadyExists = Array.from(names).some(name => game.name === name.innerHTML);
+        if (alreadyExists) {
+            alert("This user has already been added to the leaderboard, please check the leaderboard for more information.");
+            return; // Exit the function immediately
+        }
         alreadyPushed = true;
         console.log("Pushing Sprint 40L/10L to Frontend");
+        
         //create new leaderboard entry and put it there (sorting will be done later)
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
@@ -260,27 +294,6 @@ function ACTUALLYPushToFrontEnd(game,whereToOutput,amountThatIs0,type){
         }
         document.getElementById("daBody").appendChild(newEntry);
     }
-    let wheretoOut = document.querySelector(`.resultPara.${type}`);
-    (game.min !== undefined && game.min !== 0 ) 
-    ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML+=`${game.min}s` 
-    : amountThatIs0++;
-
-    (game.max !== undefined && game.max !== 0) 
-    ? wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML+=`${game.max}s` 
-    : amountThatIs0++;
-
-    (game.days !== undefined && game.days !== 0) 
-    ? wheretoOut.querySelector(`#DaysPlayed${whereToOutput}`).innerHTML+=`${game.days}` 
-    : amountThatIs0++;
-
-    (game.games !== undefined && game.games !== 0) 
-    ? wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML+=`${game.games}` 
-    : amountThatIs0++;
-
-    (game.avg !== undefined && game.avg !== 0) 
-    ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML+=`${game.avg}` 
-    : amountThatIs0++;
-      
 }
 
 async function ObtainGameInformation(username, game){
