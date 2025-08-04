@@ -256,7 +256,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type) {
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
         let number = document.createElement("td");
-        number.innerHTML = "3";
+        number.innerHTML = "2";
         newEntry.appendChild(number)
         let name = document.createElement("td");
         name.innerHTML = game.name;
