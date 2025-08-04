@@ -9,6 +9,11 @@ let EnterKeyCliked = false;
 let alreadyPushed = false;
 
 console.log("Connecting to the server...");
+let connectingToServer = document.createElement("div");
+connectingToServer.id = "connectingToServer";
+connectingToServer.style.color = "white";
+connectingToServer.innerHTML = "Connecting to the server...";
+document.body.prepend(connectingToServer);
 
 //CONNECTING TO THE SERVER
 fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
@@ -17,6 +22,24 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
     console.log(data.message); 
     if(data.message === "Connection successful") {
       document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
+      document.getElementById("connectingToServer").remove();
+      let connectionSuccessful = document.createElement("div");
+      connectionSuccessful.style.color = "#39FF14";
+      connectionSuccessful.innerHTML = "Connection to the server successful!";
+      connectionSuccessful.style.fontSize = "2em";
+      connectionSuccessful.style.alignSelf = "center";
+      connectionSuccessful.style.display = "grid";
+      connectionSuccessful.style.transition = "opacity 1s"; // Set transition for opacity
+      document.body.prepend(connectionSuccessful);
+
+      // Fade out after 10 seconds
+      setTimeout(() => {
+        connectionSuccessful.style.opacity = "0";
+        // Remove after fade-out (1s)
+        setTimeout(() => {
+          connectionSuccessful.remove();
+        }, 1000);
+      }, 5000);
     }
     else{
         alert("Connection to the server failed. Please try again later.");
