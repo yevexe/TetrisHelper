@@ -1,5 +1,7 @@
 const https = require('https');
 let globalUsers = 0;
+console.log("Server Started! Now Listening for Connections...");
+
 module.exports = (req, res) => {
   // Always set CORS headers first
   res.setHeader("Access-Control-Allow-Origin", "*");
