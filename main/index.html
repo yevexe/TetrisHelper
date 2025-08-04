@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TetrisHelper (v0.4.1) </title>
+        <title>TetrisHelper (v0.5.1) </title>
         <link rel="stylesheet" href="style.css">
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -9,7 +9,7 @@
     <body>
         <div class="body-container">
             <header>
-                <h1><b>TetrisHelper (v0.4.1)</b></h1>
+                <h1>TetrisHelper (v0.5.1)</h1>
             </header>
 
             <p class="author-list">                
@@ -25,10 +25,14 @@
                 designed to help players better understand and improve their performance. 
             </p>
 
-
+            <h2>Player vs. Player Data Comparison</h2>
+            <p class="description">Enter usernames to compare performance across various game modes.</p>
 
             <div class="comparisonSpace-Container">
-                <div class="Player"> <!-- ------ PLAYER 1 START ------ -->
+                
+                <div class="Player "> <!-- ---------------------- PLAYER 1 START ---------------------- -->
+
+
                     <div class="datadump"> 
                         <div class="EnterUsername-Form">
                             <b><h3>Player 1</h3></b>
@@ -38,7 +42,7 @@
                     </div>
 
                     <!-- SPRINT START-->
-                    <div id="Sprint" class="datadump hiddenToggleOn">
+                    <div id="Sprint" class="datadump">
                         <h4>Sprint</h4><hr>
 
                             <!-- BUTTONS START -->
@@ -89,14 +93,15 @@
                             <div class="buttonGroupContainer surv">
                                 <button id="40L/10L" class="buttonActivatedToggleOn sprint">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara surv">
-                                <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara surv">
+                                    <b>Top Time:</b> <span id="TopTime1"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime1"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime1"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
                     <!-- ULTRA  -->
@@ -107,13 +112,14 @@
                                 <button id="40L/10L" class="buttonActivatedToggleOn sprint">40L/10L</button>
 
                             <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara ultra">
-                                <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <div class="resultPara ultra">
+                                    <b>Top Time:</b> <span id="TopTime1"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime1"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime1"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
                     <!-- 20TSD  -->
@@ -131,6 +137,7 @@
                                 <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
                                 <b>Average Time:</b> <span id="AverageTime1"></span><br>
                             </div> <!-- FETCHED OUTPUT END -->
+                        </div>
                     </div>
 
                     <!-- PC MODE  -->
@@ -140,20 +147,21 @@
                             <div class="buttonGroupContainer PC">
                                 <button id="40L/10L" class="buttonActivatedToggleOn sprint">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara PC">
-                                <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara PC">
+                                    <b>Top Time:</b> <span id="TopTime1"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime1"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime1"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
                     
-                </div> <!-- ------ PLAYER 1 END ------ -->
+                </div> <!-- -------------------------- PLAYER 1 END ---------------------------- -->
                 
-                <div class="Player hiddenToggleOn"> <!-- ------ PLAYER 2 START ------ -->
+                <div class="Player "> <!-- ---------------------- PLAYER 2 START ---------------------- -->
                     <div class="datadump"> 
                         <div class="EnterUsername-Form">
                             <b><h3>Player 2</h3></b>
@@ -214,15 +222,16 @@
                             <div class="buttonGroupContainer">
                                 <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara surv">
-                                <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
-                    </div>
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara surv">
+                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
+                        </div>
 
                     <!-- ULTRA  -->
                     <div class="datadump hiddenToggleOn">
@@ -231,14 +240,15 @@
                             <div class="buttonGroupContainer">
                                 <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara ultra">
-                                <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara ultra">
+                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
                     <!-- 20TSD  -->
@@ -248,14 +258,15 @@
                             <div class="buttonGroupContainer">
                                 <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara 20tsd">
-                                <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara 20tsd">
+                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
                     <!-- PC MODE  -->
@@ -265,20 +276,90 @@
                             <div class="buttonGroupContainer">
                                 <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
 
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara PC">
-                                <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                                <!-- FETCHED OUTPUT START -->
+                                <div class="resultPara PC">
+                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
+                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
+                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
+                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
+                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
+                                </div> <!-- FETCHED OUTPUT END -->
+                            </div>
                     </div>
 
+
+
                     
-                </div> <!-- ------ PLAYER 2 END ------ -->
+                </div> <!-- ---------------------- PLAYER 2 END ---------------------- -->
             
             </div>
+
+            <h2>Leaderboard</h2>
+            <p>The leaderboard displays the top 10 players based on their performance in the game modes.</p>
+            <div class="leaderboard-Container">
+                <h4>Top 10 players</h4>
+
+                <!-- ----------- GAMEMODE SELECTION START ------------->
+                <div class="leaderboard-header-with-buttons"> 
+                    <h5 id="ld-GameModeName">Sprint</h5>
+                        <div class="buttonGroupContainer"> <!-- BUTTONS START -->
+                            <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
+                            <button id="20L/18L" class="">20L/18L</button>
+                            <button id="100L" class="">100L</button>
+                            <button id="1000L" class="">1000L</button>
+                        </div> <!-- BUTTONS END -->
+                </div> <!-- ----------- GAMEMODE SELECTION END ------------->
+                
+
+                <hr>
+
+
+                <!-- ----------- TABLE START ------------- -->
+                <table class="leaderboard-table">
+                    <!-- HEADER START -->
+                    <thead class="leaderboard-topStaticSortTab">
+                        <tr class="sortingButtons">
+                            <th>№</th>
+                            <th>Name</th>
+                            <th>Top Time (s)</th>
+                            <th>Worst Time (s)</th>
+                            <th>Days Played</th>
+                            <th>Games Played</th>
+                            <th>Avg. Time (s)</th>
+                        </tr>
+                    </thead> <!-- HEADER END -->
+
+                    <tbody> <!-- BODY START -->
+                        <tr class="leaderboard-entry">
+                            <td>1</td>
+                            <td>AtomicRecall</td>
+                            <td>72.912</td>
+                            <td>171.727</td>
+                            <td>2029</td>
+                            <td>96</td>
+                            <td>101.167</td>
+                        </tr>
+
+                        <!-- DUMMY LEADERBOARD ENTRY START -->
+                        <tr class="leaderboard-entry">
+                            <td>2</td>
+                            <td>entry1</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                        </tr>
+                        <!-- DUMMY LEADERBOARD ENTRY END -->
+
+
+
+
+                    </tbody> <!-- BODY START -->
+                </table><!-- ----------- TABLE START END ------------- -->
+            </div>
+
+
 
 
 
