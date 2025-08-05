@@ -5,6 +5,9 @@ let UltraInfo = [];
 let TwentyInfo = [];
 let PCMODEInfo = [];
 
+let player1 = [];
+let player2 = [];
+
 let EnterKeyCliked = false;
 
 console.log("Connecting to the server...");
@@ -20,8 +23,9 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   .then(data => {
     console.log(data.message); 
     if(data.message === "Connection successful") {
+
       document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
-      document.getElementById("connectingToServer").remove();
+      //document.getElementById("connectingToServer").remove();
       let connectionSuccessful = document.createElement("div");
       connectionSuccessful.style.color = "#39FF14";
       connectionSuccessful.innerHTML = "Connection to the server successful!";
@@ -46,7 +50,7 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   })
   .catch(err => console.error("Connection failed:", err));
 
-
+let comparison = false;
 
 async function ButtClick(butt){
                 /*
@@ -67,6 +71,15 @@ async function ButtClick(butt){
                 if(butt.id === "submitButton1"){
                     username = document.getElementById("username1").value;
                     whereToOutput = 2;
+                    //check if there is aleady an output for player 1, if there is then start comparing player 2 with them.
+                    //take sprint1, the first sprint output (this 'should' always be correct as everyone would have played sprint in their lives), 
+                    // if there's no hiddenToggleOn then that means there is no output for player 1.
+                    if(!document.querySelector(".sprint1").classList.contains("hiddenToggleOn")){
+                        console.log("STARTING COMPARISON");
+                        //here we will increment a variable that will be used for after the data is obtained to compare the two players.
+                        comparison = true;
+
+                    }
                 }
                 else{
                     username = document.getElementById("username").value;
@@ -113,37 +126,237 @@ async function ButtClick(butt){
 
                     SprintInfo = await ObtainGameInformation(username, 1);
                     type = "sprint";
+                    SprintInfo.push(type);
                     AddInfoToFrontend(SprintInfo, whereToOutput,type);
                      //Show the result
-                    document.getElementById("Sprint"+whereToOutput).classList.remove("hiddenToggleOn");
+                    document.getElementById("sprint"+whereToOutput).classList.remove("hiddenToggleOn");
 
                     CheeseInfo = await ObtainGameInformation(username, 3);
                     type = "cheese"
+                    CheeseInfo.push(type);
                     AddInfoToFrontend(CheeseInfo, whereToOutput,type);
-                    //document.getElementById("Cheese").classList.remove("hiddenToggleOn");
+                    //document.getElementById("cheese"+whereToOutput).classList.remove("hiddenToggleOn");
 
                     SurvivalInfo = await ObtainGameInformation(username, 4);
                     type = "surv"
+                    SurvivalInfo.push(type);
                     AddInfoToFrontend(SurvivalInfo, whereToOutput,type);
                     //document.getElementById("Surv").classList.remove("hiddenToggleOn");
 
                     UltraInfo = await ObtainGameInformation(username, 5);
                     type = "ultra"
+                    UltraInfo.push(type);
                     AddInfoToFrontend(UltraInfo, whereToOutput,type);
 
-                    TwentyInfo = await ObtainGameInformation(username, 7);
-                    AddInfoToFrontend(TwentyInfo, whereToOutput,type);
+                    //TwentyInfo = await ObtainGameInformation(username, 7);
+                    //AddInfoToFrontend(TwentyInfo, whereToOutput,type);
 
-                    PCMODEInfo = await ObtainGameInformation(username, 8);
-                    AddInfoToFrontend(PCMODEInfo, whereToOutput,type);
+                    //PCMODEInfo = await ObtainGameInformation(username, 8);
+                    //AddInfoToFrontend(PCMODEInfo, whereToOutput,type);
 
+                    if(whereToOutput === 1){
+                        player1.push(SprintInfo);
+                        player1.push(CheeseInfo);
+                        player1.push(SurvivalInfo);
+                        player1.push(UltraInfo);
+                        //player1.push(TwentyInfo);
+                        //player1.push(PCMODEInfo);
+                    }
+                    else{
+                        player2.push(SprintInfo);
+                        player2.push(CheeseInfo);
+                        player2.push(SurvivalInfo);
+                        player2.push(UltraInfo);
+                        //player2.push(TwentyInfo);
+                        //player2.push(PCMODEInfo);
+                    }
+
+                    if(comparison){
+                        // Only run comparison if both player1 and player2 have 4 game arrays (Sprint, Cheese, Survival, Ultra)
+                        if (player1.length >= 4 && player2.length >= 4) {
+                            let allResults = document.querySelectorAll(`.datadump.result`);
+                            for(const result of allResults){
+                                if(!result.classList.contains("hiddenToggleOn")){   
+                                    type = result.querySelector("h4").textContent.toLowerCase();
+                                    console.log("COMPARNG GAMEMODE: "+type);
+                                }
+                            }
+                            console.log(player1);
+                            console.log(player2);
+                            Comparison(player1, player2, type);
+                        } else {
+                            // Wait for both players to be loaded before comparing
+                            console.log("Waiting for both players' data before running comparison...");
+                        }
+                    }
                 }
                 else{
                     alert("You Wrote the Wrong Input?!");
                 }
 }
 
+function Comparison(player1, player2, GameMode){
+    console.log("RUNNING COMPARISON")
+    //if there is no output for player 1 then just return
+    if(!player1 || !player2) return;
 
+    //if there is no output for player 2 then just return
+    if(!player2) return;
+
+    //if there is no output for player 1 then just return
+    if(!player1) return;
+
+    //if there is no output for player 1 then just return
+    if(!player2) return;
+
+    /*
+        Comparison(player1, player2, GameMode) will be a function that compares the two players and outputs the results.
+        GameMode = the GameMode of game we are comparing (sprint, cheese, survival, ultra, 20TSD, PC Mode)
+    */
+
+    //console.log(player1);
+    //console.log(player2);
+
+    let comparisonPlayer1;
+    let comparisonPlayer2;
+
+    //find the GameMode we are looking for in player 1 and player 2,
+    //they could maybe be in differnet indexes??????
+    for(const game of player1){
+        if(game.includes(GameMode)){
+            comparisonPlayer1 = game;
+        }
+    }
+
+    for (const game of player2){
+        console.log(game);
+        console.log(GameMode);
+        if(game.includes(GameMode)){
+            comparisonPlayer2 = game;
+        }
+    }
+
+    //console.log(comparisonPlayer1);
+    //console.log(comparisonPlayer2);
+
+    //now we need to check which of the buttons are highlighted
+    //get all buttons from the divider of that GameMode
+    let buttons = document.getElementById(`${GameMode}1`).querySelectorAll('button');
+    let type; 
+    buttons.forEach(butt => {
+        if(butt.classList.contains("buttonActivatedToggleOn")){ 
+           type = butt.id;
+        }
+    });
+
+    console.log("TYPE: "+type);
+
+    //Search through each comparisonPlayer to find the specific type we are looking for
+    for(const game of comparisonPlayer1){
+        //console.log(game);
+        if(game.Type === type){
+            comparisonPlayer1 = game;
+        }
+    }
+
+    for (const game of comparisonPlayer2){
+        //console.log(game);
+        if(game.Type === type){
+            comparisonPlayer2 = game;
+        }
+    }   
+
+    console.log(comparisonPlayer1);
+    console.log(comparisonPlayer2);
+
+    //how we will calculat the difference:
+    //just do player1 - player2,
+    //if the number is negative then player 2 is better,
+    //and depending on how negative the number is, that will be shade of green
+    //0-2 seconds is small gap, 5-8 seconds is medium gap, anything bigger is big gap.
+
+    let differenceTopTime = comparisonPlayer1.min - comparisonPlayer2.min;
+    let differenceWorstTime = comparisonPlayer1.max - comparisonPlayer2.max;
+    let differenceDaysPlayed = comparisonPlayer1.days - comparisonPlayer2.days; 
+    let differenceGamesPlayed = comparisonPlayer1.games - comparisonPlayer2.games;
+    let differenceAverageTime = comparisonPlayer1.avg - comparisonPlayer2.avg;
+    
+    //first check if they are negative, if negative then winner is player 2, blah blah
+    let winnerTopTime = (differenceTopTime < 0) ? "1" : "2";
+    let winnerWorstTime = (differenceWorstTime < 0) ? "1" : "2";
+    //the more days played the better
+    let winnerDaysPlayed = (differenceDaysPlayed < 0) ? "2" : "1";
+    //the more games played the better
+    let winnerGamesPlayed = (differenceGamesPlayed < 0) ? "2" : "1";
+    let winnerAverageTime = (differenceAverageTime < 0) ? "1" : "2";
+
+   
+
+    
+    //now we know who is the winner, all we need is to find out how big of a gap.
+    let wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerTopTime}`);
+    let wheretofart = wheretoOut.querySelector("#TopTime"+winnerTopTime);
+    differenceTopTime = Math.abs(differenceTopTime);
+    if (differenceTopTime > 5) {
+        wheretofart.classList.add("scoreGreenLow");
+    } else if (differenceTopTime > 2) {
+        wheretofart.classList.add("scoreGreenMedium");
+    } else if (differenceTopTime > 0) {
+        wheretofart.classList.add("scoreGreenHigh");
+    }
+
+
+    wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerWorstTime}`);
+    wheretofart = wheretoOut.querySelector("#WorstTime"+winnerWorstTime);
+    differenceWorstTime = Math.abs(differenceWorstTime);
+    if (differenceWorstTime > 5) {
+        wheretofart.classList.add("scoreGreenLow");
+    } else if (differenceWorstTime > 2) {
+        wheretofart.classList.add("scoreGreenMedium");
+    } else if (differenceWorstTime > 0) {
+        wheretofart.classList.add("scoreGreenHigh");
+    }
+    
+
+    wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerDaysPlayed}`);
+    wheretofart = wheretoOut.querySelector("#DaysPlayed"+winnerDaysPlayed);
+    differenceDaysPlayed = Math.abs(differenceDaysPlayed);
+    if (differenceDaysPlayed > 30) {
+        wheretofart.classList.add("scoreGreenLow");
+    } else if (differenceDaysPlayed > 10) {
+        wheretofart.classList.add("scoreGreenMedium");
+    } else if (differenceDaysPlayed > 0) {
+        wheretofart.classList.add("scoreGreenHigh");
+    }
+
+    wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerGamesPlayed}`);
+    wheretofart = wheretoOut.querySelector("#GamesPlayed"+winnerGamesPlayed);
+    differenceGamesPlayed = Math.abs(differenceGamesPlayed);
+    if (differenceGamesPlayed > 30) {
+        wheretofart.classList.add("scoreGreenLow");
+    } else if (differenceGamesPlayed > 10) {
+        wheretofart.classList.add("scoreGreenMedium");
+    } else if (differenceGamesPlayed > 0) {
+        wheretofart.classList.add("scoreGreenHigh");
+    }
+    
+    wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerAverageTime}`);
+    wheretofart = wheretoOut.querySelector("#AverageTime"+winnerAverageTime);
+    differenceAverageTime = Math.abs(differenceAverageTime);
+    if (differenceAverageTime > 5) {
+        wheretofart.classList.add("scoreGreenLow");
+    } else if (differenceAverageTime > 2) {
+        wheretofart.classList.add("scoreGreenMedium");
+    } else if (differenceAverageTime > 0) {
+        wheretofart.classList.add("scoreGreenHigh");
+    }
+
+    
+    
+
+
+    
+}
 
 /*
 document.addEventListener("keypress", function(event){
@@ -166,7 +379,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
         var thousand;
 
         for(const game of dataArray){
-            
+            if (typeof game === "string") continue; // Skip the string element
             //if the game does not have a best, that means the user has not played a game in this mode AT ALL.
             //if(game.best.length !== 0){
 
@@ -197,7 +410,8 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
         }
 
         if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,false);
-
+        let wheretoNotOutput = whereToOutput === 1 ? "2" : "1";
+        
         console.log(`.buttonGroupContainer.${type}${whereToOutput}`);
         let buttons = document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button');
         for (const butt of buttons){
@@ -280,6 +494,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         ? wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = `${game.avg}s` 
         : amountThatIs0++;
 
+
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
 
         // Check for duplicate before updating anything
@@ -336,6 +551,8 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         }
         document.getElementById("daBody").appendChild(newEntry);
     }
+
+
 }
 
 async function ObtainGameInformation(username, game){
