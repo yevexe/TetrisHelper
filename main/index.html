@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TetrisHelper (v0.5.2) </title>
+        <title>TetrisHelper (v0.6.2) </title>
         <link rel="stylesheet" href="style.css">
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -9,7 +9,7 @@
     <body>
         <div class="body-container">
             <header>
-                <h1>TetrisHelper (v0.5.2)</h1>
+                <h1>TetrisHelper (v0.6.2)</h1>
             </header>
 
             <p class="author-list">                
@@ -55,11 +55,11 @@
 
                             <!-- FETCHED OUTPUT START -->
                             <div class="resultPara sprint1">
-                                <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1"></span><br>
+                                <b>Top Time:</b> <span id="TopTime1" class="scoreGreenLow">72.912</span><br>
+                                <b>Worst Time:</b> <span id="WorstTime1" class="scoreGreenMedium">171.727</span><br>
+                                <b>Days Played:</b> <span id="DaysPlayed1" class="scoreGreenHigh">2029</span><br>
+                                <b>Games Played:</b> <span id="GamesPlayed1">96</span><br>
+                                <b>Average Time:</b> <span id="AverageTime1">101.167</span><br>
                             </div> <!-- FETCHED OUTPUT END -->
 
                     </div> <!-- SPRINT END-->
@@ -301,19 +301,23 @@
 
                 <!-- ----------- GAMEMODE SELECTION START ------------->
                 <div class="leaderboard-header-with-buttons"> 
-                    <h5 id="ld-GameModeName">Sprint</h5>
-                        <div class="buttonGroupContainer"> <!-- BUTTONS START -->
-                            <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
-                            <button id="20L/18L" class="">20L/18L</button>
-                            <button id="100L" class="">100L</button>
-                            <button id="1000L" class="">1000L</button>
-                        </div> <!-- BUTTONS END -->
+                    <div class="lg-GameModeList">
+                        <span class="ld-GameModeName activeTableGMToggleOn">Sprint</span>
+                        <span class="ld-GameModeName">Cheese</span>
+                        <span class="ld-GameModeName">Survival</span>
+                        <span class="ld-GameModeName">Ultra</span>
+                        <span class="ld-GameModeName">20TSD</span>
+                        <span class="ld-GameModeName">PC Mode</span>
+                    </div>
+                    <hr>
+                    <div class="buttonGroupContainer"> <!-- BUTTONS START -->
+                        <button id="40L/10L" class="buttonActivatedToggleOn">40L/10L</button>
+                        <button id="20L/18L" class="">20L/18L</button>
+                        <button id="100L" class="">100L</button>
+                        <button id="1000L" class="">1000L</button>
+                    </div> <!-- BUTTONS END -->
                 </div> <!-- ----------- GAMEMODE SELECTION END ------------->
                 
-
-                <hr>
-
-
                 <!-- ----------- TABLE START ------------- -->
                 <table class="leaderboard-table">
                     <!-- HEADER START -->
