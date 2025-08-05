@@ -9,13 +9,10 @@ let player1 = [];
 let player2 = [];
 
 let EnterKeyCliked = false;
-
+let comparison = false;
+let lastLeaderboardNum = 1;
 console.log("Connecting to the server...");
-let connectingToServer = document.createElement("div");
-connectingToServer.id = "connectingToServer";
-connectingToServer.style.color = "white";
-connectingToServer.innerHTML = "Connecting to the server...";
-//document.body.prepend(connectingToServer);
+
 
 //CONNECTING TO THE SERVER
 fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
@@ -25,24 +22,7 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
     if(data.message === "Connection successful") {
 
       document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
-      //document.getElementById("connectingToServer").remove();
-      let connectionSuccessful = document.createElement("div");
-      connectionSuccessful.style.color = "#39FF14";
-      connectionSuccessful.innerHTML = "Connection to the server successful!";
-      connectionSuccessful.style.fontSize = "2em";
-      connectionSuccessful.style.alignSelf = "center";
-      connectionSuccessful.style.display = "grid";
-      connectionSuccessful.style.transition = "opacity 1s"; // Set transition for opacity
-      //document.body.prepend(connectionSuccessful);
 
-      // Fade out after 10 seconds
-      setTimeout(() => {
-        connectionSuccessful.style.opacity = "0";
-        // Remove after fade-out (1s)
-        setTimeout(() => {
-          connectionSuccessful.remove();
-        }, 1000);
-      }, 5000);
     }
     else{
         alert("Connection to the server failed. Please try again later.");
@@ -50,7 +30,6 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   })
   .catch(err => console.error("Connection failed:", err));
 
-let comparison = false;
 
 async function ButtClick(butt){
                 /*
@@ -67,10 +46,12 @@ async function ButtClick(butt){
                 //Getting the username from the input in the main page
                 let username;
                 let whereToOutput;
-                console.log(butt);
+                RemoveComparison();
+
                 if(butt.id === "submitButton1"){
                     username = document.getElementById("username1").value;
                     whereToOutput = 2;
+
                     //check if there is aleady an output for player 1, if there is then start comparing player 2 with them.
                     //take sprint1, the first sprint output (this 'should' always be correct as everyone would have played sprint in their lives), 
                     // if there's no hiddenToggleOn then that means there is no output for player 1.
@@ -84,7 +65,12 @@ async function ButtClick(butt){
                 else{
                     username = document.getElementById("username").value;
                     whereToOutput = 1;
+
                 }
+                    document.querySelectorAll(".para"+whereToOutput).forEach(para => {  
+                        para.innerHTML = "";
+                        para.classList.remove("scoreGreenLow", "scoreGreenMedium", "scoreGreenHigh");
+                    });
                 /*
                 //runs when the user clicks on the button but not from a enter key press, meaning they clicked on a specific button.
                 if(!EnterKeyCliked){
@@ -115,20 +101,13 @@ async function ButtClick(butt){
 
                 //Only run the code if the username is a valid input
                 if(username !== undefined && !(username === "")){
-
-                    //edit the datadump with the info I already have (only the username)
-                   // document.getElementById(whereToOutput).querySelector("#USERNAME").innerHTML = "USERNAME INPUTTED: <br>"+username+"<br>";
-
-                   
                    let type;
                   
                     //What game you want 1 = sprint, 3 = cheese, 4 = survival, 5 = ultra, 7 = 20TSD, 8 = PC Mode
-
                     SprintInfo = await ObtainGameInformation(username, 1);
                     type = "sprint";
                     SprintInfo.push(type);
                     AddInfoToFrontend(SprintInfo, whereToOutput,type);
-                     //Show the result
                     document.getElementById("sprint"+whereToOutput).classList.remove("hiddenToggleOn");
 
                     CheeseInfo = await ObtainGameInformation(username, 3);
@@ -195,6 +174,12 @@ async function ButtClick(butt){
                 }
 }
 
+function ClearBothPlayersInfo(){
+    document.querySelectorAll(".para").forEach(para => {
+        para.innerHTML = "";
+        para.classList.remove("scoreGreenLow", "scoreGreenMedium", "scoreGreenHigh");
+     });
+}
 function Comparison(player1, player2, GameMode){
     console.log("RUNNING COMPARISON")
     //if there is no output for player 1 then just return
@@ -269,7 +254,7 @@ function Comparison(player1, player2, GameMode){
     console.log(comparisonPlayer1);
     console.log(comparisonPlayer2);
 
-    //how we will calculat the difference:
+    //how we will calculate the difference:
     //just do player1 - player2,
     //if the number is negative then player 2 is better,
     //and depending on how negative the number is, that will be shade of green
@@ -291,8 +276,6 @@ function Comparison(player1, player2, GameMode){
     let winnerAverageTime = (differenceAverageTime < 0) ? "1" : "2";
 
    
-
-    
     //now we know who is the winner, all we need is to find out how big of a gap.
     let wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerTopTime}`);
     let wheretofart = wheretoOut.querySelector("#TopTime"+winnerTopTime);
@@ -364,6 +347,17 @@ document.addEventListener("keypress", function(event){
 }); 
 */
 
+function RemoveComparison(){
+    //if the comparison is true, then we need to remove the comparison
+
+        document.querySelectorAll(".resultPara").forEach(para => {
+            para.querySelectorAll("span").forEach(span => span.classList.remove("scoreGreenLow", "scoreGreenMedium", "scoreGreenHigh"));
+        });
+
+        
+    
+}
+
 function AddInfoToFrontend(dataArray, whereToOutput,type){
 
     let amountThatIs0 = 0;
@@ -419,6 +413,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
             butt.onclick = function(){
                 
                     let wheretoOut = document.querySelector(`.resultPara.${type}${whereToOutput}`);
+                    let wheretoNotOut = document.querySelector(`.resultPara.${type}${wheretoNotOutput}`);
 
                     wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML=` `
                     wheretoOut.querySelector(`#WorstTime${whereToOutput}`).innerHTML =` ` 
@@ -426,28 +421,149 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                     wheretoOut.querySelector(`#GamesPlayed${whereToOutput}`).innerHTML =` ` 
                     wheretoOut.querySelector(`#AverageTime${whereToOutput}`).innerHTML = ` `
 
+                    wheretoNotOut.querySelector(`#TopTime${wheretoNotOutput}`).innerHTML=` `
+                    wheretoNotOut.querySelector(`#WorstTime${wheretoNotOutput}`).innerHTML =` ` 
+                    wheretoNotOut.querySelector(`#DaysPlayed${wheretoNotOutput}`).innerHTML =` ` 
+                    wheretoNotOut.querySelector(`#GamesPlayed${wheretoNotOutput}`).innerHTML =` ` 
+                    wheretoNotOut.querySelector(`#AverageTime${wheretoNotOutput}`).innerHTML = ` `
+
+                    document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+                    document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
+
+
                 switch(butt.id){
 
                     case "40L/10L":
-                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
-                        butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,true);
+
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll(`#\\34 0L\\/10L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll(`#\\34 0L\\/10L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        if (player1.length > 0 && player2.length > 0){
+                            //find the object with the game and the object with the type
+                            for (const game of player1){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "40L/10L"){
+                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            for (const game of player2){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "40L/10L"){
+                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            RemoveComparison();
+                            Comparison(player1, player2, type);
+
+                        }
+                        else{
+                            ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,true);
+                        }
+
                         break;
                     case "20L/18L":
-                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
-                        butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type,true);
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll(`#\\32 0L\\/18L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll(`#\\32 0L\\/18L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        if( player1.length > 0 && player2.length > 0){
+                            //find the object with the game and the object with the type
+                            for (const game of player1){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "20L/18L"){
+                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            for (const game of player2){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "20L/18L"){
+                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            RemoveComparison();
+                            Comparison(player1, player2, type);
+                        }
+                        else{
+                            ACTUALLYPushToFrontEnd(twenty, whereToOutput, amountThatIs0,type,true);
+                        }
                         break;
                     case "100L":
-                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
-                        butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type,true);
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll(`#\\31 00L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll(`#\\31 00L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        if (player1.length > 0 && player2.length > 0){
+                            //find the object with the game and the object with the type
+                            for (const game of player1){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "100L"){
+                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+                            for (const game of player2){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "100L"){
+                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            RemoveComparison();
+                            Comparison(player1, player2, type);
+                        }
+                        else{
+                            ACTUALLYPushToFrontEnd(hundred, whereToOutput, amountThatIs0,type,true);
+                        }
                         break;
                     
                     case "1000L":
-                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button').forEach(butt => butt.classList.remove("buttonActivatedToggleOn"));
-                        butt.classList.add("buttonActivatedToggleOn");
-                        ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type,true);
+
+                        document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll(`#\\31 000L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll(`#\\31 000L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+
+                        if(player1.length > 0 && player2.length > 0){
+                            //find the object with the game and the object with the type    
+                            for (const game of player1){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "1000L"){
+                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                        }
+                                    }
+                                }
+                            }
+                            for (const game of player2){
+                                if(game.includes(type)){
+                                    for (const fart of game){
+                                        if(fart.Type === "1000L"){
+                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                        }   
+                                    }
+                                }
+                            }
+                            RemoveComparison();
+                            Comparison(player1, player2, type);
+                        }
+                        else{
+                            ACTUALLYPushToFrontEnd(thousand, whereToOutput, amountThatIs0,type,true);
+                        }
+                        
                         break;
                 }
             }   
@@ -496,23 +612,22 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
 
 
     if(game.Type === "40L/10L" && game.GameMode === "Sprint" && !alreadyPushed){
-
         // Check for duplicate before updating anything
         const names = document.querySelectorAll("#name");
         const alreadyExists = Array.from(names).some(name => game.name === name.innerHTML);
-
         if (alreadyExists) {
             alert("This user has already been added to the leaderboard, please check the leaderboard for more information.");
             return; // Exit the function immediately
         }
+
         alreadyPushed = true;
         console.log("Pushing Sprint 40L/10L to Frontend");
-        
+        lastLeaderboardNum++;
         //create new leaderboard entry and put it there (sorting will be done later)
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
         let number = document.createElement("td");
-        number.innerHTML = "2";
+        number.innerHTML = lastLeaderboardNum;
 
         newEntry.appendChild(number);
         let name = document.createElement("td");
@@ -527,28 +642,35 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
             newEntry.appendChild(TopTime);
         }
 
-        let WorstTime = document.createElement("td");
+        
         if((game.max !== undefined && game.max !== 0)){
+            let WorstTime = document.createElement("td");
             WorstTime.innerHTML = `${game.max}`
             newEntry.appendChild(WorstTime);
         }
-        let DaysPlayed = document.createElement("td");
-        if((game.days !== undefined && game.days !== 0)){   
+
+        
+        if((game.days !== undefined && game.days !== 0)){
+            let DaysPlayed = document.createElement("td");   
             DaysPlayed.innerHTML = `${game.days}`
             newEntry.appendChild(DaysPlayed);       
         }
 
-        let GamesPlayed = document.createElement("td");
-        if((game.games !== undefined && game.games !== 0)){     
+        
+        if((game.games !== undefined && game.games !== 0)){  
+            let GamesPlayed = document.createElement("td");   
             GamesPlayed.innerHTML = `${game.games}`
             newEntry.appendChild(GamesPlayed);
         }
 
-        let AverageTime = document.createElement("td");
+        
         if((game.avg !== undefined && game.avg !== 0)){
+            let AverageTime = document.createElement("td");
             AverageTime.innerHTML = `${game.avg}`
             newEntry.appendChild(AverageTime);  
         }
+
+
         document.getElementById("daBody").appendChild(newEntry);
     }
 
