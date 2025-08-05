@@ -124,7 +124,12 @@ p.copyright-text{
 
 .resultPara b{
     font-weight: bold;
+    display: inline-block;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    box-sizing: border-box;
 }
+
 
 hr{
     margin: 0;
@@ -271,6 +276,30 @@ footer{
     margin: 1em;
 }
 
+/* SCORE GREEN COLORING: 3 SHADES */
+.scoreGreenLow{
+    border: 1.125px solid #befa30; /* Light Green */
+    font-weight: bold;
+    border-radius: 4px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+.scoreGreenMedium{
+    border: 1.125px solid #84DD63; /* Medium Green */
+    font-weight: bold;
+    border-radius: 4px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+.scoreGreenHigh{
+    border: 1.125px solid #054A29; /* Dark Green */
+    font-weight: bold;
+    border-radius: 4px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+
 /* ----------------- LEADERBOARD STYLING ------------------------------------ */
 /* Leaderboard Container */
 .leaderboard-Container {
@@ -286,13 +315,42 @@ footer{
 }
 
 .leaderboard-header-with-buttons .buttonGroupContainer button {
-  margin-bottom: 0; /* remove extra bottom margin */
+    margin-bottom: 0; /* remove extra bottom margin */
 }
 
 .leaderboard-header-with-buttons {
-  display: flex;
-  justify-content: left; /* push elements to edges */
-  gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.leaderboard-header-with-buttons hr{
+    margin-top: 0.25rem;
+}
+
+/* ---------- GAME SELECTION MENU START ---------- */
+.ld-GameModeName {
+  cursor: pointer;
+  color: rgb(211, 214, 216); /* same as body text */
+  margin-right: 0.25rem;
+  font-size: 1.528rem;
+  font-weight: normal;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.ld-GameModeName:hover {
+  text-decoration: underline dotted;
+}
+
+.ld-GameModeName.activeTableGMToggleOn {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* ---------- GAME SELECTION MENU END ---------- */
+.activeTableGMToggleOn {
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /* Table styling */
@@ -305,6 +363,8 @@ footer{
     font-family: Verdana, sans-serif;
     color: rgb(211, 214, 216);
     background-color: #10101d;
+
+    margin-top: 0.25rem;
 }
 
 .leaderboard-table th,
@@ -339,3 +399,4 @@ footer{
 .leaderboard-table tbody tr:hover td {
     background-color: rgba(211, 214, 216, 0.05);
 }
+
