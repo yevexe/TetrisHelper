@@ -10,7 +10,8 @@ let player2 = [];
 
 let EnterKeyCliked = false;
 let comparison = false;
-let lastLeaderboardNum = 1;
+let lastLeaderboardNum = 0;
+
 console.log("Connecting to the server...");
 
 
@@ -51,11 +52,11 @@ async function ButtClick(butt){
                 if(butt.id === "submitButton1"){
                     username = document.getElementById("username1").value;
                     whereToOutput = 2;
-
+                    player2 = [];
                     //check if there is aleady an output for player 1, if there is then start comparing player 2 with them.
                     //take sprint1, the first sprint output (this 'should' always be correct as everyone would have played sprint in their lives), 
                     // if there's no hiddenToggleOn then that means there is no output for player 1.
-                    if(!document.querySelector(".sprint1").classList.contains("hiddenToggleOn")){
+                    if((!document.querySelector(".sprint1").classList.contains("hiddenToggleOn")) || ((!document.querySelector(".sprint2").classList.contains("hiddenToggleOn")) && (!document.querySelector(".sprint1").classList.contains("hiddenToggleOn")))){
                         console.log("STARTING COMPARISON");
                         //here we will increment a variable that will be used for after the data is obtained to compare the two players.
                         comparison = true;
@@ -65,6 +66,7 @@ async function ButtClick(butt){
                 else{
                     username = document.getElementById("username").value;
                     whereToOutput = 1;
+                    player1 = [];
 
                 }
                     document.querySelectorAll(".para"+whereToOutput).forEach(para => {  
@@ -160,8 +162,8 @@ async function ButtClick(butt){
                                     console.log("COMPARNG GAMEMODE: "+type);
                                 }
                             }
-                            console.log(player1);
-                            console.log(player2);
+                            //console.log(player1);
+                            //console.log(player2);
                             Comparison(player1, player2, type);
                         } else {
                             // Wait for both players to be loaded before comparing
@@ -214,8 +216,8 @@ function Comparison(player1, player2, GameMode){
     }
 
     for (const game of player2){
-        console.log(game);
-        console.log(GameMode);
+       // console.log(game);
+       // console.log(GameMode);
         if(game.includes(GameMode)){
             comparisonPlayer2 = game;
         }
@@ -251,8 +253,8 @@ function Comparison(player1, player2, GameMode){
         }
     }   
 
-    console.log(comparisonPlayer1);
-    console.log(comparisonPlayer2);
+   // console.log(comparisonPlayer1);
+   // console.log(comparisonPlayer2);
 
     //how we will calculate the difference:
     //just do player1 - player2,
@@ -406,7 +408,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
         if (forty) ACTUALLYPushToFrontEnd(forty, whereToOutput, amountThatIs0,type,false);
         let wheretoNotOutput = whereToOutput === 1 ? "2" : "1";
         
-        console.log(`.buttonGroupContainer.${type}${whereToOutput}`);
+       // console.log(`.buttonGroupContainer.${type}${whereToOutput}`);
         let buttons = document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll('button');
         for (const butt of buttons){
 
@@ -588,7 +590,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
 
     let wheretoOut = document.querySelector(`.resultPara.${type}${whereToOutput}`);
 
-    console.log(`#TopTime${whereToOutput}`);
+   // console.log(`#TopTime${whereToOutput}`);
 
     (game.min !== undefined && game.min !== 0 ) 
         ? wheretoOut.querySelector(`#TopTime${whereToOutput}`).innerHTML = `${game.min}s` 
@@ -621,17 +623,19 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         }
 
         alreadyPushed = true;
-        console.log("Pushing Sprint 40L/10L to Frontend");
+       // console.log("Pushing Sprint 40L/10L to Frontend");
         lastLeaderboardNum++;
         //create new leaderboard entry and put it there (sorting will be done later)
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
         let number = document.createElement("td");
         number.innerHTML = lastLeaderboardNum;
+        number.id = "num";
 
         newEntry.appendChild(number);
         let name = document.createElement("td");
         name.innerHTML = game.name;
+        name.id = "name";
         newEntry.appendChild(name);
 
         
@@ -639,6 +643,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.min !== undefined && game.min !== 0 ) ){
             let TopTime = document.createElement("td");
             TopTime.innerHTML = `${game.min}`
+            TopTime.id = `TopTime`;
             newEntry.appendChild(TopTime);
         }
 
@@ -646,6 +651,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.max !== undefined && game.max !== 0)){
             let WorstTime = document.createElement("td");
             WorstTime.innerHTML = `${game.max}`
+            WorstTime.id = `WorstTime`;
             newEntry.appendChild(WorstTime);
         }
 
@@ -653,6 +659,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.days !== undefined && game.days !== 0)){
             let DaysPlayed = document.createElement("td");   
             DaysPlayed.innerHTML = `${game.days}`
+            DaysPlayed.id = `DaysPlayed`;
             newEntry.appendChild(DaysPlayed);       
         }
 
@@ -660,6 +667,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.games !== undefined && game.games !== 0)){  
             let GamesPlayed = document.createElement("td");   
             GamesPlayed.innerHTML = `${game.games}`
+            GamesPlayed.id = `GamesPlayed`;
             newEntry.appendChild(GamesPlayed);
         }
 
@@ -667,6 +675,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.avg !== undefined && game.avg !== 0)){
             let AverageTime = document.createElement("td");
             AverageTime.innerHTML = `${game.avg}`
+            AverageTime.id = `AverageTime`;
             newEntry.appendChild(AverageTime);  
         }
 
@@ -799,3 +808,83 @@ async function ObtainGameInformation(username, game){
     return ResultArray;
         
 }
+
+let HowManyTimesClicked = 0;
+let LastModeClicked = null;
+document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
+
+function LeaderBoardTableEntrySort(butt){
+   // console.log("CLICKED: "+butt.id);
+    butt.style.textDecoration = "underline dotted";
+    if (LastModeClicked === null || LastModeClicked !== butt.id) {
+        // Reset the click count if a different button is clicked
+        HowManyTimesClicked = 0;
+        LastModeClicked = butt.id;
+
+    }
+    HowManyTimesClicked++;
+    if(HowManyTimesClicked ===1){
+        let ASC = document.createElement("div");
+        ASC.id = "ASC";
+        ASC.innerHTML = "ASC.";
+        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
+        butt.appendChild(ASC);
+
+        ActuallySort(butt.id,"ASC");
+    }
+    else if(HowManyTimesClicked === 2){
+        let DSC = document.createElement("div");
+        DSC.innerHTML = "DESC.";
+        DSC.id = "DSC";
+        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
+        butt.appendChild(DSC);
+
+        ActuallySort(butt.id,"DESC");
+    }
+    else{
+        HowManyTimesClicked = 0; // Reset after the third click
+        LastModeClicked = null; // Reset the last clicked mode
+        butt.style.textDecoration = "";
+        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
+        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
+        ActuallySort(butt.id,"DEF");
+    }
+}
+
+function ActuallySort(Name, type) {
+    // Only find cells inside tbody, so thead is safe
+    let entries = Array.from(document.querySelectorAll("tbody #" + Name));
+
+    // Get the full rows/containers for each entry
+    let rows = entries.map(cell => cell.closest("tr"));
+
+    switch (type) {
+        case "ASC":
+            rows.sort((a, b) => {
+                let textA = a.querySelector("#" + Name).innerHTML.trim();
+                let textB = b.querySelector("#" + Name).innerHTML.trim();
+                return textA.localeCompare(textB, undefined, { numeric: true });
+            });
+            break;
+
+        case "DESC":
+            rows.sort((a, b) => {
+                let textA = a.querySelector("#" + Name).innerHTML.trim();
+                let textB = b.querySelector("#" + Name).innerHTML.trim();
+                return textB.localeCompare(textA, undefined, { numeric: true });
+            });
+            break;
+
+        default:
+            // No sorting
+            break;
+    }
+
+    // Reattach sorted rows to the tbody
+    let parent = rows[0].parentNode;
+    parent.innerHTML = ""; 
+    rows.forEach(row => parent.appendChild(row));
+}
+
+
+

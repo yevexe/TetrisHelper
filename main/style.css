@@ -394,9 +394,14 @@ footer{
 .leaderboard-table thead th {
     font-weight: bold;
 }
-
+.leaderboard-table thead th:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 /* Optional: hover highlight on rows */
 .leaderboard-table tbody tr:hover td {
     background-color: rgba(211, 214, 216, 0.05);
 }
+
+
 
