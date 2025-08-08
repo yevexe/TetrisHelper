@@ -31,7 +31,39 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   })
   .catch(err => console.error("Connection failed:", err));
 
+document.getElementById('username').addEventListener('input', function() {
+        if (this.value.trim() === '') {
+                    let wheretoOut = document.querySelector(`.resultPara.sprint1`);
 
+                    wheretoOut.querySelector(`#TopTime1`).innerHTML=` `
+                    wheretoOut.querySelector(`#WorstTime1`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#DaysPlayed1`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#GamesPlayed1`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#AverageTime1`).innerHTML = ` `
+                    RemoveComparison();
+            // Perform actions when the input becomes empty
+        } else {
+            console.log('Input box contains text.');
+            // Perform actions when the input has content
+        }
+    });
+
+document.getElementById('username1').addEventListener('input', function() {
+        if (this.value.trim() === '') {
+                    let wheretoOut = document.querySelector(`.resultPara.sprint2`);
+
+                    wheretoOut.querySelector(`#TopTime2`).innerHTML=` `
+                    wheretoOut.querySelector(`#WorstTime2`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#DaysPlayed2`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#GamesPlayed2`).innerHTML =` ` 
+                    wheretoOut.querySelector(`#AverageTime2`).innerHTML = ` `
+                    RemoveComparison();
+            // Perform actions when the input becomes empty
+        } else {
+            console.log('Input box contains text.');
+            // Perform actions when the input has content
+        }
+    });
 async function ButtClick(butt){
                 /*
                 DANIEL YURSKIY 07/29/25
