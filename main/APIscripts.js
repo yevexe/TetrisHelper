@@ -15,6 +15,7 @@ let lastLeaderboardNum = 0;
 console.log("Connecting to the server...");
 
 
+
 //CONNECTING TO THE SERVER
 fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   .then(res => res.json())
@@ -707,7 +708,7 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         if((game.avg !== undefined && game.avg !== 0)){
             let AverageTime = document.createElement("td");
             AverageTime.innerHTML = `${game.avg}`
-            AverageTime.id = `AverageTime`;
+            AverageTime.id = `AvgTime`;
             newEntry.appendChild(AverageTime);  
         }
 
@@ -843,9 +844,15 @@ async function ObtainGameInformation(username, game){
 
 let HowManyTimesClicked = 0;
 let LastModeClicked = null;
+
 document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
 
 function LeaderBoardTableEntrySort(butt){
+
+    document.querySelectorAll("th").forEach(butt => butt.style.textDecoration = "none");
+    document.querySelectorAll("#DSC").forEach(DSC => DSC.remove());
+    document.querySelectorAll("#ASC").forEach(ASC => ASC.remove());
+
    // console.log("CLICKED: "+butt.id);
     butt.style.textDecoration = "underline dotted";
     if (LastModeClicked === null || LastModeClicked !== butt.id) {
