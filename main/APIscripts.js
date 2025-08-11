@@ -884,11 +884,9 @@ function LeaderBoardTableEntrySort(butt){
 }
 
 function ActuallySort(Name, type) {
-    // Only find cells inside tbody, so thead is safe
-    let entries = Array.from(document.querySelectorAll("tbody #" + Name));
-
+    //console.log(Name);
     // Get the full rows/containers for each entry
-    let rows = entries.map(cell => cell.closest("tr"));
+    let rows = Array.from(document.querySelectorAll(".leaderboard-entry"));
 
     switch (type) {
         case "ASC":
@@ -913,10 +911,13 @@ function ActuallySort(Name, type) {
     }
 
     // Reattach sorted rows to the tbody
-    let parent = rows[0].parentNode;
+  
+    let parent = document.getElementById("daBody");
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
+
 
 
 
