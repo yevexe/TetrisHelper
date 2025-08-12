@@ -1,37 +1,39 @@
-const https = require('https');
-let globalUsers = 0;
-console.log("Server Started! Now Listening for Connections...");
+import fetch from 'node-fetch';
 
-module.exports = (req, res) => {
-  // Always set CORS headers first
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  console.log('Received a request from client.');
+export default async function handler(req, res) {
+  // Enable CORS for your frontend domain or use ''
+  res.setHeader('Access-Control-Allow-Origin', '');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const endpoint = req.query.endpoint;
-  if (!endpoint) {
-    res.statusCode = 400;
-    return res.end(JSON.stringify({ error: "Missing endpoint parameter" }));
+  // Handle CORS preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
-  const backendUrl = 'http://69.126.106.22:55000/' + req.url.replace('/api/proxy', '');
-  console.log("Proxying request to:", apiUrl);
 
-  https.get(apiUrl, (apiRes) => {
-    let data = '';
-    apiRes.on('data', chunk => data += chunk);
-    apiRes.on('end', () => {
-      try {
-        res.statusCode = 200;
-        res.end(JSON.stringify(JSON.parse(data)));
-      } catch (e) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ error: "Failed to parse backend response" }));
-      }
+  try {
+    const endpoint = req.query.endpoint || '/';
+    const backendUrl = 'http://69.126.106.22:55000/' + endpoint;
+
+    const backendResponse = await fetch(backendUrl, {
+      method: req.method,
+      headers: req.headers,
+      body: req.method === 'GET' ? null : req.body,
     });
-  }).on('error', (err) => {
-    console.error("Error fetching data:", err.message);
-    res.statusCode = 500;
-    res.end(JSON.stringify({ error: "Error fetching data from backend" }));
-  });
-};
 
+    // Pass status, headers, and body from backend response to client
+    res.status(backendResponse.status);
+
+    // Pass content-type header if present
+    const contentType = backendResponse.headers.get('content-type');
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+    }
+
+    const data = await backendResponse.text();
+    res.send(data);
+  } catch (error) {
+    console.error('Proxy error:', error);
+    res.status(500).json({ error: 'Proxy error', details: error.message });
+  }
+}
