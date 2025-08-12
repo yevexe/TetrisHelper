@@ -1,3 +1,4 @@
+
 let SprintInfo = [];
 let CheeseInfo = [];
 let SurvivalInfo = [];
@@ -13,16 +14,22 @@ let comparison = false;
 let lastLeaderboardNum = 0;
 
 console.log("Connecting to the server...");
-
-
-
 //CONNECTING TO THE SERVER
-fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
-  .then(res => res.json())
-  .then(data => {
-    console.log(data.message); 
-    if(data.message === "Connection successful") {
+fetch(`http://${`69.126.106.22`}:55000/connect`)
+    .then(response => {
+    console.log('Status code:', response.status); // e.g., 200
 
+    return response.text(); // read response as plain text
+  })
+    .then(data => {
+    console.log(data); 
+    if(data === "Connection successful!") {
+        fetch(`http://${`69.126.106.22`}:55000/leaderboard`)
+        .then(res => res.json())
+        .then(data => {
+            console.log('Leaderboard:', data);
+            UpdateLeaderboardWithDatabaseInformation(data);
+        });
       document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
 
     }
@@ -32,6 +39,75 @@ fetch('https://3140-projects-repo.vercel.app/api/proxy?initConnect=1')
   })
   .catch(err => console.error("Connection failed:", err));
 
+
+
+
+function UpdateLeaderboardWithDatabaseInformation(data){
+    console.log(data);
+    for (const player of data){
+
+        //create new leaderboard entry and put it there
+        let newEntry = document.createElement("tr");
+        newEntry.classList.add("leaderboard-entry");
+        let number = document.createElement("td");
+        number.innerHTML = player.id
+        number.id = player.id
+
+        newEntry.appendChild(number);
+        let name = document.createElement("td");
+        name.innerHTML = player.username;
+        name.id = "name";
+        newEntry.appendChild(name);
+
+        //CREATING ONLY DEFAULT CASE, WHEN THE USER CLICKS ON THE BUTTON, IT WILL ONLY FETCH THE SPECIFIC STATS AND UPDATE THEM 
+        //ALL IN ANOTHER FUNCTION LATER.
+    
+            for(const game of player.sprint){
+                if(game.Type === "40L/10L"){
+                    console.log(game)
+                    if((game.min !== undefined && game.min !== 0 ) ){
+                        let TopTime = document.createElement("td");
+                        TopTime.innerHTML = `${game.min}`
+                        TopTime.id = `TopTime`;
+                        newEntry.appendChild(TopTime);
+                    }
+                    if((game.max !== undefined && game.max !== 0)){
+                        let WorstTime = document.createElement("td");
+                        WorstTime.innerHTML = `${game.max}`
+                        WorstTime.id = `WorstTime`;
+                        newEntry.appendChild(WorstTime);
+                    }
+
+                    
+                    if((game.days !== undefined && game.days !== 0)){
+                        let DaysPlayed = document.createElement("td");   
+                        DaysPlayed.innerHTML = `${game.days}`
+                        DaysPlayed.id = `DaysPlayed`;
+                        newEntry.appendChild(DaysPlayed);       
+                    }
+
+                    
+                    if((game.games !== undefined && game.games !== 0)){  
+                        let GamesPlayed = document.createElement("td");   
+                        GamesPlayed.innerHTML = `${game.games}`
+                        GamesPlayed.id = `GamesPlayed`;
+                        newEntry.appendChild(GamesPlayed);
+                    }
+
+                    
+                    if((game.avg !== undefined && game.avg !== 0)){
+                        let AverageTime = document.createElement("td");
+                        AverageTime.innerHTML = `${game.avg}`
+                        AverageTime.id = `AvgTime`;
+                        newEntry.appendChild(AverageTime);  
+                    }
+                }
+            }
+            
+        document.getElementById("daBody").appendChild(newEntry);
+    }
+        
+}
 document.getElementById('username').addEventListener('input', function() {
         if (this.value.trim() === '') {
                     let wheretoOut = document.querySelector(`.resultPara.sprint1`);
@@ -44,8 +120,7 @@ document.getElementById('username').addEventListener('input', function() {
                     RemoveComparison();
             // Perform actions when the input becomes empty
         } else {
-            console.log('Input box contains text.');
-            // Perform actions when the input has content
+
         }
     });
 
@@ -61,8 +136,7 @@ document.getElementById('username1').addEventListener('input', function() {
                     RemoveComparison();
             // Perform actions when the input becomes empty
         } else {
-            console.log('Input box contains text.');
-            // Perform actions when the input has content
+
         }
     });
 async function ButtClick(butt){
@@ -175,12 +249,15 @@ async function ButtClick(butt){
                         player1.push(UltraInfo);
                         //player1.push(TwentyInfo);
                         //player1.push(PCMODEInfo);
+                        await PostToLeaderboardDatabase(player1,username)
+
                     }
                     else{
                         player2.push(SprintInfo);
                         player2.push(CheeseInfo);
                         player2.push(SurvivalInfo);
                         player2.push(UltraInfo);
+                        await PostToLeaderboardDatabase(player2,username)
                         //player2.push(TwentyInfo);
                         //player2.push(PCMODEInfo);
                     }
@@ -188,6 +265,8 @@ async function ButtClick(butt){
                     if(comparison){
                         // Only run comparison if both player1 and player2 have 4 game arrays (Sprint, Cheese, Survival, Ultra)
                         if (player1.length >= 4 && player2.length >= 4) {
+                            console.log(player1);
+                            console.log(player2);
                             let allResults = document.querySelectorAll(`.datadump.result`);
                             for(const result of allResults){
                                 if(!result.classList.contains("hiddenToggleOn")){   
@@ -208,7 +287,27 @@ async function ButtClick(butt){
                     alert("You Wrote the Wrong Input?!");
                 }
 }
+async function PostToLeaderboardDatabase(player,username){
+    console.log(player);
+    
+    fetch('http://localhost:3000/leaderboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: username,
+            sprint: player[0],
+            cheese: player[1],
+            survival: player[2],
+            ultra: player[3]
+        })
+        })
+        .then(res => res.json())
+        .then(data => {
+        console.log('POST success:', data);
+})
+.catch(err => console.error('Error posting leaderboard:', err));
 
+}
 function ClearBothPlayersInfo(){
     document.querySelectorAll(".para").forEach(para => {
         para.innerHTML = "";
@@ -472,6 +571,7 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
                         document.querySelector(`.buttonGroupContainer.${type}${whereToOutput}`).querySelectorAll(`#\\34 0L\\/10L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
                         document.querySelector(`.buttonGroupContainer.${type}${wheretoNotOutput}`).querySelectorAll(`#\\34 0L\\/10L`).forEach(butt => butt.classList.add("buttonActivatedToggleOn"));
+                        
                         if (player1.length > 0 && player2.length > 0){
                             //find the object with the game and the object with the type
                             for (const game of player1){
@@ -844,15 +944,9 @@ async function ObtainGameInformation(username, game){
 
 let HowManyTimesClicked = 0;
 let LastModeClicked = null;
-
 document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
 
 function LeaderBoardTableEntrySort(butt){
-
-    document.querySelectorAll("th").forEach(butt => butt.style.textDecoration = "none");
-    document.querySelectorAll("#DSC").forEach(DSC => DSC.remove());
-    document.querySelectorAll("#ASC").forEach(ASC => ASC.remove());
-
    // console.log("CLICKED: "+butt.id);
     butt.style.textDecoration = "underline dotted";
     if (LastModeClicked === null || LastModeClicked !== butt.id) {
@@ -891,7 +985,7 @@ function LeaderBoardTableEntrySort(butt){
 }
 
 function ActuallySort(Name, type) {
-    //console.log(Name);
+    console.log(Name);
     // Get the full rows/containers for each entry
     let rows = Array.from(document.querySelectorAll(".leaderboard-entry"));
 
@@ -923,8 +1017,6 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
-
-
 
 
 
