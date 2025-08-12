@@ -1,0 +1,20 @@
+{
+  "name": "tetrishelper",
+  "version": "0.6.6",
+  "description": "A Web App that compares two Jstris users together.",
+  "main": "main/api/backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yevgeniy Daniel Arsen",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
+  }
+}
