@@ -15,7 +15,7 @@ let lastLeaderboardNum = 0;
 
 console.log("Connecting to the server...");
 //CONNECTING TO THE SERVER
-fetch(`http://${`69.126.106.22`}:55000/connect`)
+fetch(`https://${`69.126.106.22`}:55000/connect`)
     .then(response => {
     console.log('Status code:', response.status); // e.g., 200
 
@@ -24,7 +24,7 @@ fetch(`http://${`69.126.106.22`}:55000/connect`)
     .then(data => {
     console.log(data); 
     if(data === "Connection successful!") {
-        fetch(`http://${`69.126.106.22`}:55000/leaderboard`)
+        fetch(`https://${`69.126.106.22`}:55000/leaderboard`)
         .then(res => res.json())
         .then(data => {
             console.log('Leaderboard:', data);
@@ -1017,6 +1017,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
