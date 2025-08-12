@@ -3,8 +3,6 @@ let SprintInfo = [];
 let CheeseInfo = [];
 let SurvivalInfo = [];
 let UltraInfo = [];
-let TwentyInfo = [];
-let PCMODEInfo = [];
 
 let player1 = [];
 let player2 = [];
@@ -13,7 +11,7 @@ let EnterKeyCliked = false;
 let comparison = false;
 let lastLeaderboardNum = 0;
 
-console.log("Connecting to the server...");
+console.log("Trying to connect to the server....");
 //CONNECTING TO THE SERVER
 fetch(`https://${`69.126.106.22`}:55000/connect`)
     .then(response => {
@@ -1017,6 +1015,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
