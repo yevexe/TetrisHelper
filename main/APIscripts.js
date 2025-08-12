@@ -13,7 +13,7 @@ let lastLeaderboardNum = 0;
 
 console.log("Trying to connect to the server....");
 //CONNECTING TO THE SERVER
-fetch(`https://${`69.126.106.22`}:55000/connect`)
+fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
     .then(response => {
     console.log('Status code:', response.status); // e.g., 200
 
@@ -22,13 +22,12 @@ fetch(`https://${`69.126.106.22`}:55000/connect`)
     .then(data => {
     console.log(data); 
     if(data === "Connection successful!") {
-        fetch(`https://${`69.126.106.22`}:55000/leaderboard`)
+        fetch(`https://https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard`)
         .then(res => res.json())
         .then(data => {
             console.log('Leaderboard:', data);
             UpdateLeaderboardWithDatabaseInformation(data);
         });
-      document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
 
     }
     else{
@@ -37,6 +36,7 @@ fetch(`https://${`69.126.106.22`}:55000/connect`)
   })
   .catch(err => console.error("Connection failed:", err));
 
+      document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
 
 
 
