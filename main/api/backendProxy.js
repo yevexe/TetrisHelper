@@ -1,12 +1,10 @@
-import fetch from 'node-fetch';
-
 export default async function handler(req, res) {
-  // Enable CORS for your frontend domain or use ''
-  res.setHeader('Access-Control-Allow-Origin', '');
+  const { default: fetch } = await import('node-fetch'); // dynamic import
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle CORS preflight request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -21,14 +19,10 @@ export default async function handler(req, res) {
       body: req.method === 'GET' ? null : req.body,
     });
 
-    // Pass status, headers, and body from backend response to client
     res.status(backendResponse.status);
 
-    // Pass content-type header if present
     const contentType = backendResponse.headers.get('content-type');
-    if (contentType) {
-      res.setHeader('Content-Type', contentType);
-    }
+    if (contentType) res.setHeader('Content-Type', contentType);
 
     const data = await backendResponse.text();
     res.send(data);
