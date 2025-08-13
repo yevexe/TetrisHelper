@@ -22,7 +22,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
     .then(data => {
     console.log(data); 
     if(data === "Connection successful!") {
-        fetch(`https://https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard`)
+        fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard`)
         .then(res => res.json())
         .then(data => {
             console.log('Leaderboard:', data);
@@ -1026,6 +1026,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
