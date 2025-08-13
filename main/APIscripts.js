@@ -11,13 +11,14 @@ let EnterKeyCliked = false;
 let comparison = false;
 let lastLeaderboardNum = 0;
 
-console.log("Trying to connect to the server....");
+console.log("Connecting to main server.....");
+
 //CONNECTING TO THE SERVER
 fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
     .then(response => {
-    console.log('Status code:', response.status); // e.g., 200
+    console.log('Status code:', response.status); 
 
-    return response.text(); // read response as plain text
+    return response.text(); 
   })
     .then(data => {
     console.log(data); 
@@ -31,19 +32,20 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
 
     }
     else{
-        alert("Connection to the server failed. Please try again later.");
+        if (confirm("Connection to the server failed. Please try again later. \n\nWould you like to refresh the page?\n\n (If you choose not you, you will not have leaderboard functionality)")){
+            window.location.reload();
+        }
     }
   })
   .catch(err => console.error("Connection failed:", err));
 
-      document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
-
-
+  //regardless of if the user can connect to the server or not, they should still be able to use the website
+  document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
 
 function UpdateLeaderboardWithDatabaseInformation(data){
-    console.log(data);
     for (const player of data){
         lastLeaderboardNum++;
+
         //create new leaderboard entry and put it there
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
@@ -116,9 +118,6 @@ document.getElementById('username').addEventListener('input', function() {
                     wheretoOut.querySelector(`#GamesPlayed1`).innerHTML =` ` 
                     wheretoOut.querySelector(`#AverageTime1`).innerHTML = ` `
                     RemoveComparison();
-            // Perform actions when the input becomes empty
-        } else {
-
         }
     });
 
@@ -132,11 +131,8 @@ document.getElementById('username1').addEventListener('input', function() {
                     wheretoOut.querySelector(`#GamesPlayed2`).innerHTML =` ` 
                     wheretoOut.querySelector(`#AverageTime2`).innerHTML = ` `
                     RemoveComparison();
-            // Perform actions when the input becomes empty
-        } else {
-
         }
-    });
+});
 async function ButtClick(butt){
                 /*
                 DANIEL YURSKIY 07/29/25
@@ -282,8 +278,222 @@ async function ButtClick(butt){
                     }
                 }
                 else{
-                    alert("You Wrote the Wrong Input?!");
+                    alert("You Wrote the Wrong Input!");
                 }
+}
+
+//functions for using the buttons on the leaderboard
+document.querySelectorAll(".ld-GameModeName").forEach(butt => butt.onclick = () => GameModeClick(butt))
+
+function GameModeClick(butt){
+    let numberr = 0;
+    let allUserNamesFromLeaderboard = document.querySelectorAll("#name");
+    document.querySelectorAll(".ld-GameModeName").forEach(btn => btn.classList.remove("activeTableGMToggleOn"));
+    butt.classList.add("activeTableGMToggleOn");
+    document.getElementById("daBody").innerHTML = "";
+    
+    if(butt.innerHTML.toLowerCase() === "survival" || butt.innerHTML.toLowerCase() === "ultra"){
+        let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
+        for(const button of buttons.querySelectorAll("button")) {
+            console.log(button.id);
+            if(button.id === "20L/18L" || button.id === "100L" || button.id === "1000L"){
+                console.log(button);
+                button.style.opacity = "0";
+            }
+            else{
+                button.innerHTML = butt.innerHTML.toUpperCase();
+            }
+        }
+    }
+    else{
+        
+        let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
+        for(const button of buttons.querySelectorAll("button")) {
+            button.innerHTML = button.id;
+            console.log(butt.innerHTML.toLowerCase());
+            if(butt.innerHTML.toLowerCase() === "cheese"){
+                if(button.id !== "1000L"){
+                    switch(button.id){
+                        case "40L/10L":
+                            button.innerHTML = "10L"
+                            break;
+                        case "20L/18L":
+                            button.innerHTML = "18L"
+                            break;
+                    }
+                    button.style.opacity = "1";
+                    
+                }
+                else{
+
+                    button.style.opacity = "0";
+
+                }
+            }
+            else{
+                switch(button.id){
+                        case "40L/10L":
+                            button.innerHTML = "40L"
+                            break;
+                        case "20L/18L":
+                            button.innerHTML = "20L"
+                            break;
+                    }
+                button.style.opacity = "1";
+            }
+
+        }
+    }
+    for (const username of allUserNamesFromLeaderboard){
+
+        if(username.innerHTML !== "Name"){
+            
+            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML}/`)
+            .then(res => res.json())
+            .then(data => {
+                numberr++;
+                //create new leaderboard entry and put it there
+                let newEntry = document.createElement("tr");
+                newEntry.classList.add("leaderboard-entry");
+                let number = document.createElement("td");
+                number.innerHTML = numberr
+                number.id = numberr
+
+                newEntry.appendChild(number);
+                let name = document.createElement("td");
+                name.innerHTML = data.username;
+                name.id = "name";
+                newEntry.appendChild(name);
+    
+                for(const game of data[`${butt.innerHTML.toLowerCase()}`]){
+
+                    if(game.Type === "40L/10L" || game.GameMode === "survival" || game.GameMode === "ultra"){
+                        if((game.min !== undefined && game.min !== 0 ) ){
+                            let TopTime = document.createElement("td");
+                            TopTime.innerHTML = `${game.min}`
+                            TopTime.id = `TopTime`;
+                            newEntry.appendChild(TopTime);
+                        }
+                        if((game.max !== undefined && game.max !== 0)){
+                            let WorstTime = document.createElement("td");
+                            WorstTime.innerHTML = `${game.max}`
+                            WorstTime.id = `WorstTime`;
+                            newEntry.appendChild(WorstTime);
+                        }
+
+                        
+                        if((game.days !== undefined && game.days !== 0)){
+                            let DaysPlayed = document.createElement("td");   
+                            DaysPlayed.innerHTML = `${game.days}`
+                            DaysPlayed.id = `DaysPlayed`;
+                            newEntry.appendChild(DaysPlayed);       
+                        }
+
+                        
+                        if((game.games !== undefined && game.games !== 0)){  
+                            let GamesPlayed = document.createElement("td");   
+                            GamesPlayed.innerHTML = `${game.games}`
+                            GamesPlayed.id = `GamesPlayed`;
+                            newEntry.appendChild(GamesPlayed);
+                        }
+
+                        
+                        if((game.avg !== undefined && game.avg !== 0)){
+                            let AverageTime = document.createElement("td");
+                            AverageTime.innerHTML = `${game.avg}`
+                            AverageTime.id = `AvgTime`;
+                            newEntry.appendChild(AverageTime);  
+                        }
+                    }
+                }
+                
+            document.getElementById("daBody").appendChild(newEntry);
+            });
+        }
+    }
+}
+let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
+        for(const button of buttons.querySelectorAll("button")) {
+            button.onclick = () => GameTypeClick(button, buttons.querySelectorAll("button"))
+        }
+
+function GameTypeClick(butt, butts){
+    let numberr = 0;
+    butts.forEach(fart => fart.classList.remove("buttonActivatedToggleOn"));
+    let allUserNamesFromLeaderboard = document.querySelectorAll("#name");
+    butt.classList.add("buttonActivatedToggleOn");
+    document.getElementById("daBody").innerHTML = "";
+    
+    for (const username of allUserNamesFromLeaderboard){
+        if(username.innerHTML !== "Name"){
+            console.log(username.innerHTML);
+            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML}/`)
+            .then(res => res.json())
+            .then(data => {
+                numberr++;
+                //create new leaderboard entry and put it there
+                let newEntry = document.createElement("tr");
+                newEntry.classList.add("leaderboard-entry");
+                let number = document.createElement("td");
+                number.innerHTML = numberr
+                number.id = numberr
+
+                newEntry.appendChild(number);
+                let name = document.createElement("td");
+                name.innerHTML = data.username;
+                name.id = "name";
+                newEntry.appendChild(name);
+    
+                //find which game is clicked
+                let mode;
+                document.querySelectorAll(".ld-GameModeName").forEach(thing => (thing.classList.contains("activeTableGMToggleOn")) ? mode = thing.innerHTML : null);
+          
+                for(const game of data[`${mode.toLowerCase()}`]){
+
+                    if(game.Type === butt.id || game.GameMode === "survival" || game.GameMode === "ultra"){
+                        if((game.min !== undefined && game.min !== 0 ) ){
+                            let TopTime = document.createElement("td");
+                            TopTime.innerHTML = `${game.min}`
+                            TopTime.id = `TopTime`;
+                            newEntry.appendChild(TopTime);
+                        }
+                        if((game.max !== undefined && game.max !== 0)){
+                            let WorstTime = document.createElement("td");
+                            WorstTime.innerHTML = `${game.max}`
+                            WorstTime.id = `WorstTime`;
+                            newEntry.appendChild(WorstTime);
+                        }
+
+                        
+                        if((game.days !== undefined && game.days !== 0)){
+                            let DaysPlayed = document.createElement("td");   
+                            DaysPlayed.innerHTML = `${game.days}`
+                            DaysPlayed.id = `DaysPlayed`;
+                            newEntry.appendChild(DaysPlayed);       
+                        }
+
+                        
+                        if((game.games !== undefined && game.games !== 0)){  
+                            let GamesPlayed = document.createElement("td");   
+                            GamesPlayed.innerHTML = `${game.games}`
+                            GamesPlayed.id = `GamesPlayed`;
+                            newEntry.appendChild(GamesPlayed);
+                        }
+
+                        
+                        if((game.avg !== undefined && game.avg !== 0)){
+                            let AverageTime = document.createElement("td");
+                            AverageTime.innerHTML = `${game.avg}`
+                            AverageTime.id = `AvgTime`;
+                            newEntry.appendChild(AverageTime);  
+                        }
+                    }
+                }
+                
+            document.getElementById("daBody").appendChild(newEntry);
+            });
+        }
+    }
 }
 async function PostToLeaderboardDatabase(player,username){
     console.log(player);
@@ -298,12 +508,20 @@ async function PostToLeaderboardDatabase(player,username){
             survival: player[2],
             ultra: player[3]
         })
-        })
-        .then(res => res.json())
-        .then(data => {
-        console.log('POST success:', data);
-})
-.catch(err => console.error('Error posting leaderboard:', err));
+    })
+    .then(async res => {
+        const text = await res.text(); // get raw response
+        console.log('Raw response:', text);
+        try {
+            const data = JSON.parse(text);
+            console.log('POST success:', data);
+        } 
+        catch (err) {
+            console.error('Response was not JSON:', err);
+        }
+    })
+    .catch(err => console.error('Error posting leaderboard:', err));
+
 
 }
 function ClearBothPlayersInfo(){
@@ -942,10 +1160,17 @@ async function ObtainGameInformation(username, game){
 
 let HowManyTimesClicked = 0;
 let LastModeClicked = null;
-document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
 
+document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
 function LeaderBoardTableEntrySort(butt){
-   // console.log("CLICKED: "+butt.id);
+
+    for (const ASC of document.querySelectorAll("#ASC")){
+        ASC.remove();
+    }
+    for (const DSC of document.querySelectorAll("#DSC")){
+        DSC.remove();
+    }
+
    for (const butt of document.querySelectorAll("th")){
     butt.style.textDecoration = "none";
    }
@@ -961,9 +1186,6 @@ function LeaderBoardTableEntrySort(butt){
         let ASC = document.createElement("div");
         ASC.id = "ASC";
         ASC.innerHTML = "ASC.";
-        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
-        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
-
         butt.appendChild(ASC);
 
         ActuallySort(butt.id,"ASC");
@@ -972,32 +1194,24 @@ function LeaderBoardTableEntrySort(butt){
         let DSC = document.createElement("div");
         DSC.innerHTML = "DESC.";
         DSC.id = "DSC";
-        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
-        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
         butt.appendChild(DSC);
 
         ActuallySort(butt.id,"DESC");
     }
     else{
-        HowManyTimesClicked = 0; // Reset after the third click
-        LastModeClicked = null; // Reset the last clicked mode
+        HowManyTimesClicked = 0; 
+        LastModeClicked = null; 
         butt.style.textDecoration = "";
-        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
-        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
+
         ActuallySort(butt.id,"DEF");
     }
 }
 
 function ActuallySort(Name, type) {
-    console.log(Name);
+
     // Get the full rows/containers for each entry
     let rows = Array.from(document.querySelectorAll(".leaderboard-entry"));
-    for (const ASC of document.querySelectorAll("#ASC")){
-        ASC.remove();
-    }
-    for (const DSC of document.querySelectorAll("#DSC")){
-        DSC.remove();
-    }
+
     switch (type) {
         case "ASC":
             rows.sort((a, b) => {
@@ -1026,8 +1240,6 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
-
-
 
 
 
