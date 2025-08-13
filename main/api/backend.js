@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Leaderboard, sequelize } = require('./leaderboardModel.js'); // your Sequelize schema
+const { Op } = require('sequelize');
 let PORT = 8080;
 const app = express();
 app.use(cors());
@@ -21,6 +22,57 @@ app.get('/', (req, res) => res.send('Server is running!'));
 app.get('/leaderboard', async (req, res) => {
   const rows = await Leaderboard.findAll();
   res.json(rows);
+});
+
+// GET leaderboard entry by username
+app.get('/leaderboard/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const entry = await Leaderboard.findOne({
+      where: { username }
+    });
+
+    if (!entry) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(entry);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
+
+// GET leaderboard entry by username and game
+app.get('/leaderboard/:username/:game', async (req, res) => {
+  try {
+    const { username, game } = req.params;
+
+    if (!username || !game) {
+      return res.status(400).json({ error: 'Username and game are required' });
+    }
+
+    const entry = await Leaderboard.findOne({
+
+      attributes: [game], 
+
+      where: {
+          username,
+          [game]: { [Op.not]: null }
+      }
+    });
+  
+    if (!entry) {
+      return res.status(404).json({ error: 'No entry found for that username and game' });
+    }
+
+    res.json(entry);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Database query failed' });
+  }
 });
 
 // POST a new leaderboard entry
