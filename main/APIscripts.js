@@ -223,12 +223,14 @@ async function ButtClick(butt){
                     type = "surv"
                     SurvivalInfo.push(type);
                     AddInfoToFrontend(SurvivalInfo, whereToOutput,type);
-                    //document.getElementById("Surv").classList.remove("hiddenToggleOn");
+                    //document.getElementById("surv"+whereToOutput).classList.remove("hiddenToggleOn");
 
                     UltraInfo = await ObtainGameInformation(username, 5);
                     type = "ultra"
                     UltraInfo.push(type);
                     AddInfoToFrontend(UltraInfo, whereToOutput,type);
+                    //document.getElementById("ultra"+whereToOutput).classList.remove("hiddenToggleOn");
+
 
                     //TwentyInfo = await ObtainGameInformation(username, 7);
                     //AddInfoToFrontend(TwentyInfo, whereToOutput,type);
