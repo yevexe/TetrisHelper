@@ -43,7 +43,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
 function UpdateLeaderboardWithDatabaseInformation(data){
     console.log(data);
     for (const player of data){
-
+        lastLeaderboardNum++;
         //create new leaderboard entry and put it there
         let newEntry = document.createElement("tr");
         newEntry.classList.add("leaderboard-entry");
@@ -1026,6 +1026,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
