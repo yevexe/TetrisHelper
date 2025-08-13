@@ -946,6 +946,9 @@ document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.oncli
 
 function LeaderBoardTableEntrySort(butt){
    // console.log("CLICKED: "+butt.id);
+   for (const butt of document.querySelectorAll("th")){
+    butt.style.textDecoration = "none";
+   }
     butt.style.textDecoration = "underline dotted";
     if (LastModeClicked === null || LastModeClicked !== butt.id) {
         // Reset the click count if a different button is clicked
@@ -959,6 +962,8 @@ function LeaderBoardTableEntrySort(butt){
         ASC.id = "ASC";
         ASC.innerHTML = "ASC.";
         (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
+        (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
+
         butt.appendChild(ASC);
 
         ActuallySort(butt.id,"ASC");
@@ -968,6 +973,7 @@ function LeaderBoardTableEntrySort(butt){
         DSC.innerHTML = "DESC.";
         DSC.id = "DSC";
         (document.getElementById("ASC") !== null) ? document.getElementById("ASC").remove() : "";
+        (document.getElementById("DSC") !== null) ? document.getElementById("DSC").remove() : "";
         butt.appendChild(DSC);
 
         ActuallySort(butt.id,"DESC");
@@ -986,7 +992,12 @@ function ActuallySort(Name, type) {
     console.log(Name);
     // Get the full rows/containers for each entry
     let rows = Array.from(document.querySelectorAll(".leaderboard-entry"));
-
+    for (const ASC of document.querySelectorAll("#ASC")){
+        ASC.remove();
+    }
+    for (const DSC of document.querySelectorAll("#DSC")){
+        DSC.remove();
+    }
     switch (type) {
         case "ASC":
             rows.sort((a, b) => {
