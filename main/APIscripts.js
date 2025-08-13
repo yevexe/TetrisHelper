@@ -288,7 +288,7 @@ async function ButtClick(butt){
 async function PostToLeaderboardDatabase(player,username){
     console.log(player);
     
-    fetch('http://localhost:3000/leaderboard', {
+    fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1026,6 +1026,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = ""; 
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
