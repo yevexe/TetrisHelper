@@ -67,7 +67,7 @@ body {
 }
 
 h1{
-    font-size: 4rem;
+    font-size: 1rem; /* old was 4rem*/
     font-weight: bold;
     text-align: center;
 }
@@ -278,21 +278,21 @@ footer{
 
 /* SCORE GREEN COLORING: 3 SHADES */
 .scoreGreenLow{
-    border: 1.125px solid #befa30; /* Light Green */
+    border: 1.125px solid #628556; /* Light Green */
     font-weight: bold;
     border-radius: 4px;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
 }
 .scoreGreenMedium{
-    border: 1.125px solid #84DD63; /* Medium Green */
+    border: 1.125px solid #297236; /* Medium Green */
     font-weight: bold;
     border-radius: 4px;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
 }
 .scoreGreenHigh{
-    border: 1.125px solid #054A29; /* Dark Green */
+    border: 1.125px solid #03f764; /* Dark Green */
     font-weight: bold;
     border-radius: 4px;
     padding-left: 0.25rem;
@@ -405,3 +405,9 @@ footer{
 
 
 
+/* HEADER: IMAGE CONTROL */
+h1 img {
+    height: 80px;
+    width: auto; /* keep aspect ratio */
+  }
+  
