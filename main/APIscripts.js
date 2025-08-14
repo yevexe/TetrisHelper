@@ -10,7 +10,7 @@ let player2 = [];
 let EnterKeyCliked = false;
 let comparison = false;
 let lastLeaderboardNum = 0;
-
+let numberCounter = 0;
 console.log("Connecting to main server.....");
 
 //CONNECTING TO THE SERVER
@@ -42,16 +42,21 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
   //regardless of if the user can connect to the server or not, they should still be able to use the website
   document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = (event) => (event.preventDefault(), ButtClick(butt)));
 
+  async function DeleteEntry(entry, username){
+    fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/destroy/${username.toLowerCase()}/`)
+            .then(res => console.log("Result Status: "+res));
+  }
 function UpdateLeaderboardWithDatabaseInformation(data){
     for (const player of data){
         lastLeaderboardNum++;
-
+        numberCounter++;
         //create new leaderboard entry and put it there
         let newEntry = document.createElement("tr");
+
         newEntry.classList.add("leaderboard-entry");
         let number = document.createElement("td");
-        number.innerHTML = player.id
-        number.id = player.id
+        number.innerHTML = numberCounter
+        number.id = numberCounter
 
         newEntry.appendChild(number);
         let name = document.createElement("td");
@@ -65,6 +70,14 @@ function UpdateLeaderboardWithDatabaseInformation(data){
             for(const game of player.sprint){
                 if(game.Type === "40L/10L"){
                     name.innerHTML = game.name;
+                    newEntry.addEventListener('dblclick', async function() {
+                        if (confirm("Do you want to delete "+name.innerHTML+" from the leaderboard database?")){
+                            await DeleteEntry(this, name.innerHTML.toLowerCase());
+                            
+                        }
+                        
+
+                    });
                     if((game.min !== undefined && game.min !== 0 ) ){
                         let TopTime = document.createElement("td");
                         TopTime.innerHTML = `${game.min}`
@@ -260,13 +273,13 @@ async function ButtClick(butt){
                     if(comparison){
                         // Only run comparison if both player1 and player2 have 4 game arrays (Sprint, Cheese, Survival, Ultra)
                         if (player1.length >= 4 && player2.length >= 4) {
-                            console.log(player1);
-                            console.log(player2);
+                           // console.log(player1);
+                           // console.log(player2);
                             let allResults = document.querySelectorAll(`.datadump.result`);
                             for(const result of allResults){
                                 if(!result.classList.contains("hiddenToggleOn")){   
                                     type = result.querySelector("h4").textContent.toLowerCase();
-                                    console.log("COMPARNG GAMEMODE: "+type);
+                                   // console.log("COMPARNG GAMEMODE: "+type);
                                 }
                             }
                             //console.log(player1);
@@ -296,9 +309,9 @@ function GameModeClick(butt){
     if(butt.innerHTML.toLowerCase() === "survival" || butt.innerHTML.toLowerCase() === "ultra"){
         let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
         for(const button of buttons.querySelectorAll("button")) {
-            console.log(button.id);
+           
             if(button.id === "20L/18L" || button.id === "100L" || button.id === "1000L"){
-                console.log(button);
+           
                 button.style.opacity = "0";
             }
             else{
@@ -311,7 +324,6 @@ function GameModeClick(butt){
         let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
         for(const button of buttons.querySelectorAll("button")) {
             button.innerHTML = button.id;
-            console.log(butt.innerHTML.toLowerCase());
             if(butt.innerHTML.toLowerCase() === "cheese"){
                 if(button.id !== "1000L"){
                     switch(button.id){
@@ -349,7 +361,7 @@ function GameModeClick(butt){
 
         if(username.innerHTML !== "Name"){
             
-            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML}/`)
+            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
             .then(res => res.json())
             .then(data => {
                 numberr++;
@@ -359,13 +371,20 @@ function GameModeClick(butt){
                 let number = document.createElement("td");
                 number.innerHTML = numberr
                 number.id = numberr
+                newEntry.addEventListener('dblclick', async function() {
+                        if (confirm("Do you want to delete "+username.innerHTML+" from the leaderboard database?")){
+                            await DeleteEntry(this, username.innerHTML.toLowerCase());
+                     
+                        }
+                        
 
+                    });
                 newEntry.appendChild(number);
                 let name = document.createElement("td");
-                name.innerHTML = data.username;
+                name.innerHTML = username.innerHTML;
                 name.id = "name";
                 newEntry.appendChild(name);
-                console.log(data)
+                //console.log(data)
                 for(const game of data[`${butt.innerHTML.toLowerCase()}`]){
 
                     if(game.Type === "40L/10L" || game.GameMode === "survival" || game.GameMode === "ultra"){
@@ -427,8 +446,8 @@ function GameTypeClick(butt, butts){
     
     for (const username of allUserNamesFromLeaderboard){
         if(username.innerHTML !== "Name"){
-            console.log(username.innerHTML);
-            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML}/`)
+           // console.log(username.innerHTML);
+            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
             .then(res => res.json())
             .then(data => {
                 numberr++;
@@ -441,17 +460,30 @@ function GameTypeClick(butt, butts){
 
                 newEntry.appendChild(number);
                 let name = document.createElement("td");
-                name.innerHTML = data.username;
+                name.innerHTML = username.innerHTML;
+                newEntry.addEventListener('dblclick', async function() {
+                        if (confirm("Do you want to delete "+username.innerHTML+" from the leaderboard database?")){
+                            await DeleteEntry(this, username.innerHTML.toLowerCase());
+                            
+                        }
+                        
+
+                    });
                 name.id = "name";
                 newEntry.appendChild(name);
     
                 //find which game is clicked
                 let mode;
-                document.querySelectorAll(".ld-GameModeName").forEach(thing => (thing.classList.contains("activeTableGMToggleOn")) ? mode = thing.innerHTML : null);
-          
+                for (const modes of document.querySelectorAll(".ld-GameModeName")){
+                    if (modes.classList.contains("activeTableGMToggleOn")){
+                        mode = modes.textContent;
+                    }
+                }
+           
+                //console.log(butt.id);
                 for(const game of data[`${mode.toLowerCase()}`]){
-
-                    if(game.Type === butt.id || game.GameMode === "survival" || game.GameMode === "ultra"){
+                    if(typeof game !== "string"){
+                        if(game.Type === butt.id || game.GameMode.toLowerCase() === "survival" || game.GameMode.toLowerCase() === "ultra"){
                         if((game.min !== undefined && game.min !== 0 ) ){
                             let TopTime = document.createElement("td");
                             TopTime.innerHTML = `${game.min}`
@@ -489,6 +521,8 @@ function GameTypeClick(butt, butts){
                             newEntry.appendChild(AverageTime);  
                         }
                     }
+                    }
+                    
                 }
                 
             document.getElementById("daBody").appendChild(newEntry);
@@ -502,7 +536,7 @@ async function PostToLeaderboardDatabase(player,username){
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            username: username,
+            username: username.toLowerCase(),
             sprint: player[0],
             cheese: player[1],
             survival: player[2],
@@ -587,7 +621,7 @@ function Comparison(player1, player2, GameMode){
         }
     });
 
-    console.log("TYPE: "+type);
+ //   console.log("TYPE: "+type);
 
     //Search through each comparisonPlayer to find the specific type we are looking for
     for(const game of comparisonPlayer1){
@@ -988,6 +1022,14 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         number.id = "num";
 
         newEntry.appendChild(number);
+        newEntry.addEventListener('dblclick', async function() {
+                        if (confirm("Do you want to delete "+game.name+" from the leaderboard database?")){
+                            await DeleteEntry(this, game.name.toLowerCase());
+                            
+                        }
+                        
+
+                    });
         let name = document.createElement("td");
         name.innerHTML = game.name;
         name.id = "name";
@@ -1214,38 +1256,31 @@ function LeaderBoardTableEntrySort(butt){
 }
 
 function ActuallySort(Name, type) {
-
-    // Get the full rows/containers for each entry
     let rows = Array.from(document.querySelectorAll(".leaderboard-entry"));
 
     switch (type) {
         case "ASC":
             rows.sort((a, b) => {
-                let textA = a.querySelector("#" + Name).innerHTML.trim();
-                let textB = b.querySelector("#" + Name).innerHTML.trim();
+                let textA = a.querySelector("#" + Name)?.innerHTML.trim() || "";
+                let textB = b.querySelector("#" + Name)?.innerHTML.trim() || "";
                 return textA.localeCompare(textB, undefined, { numeric: true });
             });
             break;
 
         case "DESC":
             rows.sort((a, b) => {
-                let textA = a.querySelector("#" + Name).innerHTML.trim();
-                let textB = b.querySelector("#" + Name).innerHTML.trim();
+                let textA = a.querySelector("#" + Name)?.innerHTML.trim() || "";
+                let textB = b.querySelector("#" + Name)?.innerHTML.trim() || "";
                 return textB.localeCompare(textA, undefined, { numeric: true });
             });
             break;
-
-        default:
-            // No sorting
-            break;
     }
 
-    // Reattach sorted rows to the tbody
-  
     let parent = document.getElementById("daBody");
-    parent.innerHTML = ""; 
+    parent.innerHTML = "";
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
