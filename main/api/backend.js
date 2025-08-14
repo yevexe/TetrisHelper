@@ -43,7 +43,16 @@ app.get('/leaderboard/:username', async (req, res) => {
     res.status(500).json({ error: 'Database query failed' });
   }
 });
-
+app.get('/leaderboard/destroy/:username', async (req,res) =>{
+  try {
+    const username = req.params.username;
+    const deletedCount = await Leaderboard.destroy({
+    where: { username }
+  });
+  }catch (error) {
+      console.error('Error removing user:', error);
+  }
+})
 // GET leaderboard entry by username and game
 app.get('/leaderboard/:username/:game', async (req, res) => {
   try {
