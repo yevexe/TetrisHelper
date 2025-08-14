@@ -32,7 +32,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
 
     }
     else{
-        if (confirm("Connection to the server failed. Please try again later. \n\nWould you like to refresh the page?\n\n (If you choose not you, you will not have leaderboard functionality)")){
+        if (confirm("Connection to the server failed. Please try again later. \n\nWould you like to refresh the page?\n\n (If you choose not you, you will lose leaderboard functionality)")){
             window.location.reload();
         }
     }
@@ -40,7 +40,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
   .catch(err => console.error("Connection failed:", err));
 
   //regardless of if the user can connect to the server or not, they should still be able to use the website
-  document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = () => ButtClick(butt));
+  document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = (event) => (event.preventDefault(), ButtClick(butt)));
 
 function UpdateLeaderboardWithDatabaseInformation(data){
     for (const player of data){
@@ -55,7 +55,7 @@ function UpdateLeaderboardWithDatabaseInformation(data){
 
         newEntry.appendChild(number);
         let name = document.createElement("td");
-        name.innerHTML = player.username;
+        
         name.id = "name";
         newEntry.appendChild(name);
 
@@ -64,7 +64,7 @@ function UpdateLeaderboardWithDatabaseInformation(data){
     
             for(const game of player.sprint){
                 if(game.Type === "40L/10L"){
-                    console.log(game)
+                    name.innerHTML = game.name;
                     if((game.min !== undefined && game.min !== 0 ) ){
                         let TopTime = document.createElement("td");
                         TopTime.innerHTML = `${game.min}`
@@ -202,7 +202,7 @@ async function ButtClick(butt){
 
                 console.log(username);
 
-                //Only run the code if the username is a valid input
+                //Only run the code if the username is a valid input and if there actually was any info
                 if(username !== undefined && !(username === "")){
                    let type;
                   
@@ -211,7 +211,7 @@ async function ButtClick(butt){
                     type = "sprint";
                     SprintInfo.push(type);
                     AddInfoToFrontend(SprintInfo, whereToOutput,type);
-                    document.getElementById("sprint"+whereToOutput).classList.remove("hiddenToggleOn");
+                    (!(SprintInfo[0].error))?document.getElementById("sprint"+whereToOutput).classList.remove("hiddenToggleOn") :alert("Your input returned nothing! \n\nThis search should NOT be case sensitive, but maybe try retyping it with Case in mind!");
 
                     CheeseInfo = await ObtainGameInformation(username, 3);
                     type = "cheese"
@@ -237,8 +237,7 @@ async function ButtClick(butt){
 
                     //PCMODEInfo = await ObtainGameInformation(username, 8);
                     //AddInfoToFrontend(PCMODEInfo, whereToOutput,type);
-
-                    if(whereToOutput === 1){
+                    if(whereToOutput === 1 && (!(SprintInfo[0].error))){
                         player1.push(SprintInfo);
                         player1.push(CheeseInfo);
                         player1.push(SurvivalInfo);
@@ -248,7 +247,7 @@ async function ButtClick(butt){
                         await PostToLeaderboardDatabase(player1,username)
 
                     }
-                    else{
+                    else if ((!(SprintInfo[0].error))){
                         player2.push(SprintInfo);
                         player2.push(CheeseInfo);
                         player2.push(SurvivalInfo);
@@ -280,7 +279,7 @@ async function ButtClick(butt){
                     }
                 }
                 else{
-                    alert("You Wrote the Wrong Input!");
+                    alert("You Wrote nothing in the Input!");
                 }
 }
 
@@ -366,7 +365,7 @@ function GameModeClick(butt){
                 name.innerHTML = data.username;
                 name.id = "name";
                 newEntry.appendChild(name);
-    
+                console.log(data)
                 for(const game of data[`${butt.innerHTML.toLowerCase()}`]){
 
                     if(game.Type === "40L/10L" || game.GameMode === "survival" || game.GameMode === "ultra"){
@@ -498,9 +497,8 @@ function GameTypeClick(butt, butts){
     }
 }
 async function PostToLeaderboardDatabase(player,username){
-    console.log(player);
-    
-    fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
+    if(!(player[0][0].error)){
+        fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -510,7 +508,7 @@ async function PostToLeaderboardDatabase(player,username){
             survival: player[2],
             ultra: player[3]
         })
-    })
+    })/*
     .then(async res => {
         const text = await res.text(); // get raw response
         console.log('Raw response:', text);
@@ -522,7 +520,10 @@ async function PostToLeaderboardDatabase(player,username){
             console.error('Response was not JSON:', err);
         }
     })
+        */
     .catch(err => console.error('Error posting leaderboard:', err));
+    }
+    
 
 
 }
@@ -712,7 +713,8 @@ function RemoveComparison(){
 
 function AddInfoToFrontend(dataArray, whereToOutput,type){
 
-    let amountThatIs0 = 0;
+    if(!(dataArray[0].error)){
+        let amountThatIs0 = 0;
 
     //If the data found does not have a best game, that means there was no games played at all.
     //if the user has played a game, no matter what that will be considered the 'best' game
@@ -933,6 +935,8 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
     
     
 
+    }
+    
 }
 
 
