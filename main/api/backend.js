@@ -43,16 +43,28 @@ app.get('/leaderboard/:username', async (req, res) => {
     res.status(500).json({ error: 'Database query failed' });
   }
 });
-app.get('/leaderboard/destroy/:username', async (req,res) =>{
+
+app.get('/leaderboard/destroy/:username', async (req, res) => {
   try {
-    const username = req.params.username;
+    const username = req.params.username.toLowerCase();
     const deletedCount = await Leaderboard.destroy({
-    where: { username }
-  });
-  }catch (error) {
-      console.error('Error removing user:', error);
+      where: { username }
+    });
+
+    if (deletedCount === 0) {
+      // No user found
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Success
+    return res.status(200).json({ message: 'User deleted successfully' });
+
+  } catch (error) {
+    console.error('Error removing user:', error);
+    return res.status(500).json({ error: 'Failed to delete user' });
   }
-})
+});
+
 // GET leaderboard entry by username and game
 app.get('/leaderboard/:username/:game', async (req, res) => {
   try {
