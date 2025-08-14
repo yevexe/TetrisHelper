@@ -42,11 +42,19 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
   //regardless of if the user can connect to the server or not, they should still be able to use the website
   document.querySelectorAll(".submitButton").forEach(butt => butt.onclick = (event) => (event.preventDefault(), ButtClick(butt)));
 
-  async function DeleteEntry(entry, username){
-    fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/destroy/${username.toLowerCase()}/`)
-            .then(res => console.log("Result Status: "+res));
-      window.location.reload()
+async function DeleteEntry(entry, username) {
+  const res = await fetch(
+    `https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/destroy/${username.toLowerCase()}/`
+  );
+
+  if (res.status === 200) {
+    console.log("Deleted successfully");
+    window.location.reload();
+  } else {
+    console.error(`Failed: ${res.status}`);
   }
+}
+
 function UpdateLeaderboardWithDatabaseInformation(data){
     for (const player of data){
         lastLeaderboardNum++;
@@ -1281,7 +1289,6 @@ function ActuallySort(Name, type) {
     parent.innerHTML = "";
     rows.forEach(row => parent.appendChild(row));
 }
-
 
 
 
