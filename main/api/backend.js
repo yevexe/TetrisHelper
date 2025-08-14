@@ -79,6 +79,14 @@ app.get('/leaderboard/:username/:game', async (req, res) => {
 app.post('/leaderboard', async (req, res) => {
   try {
     const { username, sprint, cheese, survival, ultra } = req.body;
+
+    // Check if the username already exists
+    const existingEntry = await Leaderboard.findOne({ where: { username } });
+    if (existingEntry) {
+      return res.status(400).json({ error: 'Username already exists in leaderboard' });
+    }
+
+    // Create new entry
     const entry = await Leaderboard.create({
       username,
       sprint,
@@ -86,6 +94,7 @@ app.post('/leaderboard', async (req, res) => {
       survival,
       ultra
     });
+
     res.json(entry);
   } catch (err) {
     res.status(400).json({ error: err.message });
