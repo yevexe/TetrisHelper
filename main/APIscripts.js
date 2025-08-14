@@ -45,6 +45,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
   async function DeleteEntry(entry, username){
     fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/destroy/${username.toLowerCase()}/`)
             .then(res => console.log("Result Status: "+res));
+      window.location.reload()
   }
 function UpdateLeaderboardWithDatabaseInformation(data){
     for (const player of data){
@@ -1280,6 +1281,7 @@ function ActuallySort(Name, type) {
     parent.innerHTML = "";
     rows.forEach(row => parent.appendChild(row));
 }
+
 
 
 
