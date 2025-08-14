@@ -130,6 +130,9 @@ p.copyright-text{
     box-sizing: border-box;
 }
 
+.result{
+    transition: 1s;
+}
 
 hr{
     margin: 0;
@@ -186,6 +189,8 @@ footer{
     border-radius: 4px;
 
     margin-bottom: 0.25em;
+
+    
 }
 
 /* Toggle to hide/show Player Containers */
@@ -200,6 +205,8 @@ footer{
     margin: 0;
     border: 0;
     outline: none;
+
+    
 }
 
 
@@ -401,6 +408,7 @@ footer{
 /* Optional: hover highlight on rows */
 .leaderboard-table tbody tr:hover td {
     background-color: rgba(211, 214, 216, 0.05);
+    cursor: pointer;
 }
 
 
