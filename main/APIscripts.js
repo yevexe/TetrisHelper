@@ -44,7 +44,8 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
 
 async function DeleteEntry(entry, username) {
   const res = await fetch(
-    `https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/destroy/${username.toLowerCase()}/`
+    `https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`,
+    { method: 'DELETE' }
   );
 
   if (res.status === 200) {
@@ -539,34 +540,32 @@ function GameTypeClick(butt, butts){
         }
     }
 }
-async function PostToLeaderboardDatabase(player,username){
+async function PostToLeaderboardDatabase(player, username){
     if(!(player[0][0].error)){
-        fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        const body = JSON.stringify({
             username: username.toLowerCase(),
-            sprint: player[0],
-            cheese: player[1],
+            sprint:   player[0],
+            cheese:   player[1],
             survival: player[2],
-            ultra: player[3]
-        })
-    })/*
-    .then(async res => {
-        const text = await res.text(); // get raw response
-        console.log('Raw response:', text);
-        try {
-            const data = JSON.parse(text);
-            console.log('POST success:', data);
-        } 
-        catch (err) {
-            console.error('Response was not JSON:', err);
+            ultra:    player[3]
+        });
+
+        const postRes = await fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body
+        }).catch(err => console.error('Error posting leaderboard:', err));
+
+        // If user already exists, update their stats instead
+        if (postRes && postRes.status === 400) {
+            await fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body
+            }).catch(err => console.error('Error updating leaderboard:', err));
         }
-    })
-        */
-    .catch(err => console.error('Error posting leaderboard:', err));
     }
-    
+
 
 
 }
@@ -1290,6 +1289,42 @@ function ActuallySort(Name, type) {
     rows.forEach(row => parent.appendChild(row));
 }
 
+async function RefreshLeaderboard() {
+    const refreshLink = document.getElementById('refreshLink');
+    refreshLink.textContent = 'Refreshing...';
+    refreshLink.style.pointerEvents = 'none';
+
+    const allUsernames = Array.from(document.querySelectorAll('#name'))
+        .map(el => el.innerHTML.trim())
+        .filter(name => name !== 'Name' && name !== '');
+
+    for (const username of allUsernames) {
+        const sprint   = await ObtainGameInformation(username, 1);
+        const cheese   = await ObtainGameInformation(username, 3);
+        const survival = await ObtainGameInformation(username, 4);
+        const ultra    = await ObtainGameInformation(username, 5);
+
+        if (!sprint[0].error) {
+            await fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sprint, cheese, survival, ultra })
+            }).catch(err => console.error('Error refreshing ' + username + ':', err));
+        }
+    }
+
+    // Re-render leaderboard from Turso
+    document.getElementById('daBody').innerHTML = '';
+    lastLeaderboardNum = 0;
+    numberCounter = 0;
+
+    const res = await fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard');
+    const data = await res.json();
+    UpdateLeaderboardWithDatabaseInformation(data);
+
+    refreshLink.textContent = 'Refresh';
+    refreshLink.style.pointerEvents = 'auto';
+}
 
 
 

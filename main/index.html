@@ -223,7 +223,10 @@
             <h2>Leaderboard</h2>
             <p>This leaderboard displays all of the users that were inputted into the website.</p>
             <div class="leaderboard-Container">
-                <h4>Top Players</h4>
+                <div class="leaderboard-top-row">
+                    <h4>Top Players</h4>
+                    <a id="refreshLink" href="#" onclick="event.preventDefault(); RefreshLeaderboard()">Refresh</a>
+                </div>
 
                 <!-- ----------- GAMEMODE SELECTION START ------------->
                 <div class="leaderboard-header-with-buttons"> 
