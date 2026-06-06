@@ -8,7 +8,7 @@
 </ul>
 
 <h2>Project Idea <b>(v.0.1.0)</b>:</h2>
-<p><b><a href="https://yevexe.github.io/3140ProjectsRepo/TetrisHelper/main/index.html">TetrisHelper</a></b></p>
+<p><b><a href="[https://yevexe.github.io/3140ProjectsRepo/TetrisHelper/main/index.html](https://tetris-helper.vercel.app/)">TetrisHelper</a></b></p>
 <p>Jstris is a fast-paced, browser-based Tetris game with a competitive community and a public API that tracks detailed user and gameplay data. This project transforms that data into a personalized analytics tool designed to help players better understand and improve their performance.
 
 By entering a Jstris username, users can instantly view a streamlined overview of their key stats and gameplay history. The site goes beyond surface-level metrics by analyzing deeper trends—such as progression in personal best times, consistency and peaks in attacks per minute, average game duration, win rate, and daily activity habits. It also includes the ability to compare two players side by side to uncover patterns, similarities, and differences in their styles of play. The goal is to provide clear, actionable insights that can help any player, from casual to competitive, become more aware of their habits and make meaningful improvements.</p>
@@ -34,8 +34,6 @@ By entering a Jstris username, users can instantly view a streamlined overview o
 
 
 <h1>🚀 TetrisHelper – Local Installation &amp; Setup Guide</h1>
-  <p class="lead">Convert of your original instructions into clean, copy‑pastable HTML.</p>
-
   <div class="section">
     <h2>📂 1. Get the Project</h2>
     <ul>
