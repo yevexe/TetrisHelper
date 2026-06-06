@@ -439,9 +439,9 @@ let buttons = document.querySelector(".buttonGroupContainer.leaderboard");
             button.onclick = () => GameTypeClick(button, buttons.querySelectorAll("button"))
         }
 
-function GameTypeClick(butt, butts){
+function GameTypeClick(butt, allButtons){
     let numberr = 0;
-    butts.forEach(fart => fart.classList.remove("buttonActivatedToggleOn"));
+    allButtons.forEach(btn => btn.classList.remove("buttonActivatedToggleOn"));
     let allUserNamesFromLeaderboard = document.querySelectorAll("#name");
     butt.classList.add("buttonActivatedToggleOn");
     document.getElementById("daBody").innerHTML = "";
@@ -656,24 +656,24 @@ function Comparison(player1, player2, GameMode){
    
     //now we know who is the winner, all we need is to find out how big of a gap.
     let wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerTopTime}`);
-    let wheretofart = wheretoOut.querySelector("#TopTime"+winnerTopTime);
-    if (Math.abs(differenceTopTime) > 0) wheretofart.classList.add("scoreGreenHigh");
+    let winnerEl = wheretoOut.querySelector("#TopTime"+winnerTopTime);
+    if (Math.abs(differenceTopTime) > 0) winnerEl.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerWorstTime}`);
-    wheretofart = wheretoOut.querySelector("#WorstTime"+winnerWorstTime);
-    if (Math.abs(differenceWorstTime) > 0) wheretofart.classList.add("scoreGreenHigh");
+    winnerEl = wheretoOut.querySelector("#WorstTime"+winnerWorstTime);
+    if (Math.abs(differenceWorstTime) > 0) winnerEl.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerDaysPlayed}`);
-    wheretofart = wheretoOut.querySelector("#DaysPlayed"+winnerDaysPlayed);
-    if (Math.abs(differenceDaysPlayed) > 0) wheretofart.classList.add("scoreGreenHigh");
+    winnerEl = wheretoOut.querySelector("#DaysPlayed"+winnerDaysPlayed);
+    if (Math.abs(differenceDaysPlayed) > 0) winnerEl.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerGamesPlayed}`);
-    wheretofart = wheretoOut.querySelector("#GamesPlayed"+winnerGamesPlayed);
-    if (Math.abs(differenceGamesPlayed) > 0) wheretofart.classList.add("scoreGreenHigh");
+    winnerEl = wheretoOut.querySelector("#GamesPlayed"+winnerGamesPlayed);
+    if (Math.abs(differenceGamesPlayed) > 0) winnerEl.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerAverageTime}`);
-    wheretofart = wheretoOut.querySelector("#AverageTime"+winnerAverageTime);
-    if (Math.abs(differenceAverageTime) > 0) wheretofart.classList.add("scoreGreenHigh");
+    winnerEl = wheretoOut.querySelector("#AverageTime"+winnerAverageTime);
+    if (Math.abs(differenceAverageTime) > 0) winnerEl.classList.add("scoreGreenHigh");
 
     
     
@@ -784,9 +784,9 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                             //find the object with the game and the object with the type
                             for (const game of player1){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "40L/10L"){
-                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "40L/10L"){
+                                            ACTUALLYPushToFrontEnd(entry, whereToOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
@@ -794,9 +794,9 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
                             for (const game of player2){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "40L/10L"){
-                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "40L/10L"){
+                                            ACTUALLYPushToFrontEnd(entry, wheretoNotOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
@@ -818,9 +818,9 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                             //find the object with the game and the object with the type
                             for (const game of player1){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "20L/18L"){
-                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "20L/18L"){
+                                            ACTUALLYPushToFrontEnd(entry, whereToOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
@@ -828,9 +828,9 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
 
                             for (const game of player2){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "20L/18L"){
-                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "20L/18L"){
+                                            ACTUALLYPushToFrontEnd(entry, wheretoNotOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
@@ -850,18 +850,18 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                             //find the object with the game and the object with the type
                             for (const game of player1){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "100L"){
-                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "100L"){
+                                            ACTUALLYPushToFrontEnd(entry, whereToOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
                             }
                             for (const game of player2){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "100L"){
-                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "100L"){
+                                            ACTUALLYPushToFrontEnd(entry, wheretoNotOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
@@ -884,18 +884,18 @@ function AddInfoToFrontend(dataArray, whereToOutput,type){
                             //find the object with the game and the object with the type    
                             for (const game of player1){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "1000L"){
-                                            ACTUALLYPushToFrontEnd(fart, whereToOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "1000L"){
+                                            ACTUALLYPushToFrontEnd(entry, whereToOutput, amountThatIs0,type,true);
                                         }
                                     }
                                 }
                             }
                             for (const game of player2){
                                 if(game.includes(type)){
-                                    for (const fart of game){
-                                        if(fart.Type === "1000L"){
-                                            ACTUALLYPushToFrontEnd(fart, wheretoNotOutput, amountThatIs0,type,true);
+                                    for (const entry of game){
+                                        if(entry.Type === "1000L"){
+                                            ACTUALLYPushToFrontEnd(entry, wheretoNotOutput, amountThatIs0,type,true);
                                         }   
                                     }
                                 }
