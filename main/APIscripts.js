@@ -14,7 +14,7 @@ let numberCounter = 0;
 console.log("Connecting to main server.....");
 
 //CONNECTING TO THE SERVER
-fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
+fetch(`/api/backendProxy?endpoint=connect`)
     .then(response => {
     console.log('Status code:', response.status); 
 
@@ -23,7 +23,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
     .then(data => {
     console.log(data); 
     if(data === "Connection successful!") {
-        fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard`)
+        fetch(`/api/backendProxy?endpoint=leaderboard`)
         .then(res => res.json())
         .then(data => {
             console.log('Leaderboard:', data);
@@ -44,7 +44,7 @@ fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=connect`)
 
 async function DeleteEntry(entry, username) {
   const res = await fetch(
-    `https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`,
+    `/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`,
     { method: 'DELETE' }
   );
 
@@ -379,7 +379,7 @@ function GameModeClick(butt){
 
         if(username.innerHTML !== "Name"){
             
-            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
+            fetch(`/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
             .then(res => res.json())
             .then(data => {
                 numberr++;
@@ -449,7 +449,7 @@ function GameTypeClick(butt, butts){
     for (const username of allUserNamesFromLeaderboard){
         if(username.innerHTML !== "Name"){
            // console.log(username.innerHTML);
-            fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
+            fetch(`/api/backendProxy?endpoint=leaderboard/${username.innerHTML.toLowerCase()}/`)
             .then(res => res.json())
             .then(data => {
                 numberr++;
@@ -533,7 +533,7 @@ async function PostToLeaderboardDatabase(player, username){
             ultra:    player[3]
         });
 
-        const postRes = await fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard', {
+        const postRes = await fetch('/api/backendProxy?endpoint=leaderboard', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body
@@ -541,7 +541,7 @@ async function PostToLeaderboardDatabase(player, username){
 
         // If user already exists, update their stats instead
         if (postRes && postRes.status === 400) {
-            await fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
+            await fetch(`/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body
@@ -1087,7 +1087,7 @@ async function ObtainGameInformation(username, game){
                             break;
                     }
 
-                   let promise = fetch(`https://3140-projects-repo.vercel.app/api/proxy?endpoint=${username}/records/${game}?mode=${d}&best`, 
+                   let promise = fetch(`/api/proxy?endpoint=${username}/records/${game}?mode=${d}&best`, 
                     {method: 'GET',
                     headers:{
                         'Access-Control-Allow-Origin' : '*',
@@ -1131,7 +1131,7 @@ async function ObtainGameInformation(username, game){
                         break;
                 }
                 try{
-                    const singleApiCall = await fetch(`https://3140-projects-repo.vercel.app/api/proxy?endpoint=${username}/records/${game}?mode=1&best`)
+                    const singleApiCall = await fetch(`/api/proxy?endpoint=${username}/records/${game}?mode=1&best`)
                     let response = await singleApiCall.json();
 
 
@@ -1243,7 +1243,7 @@ async function RefreshLeaderboard() {
         const ultra    = await ObtainGameInformation(username, 5);
 
         if (!sprint[0].error) {
-            await fetch(`https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
+            await fetch(`/api/backendProxy?endpoint=leaderboard/${username.toLowerCase()}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sprint, cheese, survival, ultra })
@@ -1256,7 +1256,7 @@ async function RefreshLeaderboard() {
     lastLeaderboardNum = 0;
     numberCounter = 0;
 
-    const res = await fetch('https://3140-projects-repo.vercel.app/api/backendProxy?endpoint=leaderboard');
+    const res = await fetch('/api/backendProxy?endpoint=leaderboard');
     const data = await res.json();
     UpdateLeaderboardWithDatabaseInformation(data);
 
