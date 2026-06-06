@@ -2,9 +2,9 @@
 
 <h2>Member Roles:</h2>
 <ul>
-	<li>Daniel — BackEnd/FrontEnd | <a href="https://github.com/AtomicRecall/">GitHub </a> | <a href="https://yevexe.github.io/3140ProjectsRepo/TetrisHelper/main/MemberIntroductions/Daniel/SelfIntroduction.html">Daniel's Introduction</a></li>
-	<li>Yevgeniy — UI/UX/FrontEnd | <a href="https://github.com/yevexe/">GitHub </a> | <a href="https://yevexe.github.io/3140ProjectsRepo/TetrisHelper/main/MemberIntroductions/Yevgeniy/index.html">Yevgeniy's Introduction</a></li>
-	<li>Arsen — Researcher | <a href="https://github.com/YaArsen">GitHub </a> | <a href= "https://github.com/yevexe/3140ProjectsRepo/blob/main/TetrisHelper/main/MemberIntroductions/Arsen/index.html">Arsen's Introduction</a></li>
+	<li>Daniel — BackEnd/FrontEnd | <a href="https://github.com/AtomicRecall/">GitHub </a></li>
+	<li>Yevgeniy — UI/UX/FrontEnd | <a href="https://github.com/yevexe/">GitHub </a></li>
+	<li>Arsen — Researcher | <a href="https://github.com/YaArsen">GitHub </a></li>
 </ul>
 
 <h2>Project Idea <b>(v.0.1.0)</b>:</h2>
