@@ -1165,39 +1165,30 @@ function LeaderBoardTableEntrySort(butt){
         DSC.remove();
     }
 
-   for (const butt of document.querySelectorAll("th")){
-    butt.style.textDecoration = "none";
+   for (const b of document.querySelectorAll("th")){
+    b.style.textDecoration = "none";
    }
     butt.style.textDecoration = "underline dotted";
-    if (LastModeClicked === null || LastModeClicked !== butt.id) {
-        // Reset the click count if a different button is clicked
+    if (LastModeClicked !== butt.id) {
         HowManyTimesClicked = 0;
         LastModeClicked = butt.id;
-
     }
     HowManyTimesClicked++;
-    if(HowManyTimesClicked ===1){
+    if(HowManyTimesClicked % 2 === 1){
         let ASC = document.createElement("div");
         ASC.id = "ASC";
-        ASC.innerHTML = "ASC.";
+        ASC.innerHTML = "▲";
         butt.appendChild(ASC);
 
         ActuallySort(butt.id,"ASC");
     }
-    else if(HowManyTimesClicked === 2){
+    else{
         let DSC = document.createElement("div");
-        DSC.innerHTML = "DESC.";
+        DSC.innerHTML = "▼";
         DSC.id = "DSC";
         butt.appendChild(DSC);
 
         ActuallySort(butt.id,"DESC");
-    }
-    else{
-        HowManyTimesClicked = 0; 
-        LastModeClicked = null; 
-        butt.style.textDecoration = "";
-
-        ActuallySort(butt.id,"DEF");
     }
 }
 
@@ -1224,7 +1215,10 @@ function ActuallySort(Name, type) {
 
     let parent = document.getElementById("daBody");
     parent.innerHTML = "";
-    rows.forEach(row => parent.appendChild(row));
+    rows.forEach((row, i) => {
+        row.firstElementChild.innerHTML = i + 1;
+        parent.appendChild(row);
+    });
 }
 
 async function RefreshLeaderboard() {
