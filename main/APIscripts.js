@@ -56,6 +56,21 @@ async function DeleteEntry(entry, username) {
   }
 }
 
+function createDeleteBtn(username) {
+    let td = document.createElement("td");
+    let btn = document.createElement("button");
+    btn.innerHTML = "×";
+    btn.classList.add("delete-btn");
+    btn.onclick = async function(e) {
+        e.stopPropagation();
+        if (confirm("Delete " + username + " from the leaderboard?")) {
+            await DeleteEntry(null, username.toLowerCase());
+        }
+    };
+    td.appendChild(btn);
+    return td;
+}
+
 function UpdateLeaderboardWithDatabaseInformation(data){
     for (const player of data){
         lastLeaderboardNum++;
@@ -80,14 +95,6 @@ function UpdateLeaderboardWithDatabaseInformation(data){
             for(const game of player.sprint){
                 if(game.Type === "40L/10L"){
                     name.innerHTML = game.name;
-                    newEntry.addEventListener('dblclick', async function() {
-                        if (confirm("Do you want to delete "+name.innerHTML+" from the leaderboard database?")){
-                            await DeleteEntry(this, name.innerHTML.toLowerCase());
-                            
-                        }
-                        
-
-                    });
                     if((game.min !== undefined && game.min !== 0 ) ){
                         let TopTime = document.createElement("td");
                         TopTime.innerHTML = `${game.min}`
@@ -122,14 +129,15 @@ function UpdateLeaderboardWithDatabaseInformation(data){
                         let AverageTime = document.createElement("td");
                         AverageTime.innerHTML = `${game.avg}`
                         AverageTime.id = `AvgTime`;
-                        newEntry.appendChild(AverageTime);  
+                        newEntry.appendChild(AverageTime);
                     }
+                    newEntry.appendChild(createDeleteBtn(game.name));
                 }
             }
-            
+
         document.getElementById("daBody").appendChild(newEntry);
     }
-        
+
 }
 document.getElementById('username').addEventListener('input', function() {
         if (this.value.trim() === '') {
@@ -195,7 +203,7 @@ async function ButtClick(butt){
                 }
                     document.querySelectorAll(".para"+whereToOutput).forEach(para => {  
                         para.innerHTML = "";
-                        para.classList.remove("scoreGreenLow", "scoreGreenMedium", "scoreGreenHigh");
+                        para.classList.remove("scoreGreenHigh");
                     });
                 /*
                 //runs when the user clicks on the button but not from a enter key press, meaning they clicked on a specific button.
@@ -381,22 +389,12 @@ function GameModeClick(butt){
                 let number = document.createElement("td");
                 number.innerHTML = numberr
                 number.id = numberr
-                newEntry.addEventListener('dblclick', async function() {
-                        if (confirm("Do you want to delete "+username.innerHTML+" from the leaderboard database?")){
-                            await DeleteEntry(this, username.innerHTML.toLowerCase());
-                     
-                        }
-                        
-
-                    });
                 newEntry.appendChild(number);
                 let name = document.createElement("td");
                 name.innerHTML = username.innerHTML;
                 name.id = "name";
                 newEntry.appendChild(name);
-                //console.log(data)
                 for(const game of data[`${butt.innerHTML.toLowerCase()}`]){
-
                     if(game.Type === "40L/10L" || game.GameMode === "survival" || game.GameMode === "ultra"){
                         if((game.min !== undefined && game.min !== 0 ) ){
                             let TopTime = document.createElement("td");
@@ -410,33 +408,27 @@ function GameModeClick(butt){
                             WorstTime.id = `WorstTime`;
                             newEntry.appendChild(WorstTime);
                         }
-
-                        
                         if((game.days !== undefined && game.days !== 0)){
-                            let DaysPlayed = document.createElement("td");   
+                            let DaysPlayed = document.createElement("td");
                             DaysPlayed.innerHTML = `${game.days}`
                             DaysPlayed.id = `DaysPlayed`;
-                            newEntry.appendChild(DaysPlayed);       
+                            newEntry.appendChild(DaysPlayed);
                         }
-
-                        
-                        if((game.games !== undefined && game.games !== 0)){  
-                            let GamesPlayed = document.createElement("td");   
+                        if((game.games !== undefined && game.games !== 0)){
+                            let GamesPlayed = document.createElement("td");
                             GamesPlayed.innerHTML = `${game.games}`
                             GamesPlayed.id = `GamesPlayed`;
                             newEntry.appendChild(GamesPlayed);
                         }
-
-                        
                         if((game.avg !== undefined && game.avg !== 0)){
                             let AverageTime = document.createElement("td");
                             AverageTime.innerHTML = `${game.avg}`
                             AverageTime.id = `AvgTime`;
-                            newEntry.appendChild(AverageTime);  
+                            newEntry.appendChild(AverageTime);
                         }
                     }
                 }
-                
+                newEntry.appendChild(createDeleteBtn(username.innerHTML));
             document.getElementById("daBody").appendChild(newEntry);
             });
         }
@@ -471,14 +463,6 @@ function GameTypeClick(butt, butts){
                 newEntry.appendChild(number);
                 let name = document.createElement("td");
                 name.innerHTML = username.innerHTML;
-                newEntry.addEventListener('dblclick', async function() {
-                        if (confirm("Do you want to delete "+username.innerHTML+" from the leaderboard database?")){
-                            await DeleteEntry(this, username.innerHTML.toLowerCase());
-                            
-                        }
-                        
-
-                    });
                 name.id = "name";
                 newEntry.appendChild(name);
     
@@ -532,9 +516,8 @@ function GameTypeClick(butt, butts){
                         }
                     }
                     }
-                    
                 }
-                
+                newEntry.appendChild(createDeleteBtn(username.innerHTML));
             document.getElementById("daBody").appendChild(newEntry);
             });
         }
@@ -572,7 +555,7 @@ async function PostToLeaderboardDatabase(player, username){
 function ClearBothPlayersInfo(){
     document.querySelectorAll(".para").forEach(para => {
         para.innerHTML = "";
-        para.classList.remove("scoreGreenLow", "scoreGreenMedium", "scoreGreenHigh");
+        para.classList.remove("scoreGreenHigh");
      });
 }
 function Comparison(player1, player2, GameMode){
@@ -674,60 +657,23 @@ function Comparison(player1, player2, GameMode){
     //now we know who is the winner, all we need is to find out how big of a gap.
     let wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerTopTime}`);
     let wheretofart = wheretoOut.querySelector("#TopTime"+winnerTopTime);
-    differenceTopTime = Math.abs(differenceTopTime);
-    if (differenceTopTime > 5) {
-        wheretofart.classList.add("scoreGreenLow");
-    } else if (differenceTopTime > 2) {
-        wheretofart.classList.add("scoreGreenMedium");
-    } else if (differenceTopTime > 0) {
-        wheretofart.classList.add("scoreGreenHigh");
-    }
-
+    if (Math.abs(differenceTopTime) > 0) wheretofart.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerWorstTime}`);
     wheretofart = wheretoOut.querySelector("#WorstTime"+winnerWorstTime);
-    differenceWorstTime = Math.abs(differenceWorstTime);
-    if (differenceWorstTime > 5) {
-        wheretofart.classList.add("scoreGreenLow");
-    } else if (differenceWorstTime > 2) {
-        wheretofart.classList.add("scoreGreenMedium");
-    } else if (differenceWorstTime > 0) {
-        wheretofart.classList.add("scoreGreenHigh");
-    }
-    
+    if (Math.abs(differenceWorstTime) > 0) wheretofart.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerDaysPlayed}`);
     wheretofart = wheretoOut.querySelector("#DaysPlayed"+winnerDaysPlayed);
-    differenceDaysPlayed = Math.abs(differenceDaysPlayed);
-    if (differenceDaysPlayed > 30) {
-        wheretofart.classList.add("scoreGreenLow");
-    } else if (differenceDaysPlayed > 10) {
-        wheretofart.classList.add("scoreGreenMedium");
-    } else if (differenceDaysPlayed > 0) {
-        wheretofart.classList.add("scoreGreenHigh");
-    }
+    if (Math.abs(differenceDaysPlayed) > 0) wheretofart.classList.add("scoreGreenHigh");
 
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerGamesPlayed}`);
     wheretofart = wheretoOut.querySelector("#GamesPlayed"+winnerGamesPlayed);
-    differenceGamesPlayed = Math.abs(differenceGamesPlayed);
-    if (differenceGamesPlayed > 30) {
-        wheretofart.classList.add("scoreGreenLow");
-    } else if (differenceGamesPlayed > 10) {
-        wheretofart.classList.add("scoreGreenMedium");
-    } else if (differenceGamesPlayed > 0) {
-        wheretofart.classList.add("scoreGreenHigh");
-    }
-    
+    if (Math.abs(differenceGamesPlayed) > 0) wheretofart.classList.add("scoreGreenHigh");
+
     wheretoOut = document.querySelector(`.resultPara.${GameMode}${winnerAverageTime}`);
     wheretofart = wheretoOut.querySelector("#AverageTime"+winnerAverageTime);
-    differenceAverageTime = Math.abs(differenceAverageTime);
-    if (differenceAverageTime > 5) {
-        wheretofart.classList.add("scoreGreenLow");
-    } else if (differenceAverageTime > 2) {
-        wheretofart.classList.add("scoreGreenMedium");
-    } else if (differenceAverageTime > 0) {
-        wheretofart.classList.add("scoreGreenHigh");
-    }
+    if (Math.abs(differenceAverageTime) > 0) wheretofart.classList.add("scoreGreenHigh");
 
     
     
@@ -1030,14 +976,6 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
         number.id = "num";
 
         newEntry.appendChild(number);
-        newEntry.addEventListener('dblclick', async function() {
-                        if (confirm("Do you want to delete "+game.name+" from the leaderboard database?")){
-                            await DeleteEntry(this, game.name.toLowerCase());
-                            
-                        }
-                        
-
-                    });
         let name = document.createElement("td");
         name.innerHTML = game.name;
         name.id = "name";
@@ -1081,9 +1019,9 @@ function ACTUALLYPushToFrontEnd(game, whereToOutput, amountThatIs0, type, alread
             let AverageTime = document.createElement("td");
             AverageTime.innerHTML = `${game.avg}`
             AverageTime.id = `AvgTime`;
-            newEntry.appendChild(AverageTime);  
+            newEntry.appendChild(AverageTime);
         }
-
+        newEntry.appendChild(createDeleteBtn(game.name));
 
         document.getElementById("daBody").appendChild(newEntry);
     }
@@ -1217,7 +1155,7 @@ async function ObtainGameInformation(username, game){
 let HowManyTimesClicked = 0;
 let LastModeClicked = null;
 
-document.querySelectorAll("th").forEach(butt => (butt.id !== "num") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
+document.querySelectorAll("th").forEach(butt => (butt.id !== "num" && butt.id !== "deleteCol") ? butt.onclick = () => LeaderBoardTableEntrySort(butt) : null);
 function LeaderBoardTableEntrySort(butt){
 
     for (const ASC of document.querySelectorAll("#ASC")){

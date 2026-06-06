@@ -283,23 +283,9 @@ footer{
     margin: 1em;
 }
 
-/* SCORE GREEN COLORING: 3 SHADES */
-.scoreGreenLow{
-    border: 1.125px solid #628556; /* Light Green */
-    font-weight: bold;
-    border-radius: 4px;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-}
-.scoreGreenMedium{
-    border: 1.125px solid #297236; /* Medium Green */
-    font-weight: bold;
-    border-radius: 4px;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-}
+/* SCORE GREEN HIGHLIGHT */
 .scoreGreenHigh{
-    border: 1.125px solid #03f764; /* Dark Green */
+    border: 1.125px solid #03f764;
     font-weight: bold;
     border-radius: 4px;
     padding-left: 0.25rem;
@@ -412,6 +398,26 @@ footer{
 }
 
 
+
+.jstris-link {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #ff5555;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0 0.25rem;
+    line-height: 1;
+}
+
+.delete-btn:hover {
+    color: #ff0000;
+}
 
 .leaderboard-top-row {
     display: flex;
