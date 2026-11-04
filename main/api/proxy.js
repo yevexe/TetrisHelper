@@ -1,20 +1,10 @@
 const https = require('https');
-let globalUsers = 0;
 console.log("Server Started! Now Listening for Connections...");
 
 module.exports = (req, res) => {
   // Always set CORS headers first
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
-
-  if (req.query.initConnect === "1") {
-    console.log('Client connecting to server....');
-    globalUsers++;
-    res.statusCode = 200;
-    console.log('Connection established with client.'+`Total connected users: ${globalUsers}`);
-    return res.end(JSON.stringify({ message: "Connection successful" }));
-   
-  }
 
   console.log('Received a request from client.');
 

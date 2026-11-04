@@ -17,29 +17,25 @@ By entering a Jstris username, users can instantly view a streamlined overview o
 	<h2>Repository Structure</h2>
 	<pre>
 <b>TetrisHelper/</b> //is the folder that contains all files related to this project.
-	|-- <b>&nbsp;Main/</b> //contains all of the source code for TetrisHelper.
-		|--<b>&nbsp;MemberIntroductions/</b> //Folder that contains all of the developer's introductions.
+	|-- <b>&nbsp;main/</b> //contains all of the source code for TetrisHelper.
 		|--<b>&nbsp;api/</b> //Folder that contains all of the scripts that relate to the backend.
 			|--<b>&nbsp;proxy.js</b> //JavaScript script that handles API calls to Jstris.
-			|--<b>&nbsp;backendProxy.js</b> //JavaScript script that handles API calls back to the database.
-			|--<b>&nbsp;backend.js</b> //JavaScript script that handles all database API calls.
-			|--<b>&nbsp;leaderboardModel.js</b> //JavaScript script that creates the leaderboard.sqlite database and puts it with that specific schema.
-		|--<b>&nbsp;APIScripts.js</b> //JavaScript scripts that handle API calls to our proxy and handles everything that relates to the front-end.
-		|--<b>&nbsp;css-style-resetter.css</b> //CSS code to help give further control to how the browser renders the website
+			|--<b>&nbsp;backendProxy.js</b> //JavaScript script that handles all leaderboard API calls to the database.
+		|--<b>&nbsp;APIscripts.js</b> //JavaScript scripts that handle API calls to our proxy and handles everything that relates to the front-end.
 		|--<b>&nbsp;index.html</b> //HTML structure of the front-page of Tetris Helper.
-		|--<b>&nbsp;style.css</b> //Styling for the HTML file of the front-page. 
+		|--<b>&nbsp;style.css</b> //Styling for the HTML file of the front-page.
 	</pre>
 
 
 
 
-<h1>🚀 TetrisHelper – Local Installation &amp; Setup Guide</h1>
+<h1>🚀 TetrisHelper – Installation &amp; Setup Guide</h1>
   <div class="section">
     <h2>📂 1. Get the Project</h2>
     <ul>
       <li>Clone or download this repo to your machine.</li>
-      <li><strong>Frontend files:</strong> <code>index.html</code>, <code>style.css</code>, <code>APIscripts.js</code>, <code>css-style-resetter.css</code> — deploy on Vercel or GitHub Pages.</li>
-      <li><strong>Backend files:</strong> <code>backend.js</code>, <code>backendProxy.js</code>, <code>leaderboardModel.js</code>, <code>proxy.js</code> — run on your server PC.</li>
+      <li><strong>Frontend files:</strong> <code>main/index.html</code>, <code>main/style.css</code>, <code>main/APIscripts.js</code>.</li>
+      <li><strong>Backend files:</strong> <code>main/api/backendProxy.js</code>, <code>main/api/proxy.js</code> — these run as Vercel functions.</li>
     </ul>
   </div>
 
@@ -50,59 +46,42 @@ By entering a Jstris username, users can instantly view a streamlined overview o
       <li>From the project root, install dependencies:</li>
     </ol>
     <pre><code>npm install</code></pre>
-    <p>This installs: <code>express</code>, <code>cors</code>, <code>dotenv</code>, <code>sqlite3</code>, <code>sequelize</code>, <code>node-fetch</code>.</p>
+    <p>This installs: <code>@libsql/client</code>.</p>
   </div>
 
   <div class="section">
     <h2>⚙️ 3. Configure Database</h2>
     <ul>
-      <li>The backend uses SQLite and creates <code>leaderboard.sqlite</code> locally.</li>
-      <li>No extra setup is required unless you want to change DB settings (see <code>leaderboardModel.js</code>).</li>
+      <li>The leaderboard is stored in a <a href="https://turso.tech">Turso</a> database.</li>
+      <li>Set <code>TURSO_DATABASE_URL</code> and <code>TURSO_AUTH_TOKEN</code> in your Vercel project's environment variables.</li>
+      <li>The <code>leaderboard</code> table is created automatically if it is missing.</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>▶️ 4. Run the Backend</h2>
-    <p>Start the server:</p>
-    <pre><code>node api/backend.js</code></pre>
+    <h2>🌐 4. Deploy</h2>
     <ul>
-      <li>Runs on <code>http://localhost:8080</code> by default.</li>
+      <li>Deploy to Vercel with <code>main</code> as the project's root directory.</li>
+      <li>The frontend (<code>APIscripts.js</code>) calls the backend with relative URLs, like:</li>
+    </ul>
+    <pre><code>/api/backendProxy?endpoint=leaderboard</code></pre>
+    <ul>
       <li class="endpoints"><strong>Endpoints:</strong>
         <ul>
-          <li><code>/connect</code> — test server connection</li>
-          <li><code>/leaderboard</code> — view all leaderboard entries</li>
-          <li><code>/leaderboard/:username</code> — get player by username</li>
-          <li><code>/leaderboard/destroy/:username</code> — delete entry</li>
+          <li><code>GET leaderboard</code> — view all leaderboard entries</li>
+          <li><code>POST leaderboard</code> — add a player</li>
+          <li><code>GET leaderboard/:username</code> — get player by username</li>
+          <li><code>PUT leaderboard/:username</code> — update a player's stats</li>
+          <li><code>DELETE leaderboard/:username</code> — delete entry</li>
         </ul>
       </li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>🔀 5. Proxy Setup</h2>
-    <ul>
-      <li><code>backendProxy.js</code> / <code>proxy.js</code> forward API requests between frontend and backend.</li>
-      <li>Frontend calls look like:</li>
-    </ul>
-    <pre><code>https://&lt;your-vercel-domain&gt;/api/backendProxy?endpoint=leaderboard</code></pre>
-    <ul>
-      <li>Ensure Vercel routes <code>/api/*</code> to these proxy files.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>🌐 6. Deploy the Frontend</h2>
-    <ul>
-      <li>Deploy <code>index.html</code>, CSS, and JS files to Vercel or GitHub Pages.</li>
-      <li>The frontend (<code>APIscripts.js</code>) fetches data via the backend proxy.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>✅ 7. Test Everything</h2>
+    <h2>✅ 5. Test Everything</h2>
     <ol>
-      <li>Open your deployed frontend in the browser.</li>
-      <li>Check the console — you should see <em>Connection successful!</em></li>
-      <li>Try adding usernames — the leaderboard should update using your SQLite DB on the server PC.</li>
+      <li>Open your deployed site in the browser.</li>
+      <li>Try adding usernames — the leaderboard should update using your Turso database.</li>
     </ol>
   </div>

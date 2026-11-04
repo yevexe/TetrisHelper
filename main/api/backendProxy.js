@@ -5,6 +5,8 @@ const client = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
+let tableReady = false;
+
 async function initDB() {
   await client.execute(`
     CREATE TABLE IF NOT EXISTS leaderboard (
@@ -34,14 +36,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  await initDB();
+  if (!tableReady) {
+    await initDB();
+    tableReady = true;
+  }
 
   const endpoint = req.query.endpoint || '';
-
-  // GET connect
-  if (endpoint === 'connect') {
-    return res.status(200).send('Connection successful!');
-  }
 
   // GET all leaderboard entries
   if (endpoint === 'leaderboard' && req.method === 'GET') {
@@ -51,7 +51,8 @@ export default async function handler(req, res) {
 
   // POST new leaderboard entry
   if (endpoint === 'leaderboard' && req.method === 'POST') {
-    const { username, sprint, cheese, survival, ultra } = req.body;
+    const { sprint, cheese, survival, ultra } = req.body;
+    const username = req.body.username?.trim();
     const existing = await client.execute({
       sql:  'SELECT username FROM leaderboard WHERE username = ?',
       args: [username],
