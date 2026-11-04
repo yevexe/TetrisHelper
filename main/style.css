@@ -134,18 +134,36 @@ a{
     gap: 1em;
 }
 
-.comparisonColumns > *{
+.comparisonColumn{
     flex: 1 1 200px;
     min-width: 0;
 }
 
-#comparisonResults .leaderboard-header-with-buttons{
+.comparisonColumn + .comparisonColumn{
+    border-left: 1px solid rgb(111, 114, 116);
+    padding-left: 1em;
+}
+
+.comparisonResults .leaderboard-header-with-buttons{
     margin-top: 1em;
 }
 
-#comparisonResults .buttonGroupContainer{
+.comparisonResults .buttonGroupContainer{
     margin-top: 0.25rem;
     margin-bottom: 0.5rem;
+}
+
+/* Smaller than the leaderboard's tabs so all four fit in one player's column */
+.comparisonResults .cmp-GameModeName{
+    font-size: 1.2rem;
+}
+
+/* The columns stack on phones, so the line between them would be in the wrong place */
+@media (max-width: 500px){
+    .comparisonColumn + .comparisonColumn{
+        border-left: none;
+        padding-left: 0;
+    }
 }
 
 .statRow{

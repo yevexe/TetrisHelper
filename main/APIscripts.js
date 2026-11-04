@@ -259,16 +259,15 @@ async function PostToLeaderboardDatabase(player, username){
     }
 }
 //functions for the comparison window
+//Each player's column has its own tabs and buttons, clicking on either side updates both
 document.querySelectorAll(".cmp-GameModeName").forEach(modeTab => modeTab.onclick = () => {
-    document.querySelectorAll(".cmp-GameModeName").forEach(btn => btn.classList.remove("activeTableGMToggleOn"));
-    modeTab.classList.add("activeTableGMToggleOn");
-    SetModeButtons(document.querySelector(".buttonGroupContainer.comparison"), modeTab.innerHTML.toLowerCase());
+    document.querySelectorAll(".cmp-GameModeName").forEach(tab => tab.classList.toggle("activeTableGMToggleOn", tab.textContent === modeTab.textContent));
+    document.querySelectorAll(".buttonGroupContainer.comparison").forEach(buttonGroup => SetModeButtons(buttonGroup, modeTab.textContent.toLowerCase()));
     RenderComparison();
 });
 
-document.querySelectorAll(".buttonGroupContainer.comparison button").forEach((button, _, allButtons) => button.onclick = () => {
-    allButtons.forEach(btn => btn.classList.remove("buttonActivatedToggleOn"));
-    button.classList.add("buttonActivatedToggleOn");
+document.querySelectorAll(".buttonGroupContainer.comparison button").forEach((typeButton, _, allButtons) => typeButton.onclick = () => {
+    allButtons.forEach(button => button.classList.toggle("buttonActivatedToggleOn", button.id === typeButton.id));
     RenderComparison();
 });
 
@@ -281,7 +280,7 @@ function RenderComparison(){
     const type = document.querySelector(".buttonGroupContainer.comparison .buttonActivatedToggleOn").id;
     const games = { 1: players[1] && FindGame(players[1][mode], mode, type), 2: players[2] && FindGame(players[2][mode], mode, type) };
 
-    document.getElementById("comparisonResults").hidden = !players[1] && !players[2];
+    document.querySelectorAll(".comparisonResults").forEach(results => results.hidden = !players[1] && !players[2]);
 
     for(const [slot, otherSlot] of [[1, 2], [2, 1]]){
         const side = document.getElementById("playerStats" + slot);

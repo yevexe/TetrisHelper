@@ -30,38 +30,58 @@
 
             <div class="comparison-Container">
                 <div class="comparisonColumns">
-                    <div class="EnterUsername-Form">
-                        <b><h3>Player 1</h3></b>
-                        <input type="text" name="username" id="username" class="user" placeholder="Enter Username">
-                        <input class="submitButton" id="submitButton" type="submit" value="SUBMIT">
-                    </div>
-                    <div class="EnterUsername-Form">
-                        <b><h3>Player 2</h3></b>
-                        <input type="text" name="username" id="username1" class="user" placeholder="Enter Username">
-                        <input class="submitButton" id="submitButton1" type="submit" value="SUBMIT">
-                    </div>
-                </div>
-
-                <div id="comparisonResults" hidden>
-                    <div class="leaderboard-header-with-buttons">
-                        <div class="lg-GameModeList">
-                            <span class="cmp-GameModeName activeTableGMToggleOn">Sprint</span>
-                            <span class="cmp-GameModeName">Cheese</span>
-                            <span class="cmp-GameModeName">Survival</span>
-                            <span class="cmp-GameModeName">Ultra</span>
+                    <div class="comparisonColumn">
+                        <div class="EnterUsername-Form">
+                            <b><h3>Player 1</h3></b>
+                            <input type="text" name="username" id="username" class="user" placeholder="Enter Username">
+                            <input class="submitButton" id="submitButton" type="submit" value="SUBMIT">
                         </div>
-                        <hr>
-                        <div class="buttonGroupContainer comparison">
-                            <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
-                            <button id="20L/18L" class="">20L</button>
-                            <button id="100L" class="">100L</button>
-                            <button id="1000L" class="">1000L</button>
+
+                        <div class="comparisonResults" hidden>
+                            <div class="leaderboard-header-with-buttons">
+                                <div class="lg-GameModeList">
+                                    <span class="cmp-GameModeName activeTableGMToggleOn">Sprint</span>
+                                    <span class="cmp-GameModeName">Cheese</span>
+                                    <span class="cmp-GameModeName">Survival</span>
+                                    <span class="cmp-GameModeName">Ultra</span>
+                                </div>
+                                <hr>
+                                <div class="buttonGroupContainer comparison">
+                                    <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
+                                    <button id="20L/18L" class="">20L</button>
+                                    <button id="100L" class="">100L</button>
+                                    <button id="1000L" class="">1000L</button>
+                                </div>
+                            </div>
+                            <div id="playerStats1"></div>
                         </div>
                     </div>
 
-                    <div class="comparisonColumns">
-                        <div id="playerStats1"></div>
-                        <div id="playerStats2"></div>
+                    <div class="comparisonColumn">
+                        <div class="EnterUsername-Form">
+                            <b><h3>Player 2</h3></b>
+                            <input type="text" name="username" id="username1" class="user" placeholder="Enter Username">
+                            <input class="submitButton" id="submitButton1" type="submit" value="SUBMIT">
+                        </div>
+
+                        <div class="comparisonResults" hidden>
+                            <div class="leaderboard-header-with-buttons">
+                                <div class="lg-GameModeList">
+                                    <span class="cmp-GameModeName activeTableGMToggleOn">Sprint</span>
+                                    <span class="cmp-GameModeName">Cheese</span>
+                                    <span class="cmp-GameModeName">Survival</span>
+                                    <span class="cmp-GameModeName">Ultra</span>
+                                </div>
+                                <hr>
+                                <div class="buttonGroupContainer comparison">
+                                    <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
+                                    <button id="20L/18L" class="">20L</button>
+                                    <button id="100L" class="">100L</button>
+                                    <button id="1000L" class="">1000L</button>
+                                </div>
+                            </div>
+                            <div id="playerStats2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
