@@ -28,196 +28,42 @@
             <h2>Player vs. Player Data Comparison</h2>
             <p class="description">Enter usernames to compare performance across various game modes.</p>
 
-            <div class="comparisonSpace-Container">
-                
-                <div class="Player "> <!-- ---------------------- PLAYER 1 START ---------------------- -->
+            <div class="comparison-Container">
+                <div class="comparisonColumns">
+                    <div class="EnterUsername-Form">
+                        <b><h3>Player 1</h3></b>
+                        <input type="text" name="username" id="username" class="user" placeholder="Enter Username">
+                        <input class="submitButton" id="submitButton" type="submit" value="SUBMIT">
+                    </div>
+                    <div class="EnterUsername-Form">
+                        <b><h3>Player 2</h3></b>
+                        <input type="text" name="username" id="username1" class="user" placeholder="Enter Username">
+                        <input class="submitButton" id="submitButton1" type="submit" value="SUBMIT">
+                    </div>
+                </div>
 
-
-                    <div class="datadump"> 
-                        <div class="EnterUsername-Form">
-                            <b><h3>Player 1</h3></b>
-                            <input type="text" name="username" id="username" class="user" placeholder="Enter Username">
-                            <input class="submitButton" id="submitButton" type="submit" value="SUBMIT">
+                <div id="comparisonResults" hidden>
+                    <div class="leaderboard-header-with-buttons">
+                        <div class="lg-GameModeList">
+                            <span class="cmp-GameModeName activeTableGMToggleOn">Sprint</span>
+                            <span class="cmp-GameModeName">Cheese</span>
+                            <span class="cmp-GameModeName">Survival</span>
+                            <span class="cmp-GameModeName">Ultra</span>
+                        </div>
+                        <hr>
+                        <div class="buttonGroupContainer comparison">
+                            <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
+                            <button id="20L/18L" class="">20L</button>
+                            <button id="100L" class="">100L</button>
+                            <button id="1000L" class="">1000L</button>
                         </div>
                     </div>
 
-                    <!-- SPRINT START-->
-                    <div id="sprint1" class="datadump hiddenToggleOn result">
-                        <h4>Sprint</h4><hr>
-
-                            <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer sprint1">
-                                <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
-                                <button id="20L/18L" class="">20L</button>
-                                <button id="100L" class="">100L</button>
-                                <button id="1000L" class="">1000L</button>
-                            </div> <!-- BUTTONS END -->
-
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara sprint1">
-                                <b>Top Time:</b> <span id="TopTime1" class="para1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1" class="para1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1" class="para1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1" class="para1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1" class="para1"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
-
-                    </div> <!-- SPRINT END-->
-                    
-
-                    <!-- CHEESE  -->
-                    <div id="cheese1" class="datadump hiddenToggleOn result">
-                        <h4>Cheese</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer cheese1">
-                                <button id="40L/10L" class="buttonActivatedToggleOn">10L</button>
-                                <button id="20L/18L" class="">18L</button>
-                                <button id="100L" class="">100L</button>
-                            </div> <!-- BUTTONS END -->
-
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara cheese1">
-                                <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
+                    <div class="comparisonColumns">
+                        <div id="playerStats1"></div>
+                        <div id="playerStats2"></div>
                     </div>
-
-                    <!-- SURVIVAL  -->
-                    <div id="surv1" class="datadump hiddenToggleOn result">
-                        <h4>Survival</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer surv1">
-                                
-
-                                <!-- FETCHED OUTPUT START -->
-                                <div class="resultPara surv1">
-                                    <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                    <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                    <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                    <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                    <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                                </div> <!-- FETCHED OUTPUT END -->
-                            </div>
-                    </div>
-
-                    <!-- ULTRA  -->
-                    <div  id="ultra1" class="datadump hiddenToggleOn result">
-                        <h4>Ultra</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer ultra1">
-                                
-
-                            <!-- FETCHED OUTPUT START -->
-                                <div class="resultPara ultra1">
-                                    <b>Top Time:</b> <span id="TopTime1"></span><br>
-                                    <b>Worst Time:</b> <span id="WorstTime1"></span><br>
-                                    <b>Days Played:</b> <span id="DaysPlayed1"></span><br>
-                                    <b>Games Played:</b> <span id="GamesPlayed1"></span><br>
-                                    <b>Average Time:</b> <span id="AverageTime1"></span><br>
-                                </div> <!-- FETCHED OUTPUT END -->
-                            </div>
-                    </div>
-
-
-                    
-                </div> <!-- -------------------------- PLAYER 1 END ---------------------------- -->
-                
-                <div class="Player "> <!-- ---------------------- PLAYER 2 START ---------------------- -->
-                    <div class="datadump"> 
-                        <div class="EnterUsername-Form">
-                            <b><h3>Player 2</h3></b>
-                            <input type="text" name="username" id="username1" class="user" placeholder="Enter Username">
-                            <input class="submitButton" id="submitButton1" type="submit" value="SUBMIT">
-                        </div>
-                    </div>
-
-                    <!-- SPRINT START-->
-                    <div id="sprint2" class="datadump hiddenToggleOn">
-                        <h4>Sprint</h4><hr>
-
-                            <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer sprint2">
-                                <button id="40L/10L" class="buttonActivatedToggleOn">40L</button>
-                                <button id="20L/18L" class="">20L</button>
-                                <button id="100L" class="">100L</button>
-                                <button id="1000L" class="">1000L</button>
-                            </div> <!-- BUTTONS END -->
-
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara sprint2">
-                                <b>Top Time:</b> <span id="TopTime2" class="para2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2" class="para2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2" class="para2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2" class="para2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2" class="para2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
-
-                    </div> <!-- SPRINT END-->
-                    
-
-                    <!-- CHEESE  -->
-                    <div id ="cheese2"class="datadump hiddenToggleOn">
-                        <h4>Cheese</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer cheese2">
-                                <button id="40L/10L" class="buttonActivatedToggleOn">10L</button>
-                                <button id="20L/18L" class="">18L</button>
-                                <button id="100L" class="">100L</button>
-                                
-                            </div> <!-- BUTTONS END -->
-
-                            <!-- FETCHED OUTPUT START -->
-                            <div class="resultPara cheese2">
-                                <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                            </div> <!-- FETCHED OUTPUT END -->
-                    </div>
-
-                    <!-- SURVIVAL  -->
-                    <div id ="surv2"class="datadump hiddenToggleOn">
-                        <h4>Survival</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer surv2">
-                                
-
-                                <!-- FETCHED OUTPUT START -->
-                                <div class="resultPara surv2">
-                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                                </div> <!-- FETCHED OUTPUT END -->
-                            </div>
-                        </div>
-
-                    <!-- ULTRA  -->
-                    <div id="ultra2" class="datadump hiddenToggleOn">
-                        <h4>Ultra</h4><hr>
-                        <!-- BUTTONS START -->
-                            <div class="buttonGroupContainer ultra2">
-                                
-
-                                <!-- FETCHED OUTPUT START -->
-                                <div class="resultPara ultra2">
-                                    <b>Top Time:</b> <span id="TopTime2"></span><br>
-                                    <b>Worst Time:</b> <span id="WorstTime2"></span><br>
-                                    <b>Days Played:</b> <span id="DaysPlayed2"></span><br>
-                                    <b>Games Played:</b> <span id="GamesPlayed2"></span><br>
-                                    <b>Average Time:</b> <span id="AverageTime2"></span><br>
-                                </div> <!-- FETCHED OUTPUT END -->
-                            </div>
-                    </div>
-
-                    
-                </div> <!-- ---------------------- PLAYER 2 END ---------------------- -->
-            
+                </div>
             </div>
 
             <h2>Leaderboard</h2>

@@ -113,24 +113,6 @@ p.copyright-text{
     text-align: center;
 }
 
-.resultPara{
-    margin-top: 0em;
-    margin-bottom: 0em;
-    font-size:  1rem;
-}
-
-.resultPara b{
-    font-weight: bold;
-    display: inline-block;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    box-sizing: border-box;
-}
-
-.result{
-    transition: 1s;
-}
-
 hr{
     margin: 0;
     margin-top: 0.5rem;
@@ -145,11 +127,43 @@ a{
     color:rgb(212, 215, 217);
 }
 
-.comparisonSpace-Container{
+/* One window holding both players */
+.comparisonColumns{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 0.5em;
+    gap: 1em;
+}
+
+.comparisonColumns > *{
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+#comparisonResults .leaderboard-header-with-buttons{
+    margin-top: 1em;
+}
+
+#comparisonResults .buttonGroupContainer{
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.statRow{
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+
+.statRow b{
+    font-weight: bold;
+    margin-right: 0.35em;
+    display: inline-block;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* A player who has never played the selected mode */
+.noModeData{
+    color: rgb(120, 124, 128);
 }
 
 .username{
@@ -165,42 +179,6 @@ a{
     box-sizing: border-box;
     margin: auto;
 }
-
-/* Terminal-style output block */
-.datadump {
-    font-family: Verdana;
-    line-height: 1.2rem;
-    background-color: #10101d;
-    padding: 1em;
-
-    min-width: auto;
-    max-width: 315px;
-
-    color: rgb(211, 214, 216);
-    outline: 1px solid rgb(211, 214, 216);
-    border-radius: 4px;
-
-    margin-bottom: 0.25em;
-
-    
-}
-
-/* Toggle to hide/show Player Containers */
-.hiddenToggleOn{
-    /* !!! JavaScript !!! Control Collapse/Expand the information window */
-    display: none;
-    position: absolute;
-    overflow: hidden; 
-    height: 0;
-    width: 0;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-
-    
-}
-
 
 /* ----------------- PLAYER FORMS STYLING ------------------------------------ */
 /* Player1/Player2 Submit Forms Styling */
@@ -287,7 +265,7 @@ footer{
 
 /* ----------------- LEADERBOARD STYLING ------------------------------------ */
 /* Leaderboard Container */
-.leaderboard-Container {
+.leaderboard-Container, .comparison-Container {
     max-width: 720px;
     width: 100%;
     margin: auto;
@@ -312,7 +290,7 @@ footer{
 }
 
 /* ---------- GAME SELECTION MENU START ---------- */
-.ld-GameModeName {
+.ld-GameModeName, .cmp-GameModeName {
   cursor: pointer;
   color: rgb(211, 214, 216); /* same as body text */
   margin-right: 0.25rem;
@@ -322,11 +300,11 @@ footer{
   transition: text-decoration 0.2s;
 }
 
-.ld-GameModeName:hover {
+.ld-GameModeName:hover, .cmp-GameModeName:hover {
   text-decoration: underline dotted;
 }
 
-.ld-GameModeName.activeTableGMToggleOn {
+.ld-GameModeName.activeTableGMToggleOn, .cmp-GameModeName.activeTableGMToggleOn {
   text-decoration: underline;
   font-weight: bold;
 }
