@@ -83,8 +83,6 @@ async function LoadLeaderboard(){
     const requestId = ++latestLeaderboardRequest;
     const mode = document.querySelector(".ld-GameModeName.activeTableGMToggleOn").textContent.toLowerCase();
     const type = SelectedLeaderboardButton().id;
-    document.getElementById("daBody").innerHTML = "";
-    SetLeaderboardHeaders(mode);
     try {
         const res = await fetch(`/api/backendProxy?endpoint=leaderboard`);
         if(!res.ok) throw new Error(`Status code: ${res.status}`);
@@ -97,6 +95,8 @@ async function LoadLeaderboard(){
         return true;
     } catch(err) {
         console.error('Error loading leaderboard:', err);
+        //don't leave the old mode's numbers showing under the newly selected tab
+        if(requestId === latestLeaderboardRequest) UpdateLeaderboardWithDatabaseInformation([], mode, type);
         return false;
     }
 }
@@ -113,7 +113,10 @@ function FindGame(games, mode, type){
     return games.find(game => typeof game !== "string" && (mode === "survival" || mode === "ultra" || game.Type === type));
 }
 
+//The old rows are only replaced here once the new ones are ready, emptying the table any earlier makes the page jump up
 function UpdateLeaderboardWithDatabaseInformation(data, mode, type){
+    document.getElementById("daBody").innerHTML = "";
+    SetLeaderboardHeaders(mode);
     lastLeaderboardNum = 0;
 
     for (const player of data){
